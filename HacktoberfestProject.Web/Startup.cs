@@ -26,6 +26,8 @@ namespace HacktoberfestProject.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddControllersWithViews();
             services.AddAuthentication(options =>
             {
@@ -43,11 +45,13 @@ namespace HacktoberfestProject.Web
                    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
                    options.UserInformationEndpoint = "https://api.github.com/user";
                    options.SaveTokens = true;
+                   options.Scope.Add("user:email");
                    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
                    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
                    options.ClaimActions.MapJsonKey("urn:github:login", "login");
                    options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
-                   options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
+                   //options.ClaimActions.MapJsonKey("urn:github:email", "user:email");
                    options.Events = new OAuthEvents
                    {
                        OnCreatingTicket = async context =>
@@ -74,15 +78,13 @@ namespace HacktoberfestProject.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
+               
             }
-            //app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
