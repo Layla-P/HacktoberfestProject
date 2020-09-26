@@ -11,4 +11,8 @@
     <PackageReference Include="Octokit" Version="0.48.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Entities\" />
+  </ItemGroup>
+
 </Project>

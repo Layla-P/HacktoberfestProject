@@ -31,13 +31,12 @@ namespace HacktoberfestProject.Web.Controllers
             return View();
         }
         [Authorize]
-        public IActionResult Test()
+        [HttpGet]
+        public IActionResult Add()
         {
-                        
-            ViewBag.Username = _contextAccessor.HttpContext.User
-                .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
-            ViewBag.Email = _contextAccessor.HttpContext.User
-               .Claims.FirstOrDefault(c => c.Type == EmailClaimType)?.Value;
+               //How to access claims - left here for reference         
+            //ViewBag.Username = _contextAccessor.HttpContext.User
+            //    .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
 
             
             return View();
