@@ -36,16 +36,17 @@ namespace HacktoberfestProject.Web.Extensions.DependancyInjection
                    options.Scope.Add("user:email");
                    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
                    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-                   options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.Email, "user:email");
                    options.ClaimActions.MapJsonKey("urn:github:login", "login");
                    options.ClaimActions.MapJsonKey("urn:github:url", "html_url");
-                   //options.ClaimActions.MapJsonKey("urn:github:email", "user:email");
                    options.Events = new OAuthEvents
                    {
                        OnCreatingTicket = async context =>
                        {
                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
                            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                           request.Headers.Add("X-OAuth-Scopes", "user");
+                           request.Headers.Add("X-Accepted-OAuth-Scopes", "user");
                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
                            var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
                            response.EnsureSuccessStatusCode();

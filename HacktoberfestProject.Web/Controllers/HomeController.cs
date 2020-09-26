@@ -37,8 +37,9 @@ namespace HacktoberfestProject.Web.Controllers
             ViewBag.Username = _contextAccessor.HttpContext.User
                 .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
             ViewBag.Email = _contextAccessor.HttpContext.User
-               .Claims.FirstOrDefault(c => c.Type == EmailClaimType).Value;
+               .Claims.FirstOrDefault(c => c.Type == EmailClaimType)?.Value;
 
+            
             return View();
         }
 
