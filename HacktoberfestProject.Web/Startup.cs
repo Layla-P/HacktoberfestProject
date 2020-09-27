@@ -37,7 +37,7 @@ namespace HacktoberfestProject.Web
             services.AddLogging();
 
             
-            CosmosTableTest.RunTableStorageTests(services);
+            //CosmosTableTest.RunTableStorageTests(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
