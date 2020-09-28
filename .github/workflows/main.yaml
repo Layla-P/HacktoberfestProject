@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-    AZURE_WEBAPP_NAME: 'prtrackerweb/test'
+    AZURE_WEBAPP_NAME: 'test (prtrackerweb/test)'
     AZURE_WEBAPP_PATH: '.'
     DOTNET_VERSION: '3.1.100'
 
