@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-
+prtrackerweb-test
 env:
-    AZURE_WEBAPP_NAME: prtrackerweb/test
+    AZURE_WEBAPP_NAME: prtrackerweb
     AZURE_WEBAPP_PATH: '.'
     DOTNET_VERSION: '3.1.100'
 
