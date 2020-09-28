@@ -9,13 +9,15 @@ namespace HacktoberfestProject.Web.Models
 	{
 		public string Owner { get; set; }
 		public string Name { get; set; }
-		public List<Pr> PrEntities { get; set; }
+		public string Url {get;set;}
+		public List<Pr> Prs { get; set; }
 
-		public Repository(string owner, string name, List<Pr> prEntities = null)
+		public Repository(string owner, string name, string url = null, List<Pr> prs = null)
 		{
 			Owner = owner;
 			Name = name;
-			PrEntities = prEntities;
+			Url = url;
+			Prs = prs;
 		}
 
 	}
