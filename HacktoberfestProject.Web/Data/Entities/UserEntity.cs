@@ -50,6 +50,7 @@ namespace HacktoberfestProject.Web.Data.Entities
             return new User(userEntity.Username, 
                             userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner, 
                                                                                          repo.Name, 
+                                                                                         null,
                                                                                          repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
                                                                  ).ToList());
         }

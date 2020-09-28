@@ -10,6 +10,8 @@ using HacktoberfestProject.Web.Extensions.DependancyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Data.Repositories;
+using HacktoberfestProject.Web.Services;
+using HacktoberfestProject.Web.Testing;
 
 namespace HacktoberfestProject.Web
 {
@@ -31,13 +33,16 @@ namespace HacktoberfestProject.Web
             services.AddSingleton<ITableContext, TableContext>();
             services.AddSingleton<IUserRepository, UserRepository>();
 
+            services.AddSingleton<IGithubService, GithubService>();
+
 
             services.AddControllersWithViews();
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
 
-            
+
             //CosmosTableTest.RunTableStorageTests(services);
+            //GithubAPITests.RunTableStorageTests(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Services
 {
-	public class GithubService
+	public class GithubService : IGithubService
 	{
 		private ILogger<GithubService> _logger;
 		private GitHubClient _client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
@@ -30,7 +30,7 @@ namespace HacktoberfestProject.Web.Services
 		public async Task<List<Pr>> GetPullRequestsForRepo(string owner, string name)
 		{
 			_logger.LogTrace($"Sending request to Github for pull requests on repositoy: {name}");
-			var prs = await _client.PullRequest.GetAllForRepository(owner, name);
+			var prs = await _client.PullRequest.GetAllForRepository(owner, name, new PullRequestRequest() { State = ItemStateFilter.All});
 
 			return prs.Select(pr => new Pr(pr.Number, pr.Url)).ToList();
 		}
