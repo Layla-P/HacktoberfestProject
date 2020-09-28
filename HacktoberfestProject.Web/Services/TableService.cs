@@ -29,7 +29,7 @@ namespace HacktoberfestProject.Web.Services
 
             foreach (var repository in temp)
             {
-                pr.AddRange(repository.PrEntities);
+                pr.AddRange(repository.Prs);
             }
 
             var serviceResponse = new ServiceResponse<IEnumerable<Pr>>

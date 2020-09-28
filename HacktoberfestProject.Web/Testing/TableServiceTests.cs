@@ -27,7 +27,7 @@ namespace HacktoberfestProject.Web.Testing
         {
             _username = "Layla-P";
             _pr = new Pr(3, "http://test");
-            Repository repository = new Repository("test", "test", new List<Pr> { _pr });
+            Repository repository = new Repository("test", "test",null, new List<Pr> { _pr });
             _user = new User(_username, new List<Repository> { repository });
             _expectedResult = new ServiceResponse<IEnumerable<Pr>>
             {

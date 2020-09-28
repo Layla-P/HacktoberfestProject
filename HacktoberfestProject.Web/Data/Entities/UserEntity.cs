@@ -50,6 +50,7 @@ namespace HacktoberfestProject.Web.Data.Entities
             return new User(userEntity.Username, 
                             userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner, 
                                                                                          repo.Name, 
+                                                                                         null,
                                                                                          repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
                                                                  ).ToList());
         }
@@ -59,7 +60,7 @@ namespace HacktoberfestProject.Web.Data.Entities
             return new UserEntity(user.Username,
                             user.RepositoryPrAddedTo?.Select(repo => new RepositoryEntity(repo.Owner,
                                                                                          repo.Name,
-                                                                                         repo.PrEntities?.Select(pr => new PrEntity(pr.PrId, pr.Url)).ToList())
+                                                                                         repo.Prs?.Select(pr => new PrEntity(pr.PrId, pr.Url)).ToList())
                                                                  ).ToList());
         }
     }
