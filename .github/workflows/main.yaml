@@ -30,10 +30,10 @@ jobs:
       - name: Build and Publish
         run: |
           dotnet build --configuration release
-          dotnet publish -c Release -o '{{env.AZURE_WEBAPP_NAME}}/prtrackerweb_artifacts'
+          dotnet publish -c Release -o '{{env.AZURE_WEBAPP_PATH}}/prtrackerweb_artifacts'
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{env.AZURE_WEBAPP_NAME}}
-          package: '${{env.AZURE_WEBAPP_NAME}}/prtrackerweb_artifacts'
+          package: '${{env.AZURE_WEBAPP_PATH}}/prtrackerweb_artifacts'
