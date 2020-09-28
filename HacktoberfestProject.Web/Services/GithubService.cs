@@ -1,4 +1,5 @@
 ﻿using HacktoberfestProject.Web.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using System;
@@ -15,7 +16,7 @@ namespace HacktoberfestProject.Web.Services
 
 		public GithubService(ILogger<GithubService> logger)
 		{
-			_logger = logger;
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public async Task<List<Models.Repository>> GetRepos(string owner)
