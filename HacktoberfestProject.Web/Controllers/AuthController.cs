@@ -12,5 +12,11 @@ namespace HacktoberfestProject.Web.Controllers
         {
             return Challenge(new AuthenticationProperties() { RedirectUri = returnUrl });
         }
+
+        public IActionResult Logout(string returnUrl = "/")
+		{
+            HttpContext.SignOutAsync();
+            return Redirect(Url.Content(returnUrl));
+		}
     }
 }
