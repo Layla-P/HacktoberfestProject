@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace HacktoberfestProject.Web.Models.Entities
+namespace HacktoberfestProject.Web.Data.Entities
 {
 	public class RepositoryEntity
 	{
@@ -8,11 +9,11 @@ namespace HacktoberfestProject.Web.Models.Entities
 		public string Name { get; set; }
 		public List<PrEntity> PrEntities { get; set; }
 		
-		public RepositoryEntity(string owner, string name, List<PrEntity> prEntities)
+		public RepositoryEntity(string owner, string name, List<PrEntity> prEntities=null)
 		{
 			Owner = owner;
 			Name = name;
 			PrEntities = prEntities;
 		}
-	}
+    }
 }

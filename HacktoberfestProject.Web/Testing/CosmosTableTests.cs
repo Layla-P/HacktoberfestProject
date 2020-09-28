@@ -1,18 +1,18 @@
 ﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Models.Entities;
+using HacktoberfestProject.Web.Data.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
 namespace HacktoberfestProject.Web.Testing
 {
-	public class CosmosTableTest
+	public class CosmosTableTests
 	{
 		private ITableContext _context;
 		private string _testUsername = "TestUser";
 		private UserEntity _entityToRemove;
 
-		public CosmosTableTest(ITableContext context)
+		public CosmosTableTests(ITableContext context)
 		{
 			_context = context;
 		}
@@ -42,7 +42,7 @@ namespace HacktoberfestProject.Web.Testing
 		{
 			IServiceProvider sp = services.BuildServiceProvider();
 
-			var ctt = new CosmosTableTest(sp.GetService<ITableContext>());
+			var ctt = new CosmosTableTests(sp.GetService<ITableContext>());
 			ctt.TestInsert();
 			ctt.TestRetrive();
 			ctt.TestDelete();

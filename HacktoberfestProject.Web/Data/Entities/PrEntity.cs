@@ -1,4 +1,4 @@
-﻿namespace HacktoberfestProject.Web.Models.Entities
+﻿namespace HacktoberfestProject.Web.Data.Entities
 {
 	public class PrEntity
 	{
@@ -10,6 +10,5 @@
 			PrId = prId;
 			Url = url;
 		}
-
 	}
 }

@@ -1,41 +1,40 @@
-﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Models.Entities;
-using HacktoberfestProject.Web.Models.Helpers;
+﻿using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Models.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using HacktoberfestProject.Web.Data.Repositories;
+using HacktoberfestProject.Web.Models;
 
 namespace HacktoberfestProject.Web.Services
 {
     public class TableService : ITableService
     {
-        private readonly ITableContext _tableContext;
+        private readonly IUserRepository _userRepository;
 
-        public TableService(ITableContext tableContext)
+        public TableService(IUserRepository userRepository)
         {
-            _tableContext = tableContext ?? throw new ArgumentNullException(nameof(tableContext));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<ServiceResponse<IEnumerable<PrEntity>>> GetPrsByUsername(string username)
+        public async Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsername(string username)
         {
-            var user = new UserEntity(username);
+            var user = new User(username);
 
-            var userEntity = await _tableContext
-                                        .RetrieveEnitityAsync(user);
+            var userEntity = await _userRepository
+                                        .ReadAsync(user);
 
-            List<PrEntity> prEntities = new List<PrEntity>();
+            List<Pr> pr = new List<Pr>();
             var temp = userEntity.RepositoryPrAddedTo;
 
-            foreach (var prEntity in temp)
+            foreach (var repository in temp)
             {
-                prEntities.AddRange(prEntity.PrEntities);
+                pr.AddRange(repository.PrEntities);
             }
 
-            var serviceResponse = new ServiceResponse<IEnumerable<PrEntity>>
+            var serviceResponse = new ServiceResponse<IEnumerable<Pr>>
             {
-                Content = prEntities,
+                Content = pr,
                 ServiceResponseStatus = ServiceResponseStatus.Ok
             };
 

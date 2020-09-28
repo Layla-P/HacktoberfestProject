@@ -1,10 +1,8 @@
-﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Data.Configuration;
-using HacktoberfestProject.Web.Models.Entities;
+﻿using HacktoberfestProject.Web.Data.Repositories;
+using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Services;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -15,65 +13,65 @@ namespace HacktoberfestProject.Web.Testing
     [TestFixture]
     public class TableServiceTests
     {
-        Mock<ITableContext> tableContextMock;
-        ITableService sut;
+        Mock<IUserRepository> _userRepository;
+        ITableService _sut;
 
 
-        private string username;
-        private UserEntity userEntity;
-        private PrEntity prEntity;
-        private ServiceResponse<IEnumerable<PrEntity>> expectedResult;
+        private string _username;
+        private User _user;
+        private Pr _pr;
+        private ServiceResponse<IEnumerable<Pr>> _expectedResult;
 
         [SetUp]
         public void Setup()
         {
-            username = "Layla-P";
-             prEntity = new PrEntity(3, "http://test");
-            RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new List<PrEntity> { prEntity });
-            userEntity = new UserEntity(username, new List<RepositoryEntity> { repositoryEntity });
-            expectedResult = new ServiceResponse<IEnumerable<PrEntity>>
+            _username = "Layla-P";
+            _pr = new Pr(3, "http://test");
+            Repository repository = new Repository("test", "test", new List<Pr> { _pr });
+            _user = new User(_username, new List<Repository> { repository });
+            _expectedResult = new ServiceResponse<IEnumerable<Pr>>
             {
-                Content = new List<PrEntity> { prEntity },
+                Content = new List<Pr> { _pr },
                 ServiceResponseStatus = ServiceResponseStatus.Ok,
                 Message = "test message"
             };
 
 
-            tableContextMock = new Mock<ITableContext>(MockBehavior.Strict);
-            sut = new TableService(tableContextMock.Object);
+            _userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            _sut = new TableService(_userRepository.Object);
         }
 
 
         [Test]
-        public void GivenNullTableContext_Should_ThrowException()
+        public void GivenNullUserRepository_Should_ThrowException()
         {
             Assert.That(
                 () => new TableService(null),
-                Throws.ArgumentNullException.With.Message.EqualTo("Value cannot be null. (Parameter 'tableContext')"));
+                Throws.ArgumentNullException.With.Message.EqualTo("Value cannot be null. (Parameter 'userRepository')"));
         }
 
         [Test]
         public async Task GivenUsername_ShouldReturn_ServiceResponse()
         {
-            tableContextMock.Setup(e => e.RetrieveEnitityAsync(It.IsAny<UserEntity>()))
-               .ReturnsAsync(userEntity);
+            _userRepository.Setup(e => e.ReadAsync(It.IsAny<User>()))
+               .ReturnsAsync(_user);
 
-            var result = await sut.GetPrsByUsername(username);
+            var result = await _sut.GetPrsByUsername(_username);
 
-            Assert.That(result.Content, Is.EqualTo(new List<PrEntity> { prEntity }));
+            Assert.That(result.Content, Is.EqualTo(new List<Pr> { _pr }));
             Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Ok));
         }
 
         //[Test]
         //public async Task GivenUsernameAndPR_ShouldAddPR_ServiceResponse()
         //{
-        //    tableContextMock.Setup(e => e.RetrieveEnitityAsync(It.IsAny<UserEntity>()))
-        //       .ReturnsAsync(userEntity);
+        //	tableContextMock.Setup(e => e.RetrieveEnitityAsync(It.IsAny<UserEntity>()))
+        //	   .ReturnsAsync(userEntity);
 
-        //    var result = await sut.GetPrsByUsername(username);
+        //	var result = await sut.GetPrsByUsername(username);
 
-        //    Assert.That(result.Content, Is.EqualTo(new List<PrEntity> { prEntity }));
-        //    Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Ok));
+        //	Assert.That(result.Content, Is.EqualTo(new List<PrEntity> { prEntity }));
+        //	Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Ok));
         //}
 
     }
