@@ -3,20 +3,25 @@
 }
 
 
-@{
-    ViewData["Title"] = "Home Page";
-}
 
-<div class="row">
+
     @if (!User.Identity.IsAuthenticated)
     {
-        <a asp-action="Login" asp-controller="Auth" class="btn btn-outline-primary">Log In with GitHub</a>
+        <div class="text-center">
+            <h1>Welcome to the .NET PR Tracker!</h1>
+            <p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+            <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+            <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
+        </div>
+
     }
     else
     {
         <div class="text-center">
             <h1 class="display-4">Welcome @User.Identity.Name</h1>
-           @* this will bring back a list of PRs, if there are some. *@
+            <p>Below is a list of all the pull requests you have logged </p>
+            @* this will bring back a list of PRs, if there are some. *@
+            <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
         </div>
     }
-</div>
+

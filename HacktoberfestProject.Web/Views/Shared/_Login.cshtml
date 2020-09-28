@@ -1,0 +1,8 @@
+﻿<ul class="navbar-nav">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Login" asp-controller="Auth" class="btn btn-outline-primary">Log In with GitHub</a>
+
+    }
+      
+</ul>

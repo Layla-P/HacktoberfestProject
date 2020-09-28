@@ -2,9 +2,6 @@
 
 We welcome PRs small and large to any .NET open source project on GitHub.
 
-
-
-
 #### Hacktoberfest Project Dev Setup
 This project currently uses Table storage for persistant data. 
 To allow for development of this application we are using CosmosDb Emulator with Table storage API.
@@ -26,3 +23,4 @@ The table name dos not matter as it can be unique to your installation but we su
 HacktoberfestProject
 
 This will make life easier if we need to help you debug an issue.
+
