@@ -4,13 +4,13 @@
 	{
 		public string Owner { get; set; }
 		public string Name { get; set; }
-		public PrEntity[] PrS { get; set; }
+		public PrEntity[] PrEntities { get; set; }
 		
-		public RepositoryEntity(string owner, string name, PrEntity[] prS)
+		public RepositoryEntity(string owner, string name, PrEntity[] prEntities)
 		{
 			Owner = owner;
 			Name = name;
-			PrS = prS;
+			PrEntities = prEntities;
 		}
 	}
 }

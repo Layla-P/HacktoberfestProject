@@ -32,11 +32,11 @@ namespace HacktoberfestProject.Web.Models.Entities
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
         {
             // This line will write partition key and row key, but not properties with IgnoreProperty attribute
-            var x = base.WriteEntity(operationContext);
+            var propertiesToBeWritten = base.WriteEntity(operationContext);
 
             // Writing x manually as a serialized string.
-            x["jsonDetails"] = new EntityProperty(JsonConvert.SerializeObject(this.RepositoryPrAddedTo));
-            return x;
+            propertiesToBeWritten["jsonDetails"] = new EntityProperty(JsonConvert.SerializeObject(this.RepositoryPrAddedTo));
+            return propertiesToBeWritten;
         }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
