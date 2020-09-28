@@ -18,8 +18,9 @@ namespace HacktoberfestProject.Web.Services
 			_logger = logger;
 		}
 
-		public async  Task<List<Models.Repository>> GetRepos(string owner)
+		public async Task<List<Models.Repository>> GetRepos(string owner)
 		{
+			_logger.LogTrace($"Sending request to Github for repositories belonging to user: {owner}");
 			var repositories = await _client.Repository.GetAllForUser(owner);
 
 			return repositories.Select(r => new Models.Repository(owner, r.Name, r.Url)).ToList();
@@ -27,6 +28,7 @@ namespace HacktoberfestProject.Web.Services
 
 		public async Task<List<Pr>> GetPullRequestsForRepo(string owner, string name)
 		{
+			_logger.LogTrace($"Sending request to Github for pull requests on repositoy: {name}");
 			var prs = await _client.PullRequest.GetAllForRepository(owner, name);
 
 			return prs.Select(pr => new Pr(pr.Number, pr.Url)).ToList();
