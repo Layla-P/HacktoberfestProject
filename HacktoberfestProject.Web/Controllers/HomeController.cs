@@ -34,11 +34,13 @@ namespace HacktoberfestProject.Web.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-               //How to access claims - left here for reference         
-            //ViewBag.Username = _contextAccessor.HttpContext.User
-            //    .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
+            //How to access claims -left here for reference
 
-            
+        ViewBag.Username = _contextAccessor.HttpContext.User
+            .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
+
+
+
             return View();
         }
 

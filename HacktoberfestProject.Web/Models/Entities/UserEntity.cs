@@ -10,7 +10,7 @@ namespace HacktoberfestProject.Web.Models.Entities
 {
     public class UserEntity : TableEntity
     {
-        public Guid UserId { get; set; }
+        public string Username { get; set; }
 
         [IgnoreProperty]
         public List<RepositoryEntity> RepositoryPrAddedTo { get; set; }
@@ -20,12 +20,12 @@ namespace HacktoberfestProject.Web.Models.Entities
 
 		}
 
-        public UserEntity(Guid id, List<RepositoryEntity> repositoryPrAddedTo = null)
+        public UserEntity(string username, List<RepositoryEntity> repositoryPrAddedTo = null)
         {
-            UserId = id;
+            Username = username;
             RepositoryPrAddedTo = repositoryPrAddedTo;
             PartitionKey = "Users";
-            RowKey = UserId.ToString();
+            RowKey = username;
             
         }
 
