@@ -1,9 +1,15 @@
 ﻿using System.Diagnostics;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using HacktoberfestProject.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+
+using HacktoberfestProject.Web.Data;
+using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -11,18 +17,28 @@ namespace HacktoberfestProject.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ITableContext _tableContext;
         private const string GitHubUsernameClaimType = "urn:github:login";
         private const string EmailClaimType = "urn:github:email";
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor, ITableContext tableContext)
         {
-            
             _logger = logger;
             _contextAccessor = contextAccessor;
+            _tableContext = tableContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
+                var user = await _tableContext.RetrieveEnitityAsync<UserEntity>(UserEntity.PARTITIONKEY, username);
+                if (user == null)
+                {
+                    ViewData.Add("Message", $"Hey there {username}, we haven't seen you here before!");
+                }
+            }
             return View();
         }
 
@@ -30,8 +46,8 @@ namespace HacktoberfestProject.Web.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-               //How to access claims - left here for reference         
-            //ViewBag.Username = _contextAccessor.HttpContext.User
+            // How to access claims - left here for reference         
+            // ViewBag.Username = _contextAccessor.HttpContext.User
             //    .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
 
             
