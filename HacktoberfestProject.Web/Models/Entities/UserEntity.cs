@@ -1,9 +1,8 @@
-﻿using Microsoft.Azure.Cosmos.Table;
-
-using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using Microsoft.Azure.Cosmos.Table;
+using Newtonsoft.Json;
 
 namespace HacktoberfestProject.Web.Models.Entities
 {

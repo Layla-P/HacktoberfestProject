@@ -1,5 +1,6 @@
-﻿using Microsoft.Azure.Cosmos.Table;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Microsoft.Azure.Cosmos.Table;
 
 namespace HacktoberfestProject.Web.Data
 {
@@ -7,7 +8,7 @@ namespace HacktoberfestProject.Web.Data
 	{
 		Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity;
 
-		Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity;
+		Task<T> RetrieveEnitityAsync<T>(string partitionKey, string rowKey) where T : TableEntity;
 
 		Task DeleteEntity<T>(T entity) where T : TableEntity;
 	}

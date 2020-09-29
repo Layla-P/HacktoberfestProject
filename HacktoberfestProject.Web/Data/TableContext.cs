@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using HacktoberfestProject.Web.Data.Configuration;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Data
 {
@@ -89,20 +90,18 @@ namespace HacktoberfestProject.Web.Data
 			}
 		}
 
-		public async Task<T> RetrieveEnitityAsync<T>(T userEntity) where T : TableEntity
+		public async Task<T> RetrieveEnitityAsync<T>(string partitionKey, string rowKey) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (userEntity == null) throw new ArgumentNullException(nameof(userEntity));
+			Guard.IsNotNull(partitionKey, nameof(partitionKey));
+			Guard.IsNotNull(rowKey, nameof(rowKey));
 
 			try
 			{
-				TableOperation retrieveOperation = TableOperation.Retrieve<T>(userEntity.PartitionKey, userEntity.RowKey);
-
+				TableOperation retrieveOperation = TableOperation.Retrieve<T>(partitionKey, rowKey);
 				TableResult result = await _table.ExecuteAsync(retrieveOperation);
 
 				_logger.LogTrace("Retrieving record from table");
-				
 				var retriveEntity =	result.Result as T;
 
 				return retriveEntity;
