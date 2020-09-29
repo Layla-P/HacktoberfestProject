@@ -26,6 +26,32 @@ HacktoberfestProject
 
 This will make life easier if we need to help you debug an issue.
 
+###### Github application registration
+* Visit https://github.com/settings/applications/new
+* Set Application Name to HacktoberfestProject
+* Homepage URL should be http://localhost:50085 (by default)
+* Authorization Callback Url should be http://localhost:50085/github-oauth
 
+This will provide you with the client id and secret needed for the secrets configuration below.
 
+###### Secrets Configuration
+This application uses the dotnet user-secrets tool documented [here](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1)
 
+The following secrets will need setup from within the `HacktoberfestProject.Web` directory where the `.csproj` file exists. Run the following commands:
+
+```dotnet user-secrets set "CosmosTableStorage:ConnectionString" "DefaultEndpointsProtocol=http;AccountName=localhost;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;TableEndpoint=http://localhost:8902/;"```
+
+```dotnet user-secrets set "CosmosTableStorage:TableName" "HacktoberfestProject"```
+
+```dotnet user-secrets set "GitHub:ClientId" "<replace with your clientid>"```
+
+```dotnet user-secrets set "GitHub:ClientSecret" "<replace with your client secret>"```
+
+#### Known Issues
+The following error occurs due to using http for local development instead of SSL with the Chrome Browser:
+
+*An unhandled exception occurred while processing the request. Exception: Correlation failed.*
+
+To correct the problem:
+* Visit chrome://flags
+* Change setting `Cookies without SameSite must be secure` to `Disabled`.
