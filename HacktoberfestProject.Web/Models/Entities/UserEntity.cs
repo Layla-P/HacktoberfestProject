@@ -1,16 +1,12 @@
-﻿using HacktoberfestProject.Web.Models;
+﻿using HacktoberfestProject.Web.Models.DTOs;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Azure.Documents;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using User = HacktoberfestProject.Web.Models.User;
 
-namespace HacktoberfestProject.Web.Data.Entities
+namespace HacktoberfestProject.Web.Models.Entities
 {
-    public class UserEntity : TableEntity
+	public class UserEntity : TableEntity
     {
         public string Username { get; set; }
 

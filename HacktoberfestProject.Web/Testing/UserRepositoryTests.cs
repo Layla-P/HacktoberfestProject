@@ -1,10 +1,9 @@
 ﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Data.Entities;
+using HacktoberfestProject.Web.Models.Entities;
 using HacktoberfestProject.Web.Data.Repositories;
-using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.DTOs;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

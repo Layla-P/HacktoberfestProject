@@ -1,5 +1,5 @@
 ﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Data.Entities;
+using HacktoberfestProject.Web.Models.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

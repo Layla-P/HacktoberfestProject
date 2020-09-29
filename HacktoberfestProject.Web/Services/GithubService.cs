@@ -1,5 +1,4 @@
-﻿using HacktoberfestProject.Web.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using HacktoberfestProject.Web.Models.DTOs;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using System;
@@ -19,12 +18,12 @@ namespace HacktoberfestProject.Web.Services
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		public async Task<List<Models.Repository>> GetRepos(string owner)
+		public async Task<List<Models.DTOs.Repository>> GetRepos(string owner)
 		{
 			_logger.LogTrace($"Sending request to Github for repositories belonging to user: {owner}");
 			var repositories = await _client.Repository.GetAllForUser(owner);
 
-			return repositories.Select(r => new Models.Repository(owner, r.Name, r.Url)).ToList();
+			return repositories.Select(r => new Models.DTOs.Repository(owner, r.Name, r.Url)).ToList();
 		}
 
 		public async Task<List<Pr>> GetPullRequestsForRepo(string owner, string name)
