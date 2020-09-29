@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Azure.Cosmos.Table;
 using Newtonsoft.Json;
@@ -11,16 +10,10 @@ namespace HacktoberfestProject.Web.Models.Entities
         public const string PARTITIONKEY = "Users";
 
         [IgnoreProperty]
-        public Guid UserId 
-        { 
-            get
-            {
-                return Guid.Parse(RowKey);
-            }
-            set
-            {
-                RowKey = value.ToString();
-            }
+        public string Username
+        {
+            get => RowKey;
+            set => RowKey = value;
         }
 
         [IgnoreProperty]
@@ -31,9 +24,9 @@ namespace HacktoberfestProject.Web.Models.Entities
             PartitionKey = PARTITIONKEY;
 		}
 
-        public UserEntity(Guid id, List<RepositoryEntity> repositoryPrAddedTo = null) : this()
+        public UserEntity(string username, List<RepositoryEntity> repositoryPrAddedTo = null) : this()
         {
-            UserId = id;
+            Username = username;
             RepositoryPrAddedTo = repositoryPrAddedTo;
         }
 

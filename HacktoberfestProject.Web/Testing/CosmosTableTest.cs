@@ -9,7 +9,7 @@ namespace HacktoberfestProject.Web.Testing
 	public class CosmosTableTest
 	{
 		private ITableContext _context;
-		private Guid _testGuid = Guid.NewGuid();
+		private string _testUsername = "someUsername";
 		private UserEntity _entityToRemove;
 
 		public CosmosTableTest(ITableContext context)
@@ -21,14 +21,14 @@ namespace HacktoberfestProject.Web.Testing
 		{
 			PrEntity prEntity = new PrEntity(3, "http://test");
 			RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new[] { prEntity });
-			UserEntity userEntity = new UserEntity(_testGuid, new List<RepositoryEntity> { repositoryEntity });
+			UserEntity userEntity = new UserEntity(_testUsername, new List<RepositoryEntity> { repositoryEntity });
 
 			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
 		}
 
 		public void TestRetrieve()
 		{
-			_entityToRemove = _context.RetrieveEnitityAsync<UserEntity>(UserEntity.PARTITIONKEY, _testGuid.ToString()).Result;
+			_entityToRemove = _context.RetrieveEnitityAsync<UserEntity>(UserEntity.PARTITIONKEY, _testUsername.ToString()).Result;
 		}
 
 		public void TestDelete()
