@@ -1,10 +1,9 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Azure.Documents;
+
 using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Models.Entities
 {

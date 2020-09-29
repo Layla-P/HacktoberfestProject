@@ -9,9 +9,6 @@ using Microsoft.Extensions.Hosting;
 using HacktoberfestProject.Web.Extensions.DependencyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
-using System;
-using HacktoberfestProject.Web.Testing;
-using System.Runtime.CompilerServices;
 
 namespace HacktoberfestProject.Web
 {

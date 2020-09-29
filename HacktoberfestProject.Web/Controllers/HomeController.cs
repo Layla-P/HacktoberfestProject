@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HacktoberfestProject.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -30,6 +25,7 @@ namespace HacktoberfestProject.Web.Controllers
         {
             return View();
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Add()
