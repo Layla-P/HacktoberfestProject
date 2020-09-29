@@ -9,23 +9,33 @@ namespace HacktoberfestProject.Web.Models.Entities
 {
     public class UserEntity : TableEntity
     {
-        public Guid UserId { get; set; }
+        public const string PARTITIONKEY = "Users";
+
+        [IgnoreProperty]
+        public Guid UserId 
+        { 
+            get
+            {
+                return Guid.Parse(RowKey);
+            }
+            set
+            {
+                RowKey = value.ToString();
+            }
+        }
 
         [IgnoreProperty]
         public List<RepositoryEntity> RepositoryPrAddedTo { get; set; }
 
         public UserEntity()
 		{
-
+            PartitionKey = PARTITIONKEY;
 		}
 
-        public UserEntity(Guid id, List<RepositoryEntity> repositoryPrAddedTo = null)
+        public UserEntity(Guid id, List<RepositoryEntity> repositoryPrAddedTo = null) : this()
         {
             UserId = id;
             RepositoryPrAddedTo = repositoryPrAddedTo;
-            PartitionKey = "Users";
-            RowKey = UserId.ToString();
-            
         }
 
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
