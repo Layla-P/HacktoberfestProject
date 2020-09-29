@@ -97,9 +97,9 @@ namespace HacktoberfestProject.Web.Data
 
 			try
 			{
-				TableOperation retriveOperation = TableOperation.Retrieve<T>(userEntity.PartitionKey, userEntity.RowKey);
+				TableOperation retrieveOperation = TableOperation.Retrieve<T>(userEntity.PartitionKey, userEntity.RowKey);
 
-				TableResult result = await _table.ExecuteAsync(retriveOperation);
+				TableResult result = await _table.ExecuteAsync(retrieveOperation);
 
 				_logger.LogTrace("Retrieving record from table");
 				
