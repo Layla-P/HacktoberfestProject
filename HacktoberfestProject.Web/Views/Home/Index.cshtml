@@ -17,11 +17,18 @@
     }
     else
     {
-        <div class="text-center">
-            <h1 class="display-4">Welcome @User.Identity.Name</h1>
-            <p>Below is a list of all the pull requests you have logged </p>
-            @* this will bring back a list of PRs, if there are some. *@
-            <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
-        </div>
+        <h1 class="display-4">Welcome @User.Identity.Name</h1>
+        if (ViewData.ContainsKey("Message"))
+        {
+            <h2>@ViewData["Message"]</h2>
+        }
+        else
+        {
+            <div class="text-center">
+                <p>Below is a list of all the pull requests you have logged </p>
+                @* this will bring back a list of PRs, if there are some. *@
+                <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+            </div>
+        }
     }
 
