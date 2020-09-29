@@ -26,11 +26,9 @@ namespace HacktoberfestProject.Web.Testing
 			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
 		}
 
-		public void TestRetrive()
+		public void TestRetrieve()
 		{
-			UserEntity userEntity = new UserEntity(_testGuid);
-
-			_entityToRemove = _context.RetrieveEnitityAsync(userEntity).Result;
+			_entityToRemove = _context.RetrieveEnitityAsync<UserEntity>(UserEntity.PARTITIONKEY, _testGuid.ToString()).Result;
 		}
 
 		public void TestDelete()
@@ -44,7 +42,7 @@ namespace HacktoberfestProject.Web.Testing
 
 			var ctt = new CosmosTableTest(sp.GetService<ITableContext>());
 			ctt.TestInsert();
-			ctt.TestRetrive();
+			ctt.TestRetrieve();
 			ctt.TestDelete();
 		}
 	}
