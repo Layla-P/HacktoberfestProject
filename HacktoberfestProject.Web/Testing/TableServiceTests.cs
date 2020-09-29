@@ -1,5 +1,5 @@
 ﻿using HacktoberfestProject.Web.Data.Repositories;
-using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.DTOs;
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Services;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Testing
 {
-    [TestFixture]
+	[TestFixture]
     public class TableServiceTests
     {
         Mock<IUserRepository> _userRepository;

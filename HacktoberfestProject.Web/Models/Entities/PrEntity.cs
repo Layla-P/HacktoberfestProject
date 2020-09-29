@@ -1,4 +1,4 @@
-﻿namespace HacktoberfestProject.Web.Data.Entities
+﻿namespace HacktoberfestProject.Web.Models.Entities
 {
 	public class PrEntity
 	{

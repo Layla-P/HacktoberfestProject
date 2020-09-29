@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HacktoberfestProject.Web.Data.Repositories;
-using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.DTOs;
 
 namespace HacktoberfestProject.Web.Services
 {
-    public class TableService : ITableService
+	public class TableService : ITableService
     {
         private readonly IUserRepository _userRepository;
 

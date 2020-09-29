@@ -1,4 +1,5 @@
 ﻿using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

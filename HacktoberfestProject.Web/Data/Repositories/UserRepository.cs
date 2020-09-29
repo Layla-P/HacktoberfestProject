@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using HacktoberfestProject.Web.Models;
-using HacktoberfestProject.Web.Data.Entities;
+using HacktoberfestProject.Web.Models.DTOs;
+using HacktoberfestProject.Web.Models.Entities;
 
 namespace HacktoberfestProject.Web.Data.Repositories
 {
@@ -20,27 +18,36 @@ namespace HacktoberfestProject.Web.Data.Repositories
 		{
 			UserEntity userEntity = (UserEntity)user;
 
-			return (User)await _tableContext.InsertOrMergeEntityAsync(userEntity);
+			var result = (User)await _tableContext.InsertOrMergeEntityAsync(userEntity);
+
+			return result;
 		}
 
 		public async Task<User> ReadAsync(User user)
 		{
 			UserEntity userEntity = (UserEntity)user;
 
-			return (User)await _tableContext.RetrieveEnitityAsync(userEntity);
+			var result = (User)await _tableContext.RetrieveEnitityAsync(userEntity);
+			
+			return result;
 		}
 
 		public async Task<User> UpdateAsync(User user)
 		{
 			UserEntity userEntity = (UserEntity)user;
 
-			return (User)await _tableContext.InsertOrMergeEntityAsync(userEntity);
+			var result = (User)await _tableContext.InsertOrMergeEntityAsync(userEntity);
+
+			return result;
 		}
 
 		public async Task<bool> DeleteAsync(User user)
 		{
 			UserEntity userEntity = (UserEntity)user;
-			return await _tableContext.DeleteEntity(userEntity);
+
+			var result = await _tableContext.DeleteEntity(userEntity);
+
+			return result;
 		}
 	}
 }
