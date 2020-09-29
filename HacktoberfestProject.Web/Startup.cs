@@ -9,9 +9,9 @@ using Microsoft.Extensions.Hosting;
 using HacktoberfestProject.Web.Extensions.DependancyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
-using System;
+using HacktoberfestProject.Web.Data.Repositories;
+using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.Testing;
-using System.Runtime.CompilerServices;
 
 namespace HacktoberfestProject.Web
 {
@@ -31,13 +31,18 @@ namespace HacktoberfestProject.Web
             //Configure CosmosDB Table API
             services.Configure<TableConfiguration>(Configuration.GetSection("CosmosTableStorage"));
             services.AddSingleton<ITableContext, TableContext>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+
+            services.AddSingleton<IGithubService, GithubService>();
+
 
             services.AddControllersWithViews();
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
 
-            
+
             //CosmosTableTest.RunTableStorageTests(services);
+            //GithubAPITests.RunTableStorageTests(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
