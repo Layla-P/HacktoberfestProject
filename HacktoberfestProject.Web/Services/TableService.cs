@@ -1,8 +1,9 @@
-﻿using HacktoberfestProject.Web.Models.Helpers;
-using HacktoberfestProject.Web.Models.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using HacktoberfestProject.Web.Models.Helpers;
+using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Data.Repositories;
 using System.Linq;
 using HacktoberfestProject.Web.Models.DTOs;
@@ -51,11 +52,8 @@ namespace HacktoberfestProject.Web.Services
         {
             var user = await GetUser(username);
 
-            var userEntity = await _userRepository
-                                        .ReadAsync(user);
-
             List<Pr> pr = new List<Pr>();
-            var temp = userEntity.RepositoryPrAddedTo;
+            var temp = user.RepositoryPrAddedTo;
 
             foreach (var repository in temp)
             {
@@ -65,6 +63,31 @@ namespace HacktoberfestProject.Web.Services
             var serviceResponse = new ServiceResponse<IEnumerable<Pr>>
             {
                 Content = pr,
+                ServiceResponseStatus = ServiceResponseStatus.Ok
+            };
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<User>> GetUserByUsernameAsync(string username)
+        {
+            var user = await GetUser(username);
+
+
+            List<Pr> pr = new List<Pr>();
+            var temp = user?.RepositoryPrAddedTo;
+
+            if (temp != null)
+            {
+                foreach (var repository in temp)
+                {
+                    pr.AddRange(repository.Prs);
+                }
+            }
+
+            var serviceResponse = new ServiceResponse<User>
+            {
+                Content = user,
                 ServiceResponseStatus = ServiceResponseStatus.Ok
             };
 

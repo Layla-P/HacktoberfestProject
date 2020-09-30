@@ -1,10 +1,10 @@
-﻿using HacktoberfestProject.Web.Models;
-using HacktoberfestProject.Web.Models.DTOs;
+﻿using HacktoberfestProject.Web.Models.DTOs;
+
 using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Data.Repositories
 {
-	public interface IUserRepository
+    public interface IUserRepository
 	{
 		Task<User> CreateAsync(User user);
 		Task<bool> DeleteAsync(User user);

@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using HacktoberfestProject.Web.Extensions.DependancyInjection;
+using HacktoberfestProject.Web.Extensions.DependencyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Data.Repositories;
 using HacktoberfestProject.Web.Services;
-using HacktoberfestProject.Web.Testing;
 
 namespace HacktoberfestProject.Web
 {
@@ -34,12 +32,11 @@ namespace HacktoberfestProject.Web
             services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddSingleton<IGithubService, GithubService>();
-
+            services.AddSingleton<ITableService, TableService>();
 
             services.AddControllersWithViews();
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
-
 
             //CosmosTableTest.RunTableStorageTests(services);
             //GithubAPITests.RunTableStorageTests(services);
