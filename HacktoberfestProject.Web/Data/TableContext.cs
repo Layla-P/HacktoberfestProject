@@ -114,7 +114,7 @@ namespace HacktoberfestProject.Web.Data
 			}
 		}
 
-		public async Task DeleteEntity<T>(T userEntity) where T: TableEntity
+		public async Task<bool> DeleteEntity<T>(T userEntity) where T: TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
 
@@ -127,6 +127,14 @@ namespace HacktoberfestProject.Web.Data
 				_logger.LogTrace("Deleteing Record");
 
 				TableResult result = await _table.ExecuteAsync(deleteOperation);
+				if (result.Result != null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			catch (Exception e)
 			{

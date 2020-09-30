@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace HacktoberfestProject.Web.Testing
 {
-	public class CosmosTableTest
+	public class CosmosTableTests
 	{
 		private ITableContext _context;
-		private Guid _testGuid = Guid.NewGuid();
+		private string _testUsername = "TestUser";
 		private UserEntity _entityToRemove;
 
-		public CosmosTableTest(ITableContext context)
+		public CosmosTableTests(ITableContext context)
 		{
 			_context = context;
 		}
@@ -20,15 +20,15 @@ namespace HacktoberfestProject.Web.Testing
 		public void TestInsert()
 		{
 			PrEntity prEntity = new PrEntity(3, "http://test");
-			RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new[] { prEntity });
-			UserEntity userEntity = new UserEntity(_testGuid, new List<RepositoryEntity> { repositoryEntity });
+			RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new List<PrEntity>{ prEntity });
+			UserEntity userEntity = new UserEntity(_testUsername, new List<RepositoryEntity> { repositoryEntity });
 
 			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
 		}
 
 		public void TestRetrive()
 		{
-			UserEntity userEntity = new UserEntity(_testGuid);
+			UserEntity userEntity = new UserEntity(_testUsername);
 
 			_entityToRemove = _context.RetrieveEnitityAsync(userEntity).Result;
 		}
@@ -42,7 +42,7 @@ namespace HacktoberfestProject.Web.Testing
 		{
 			IServiceProvider sp = services.BuildServiceProvider();
 
-			var ctt = new CosmosTableTest(sp.GetService<ITableContext>());
+			var ctt = new CosmosTableTests(sp.GetService<ITableContext>());
 			ctt.TestInsert();
 			ctt.TestRetrive();
 			ctt.TestDelete();

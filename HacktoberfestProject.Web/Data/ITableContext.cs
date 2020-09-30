@@ -7,6 +7,6 @@ namespace HacktoberfestProject.Web.Data
 	{
 		Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity;
 		Task<T> RetrieveEnitityAsync<T>(T userEntity) where T : TableEntity;
-		Task DeleteEntity<T>(T userEntity) where T : TableEntity;
+		Task<bool> DeleteEntity<T>(T userEntity) where T : TableEntity;
 	}
 }
