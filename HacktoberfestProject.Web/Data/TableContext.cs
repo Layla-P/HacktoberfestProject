@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using HacktoberfestProject.Web.Data.Configuration;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Data
 {
@@ -65,8 +66,7 @@ namespace HacktoberfestProject.Web.Data
 		public async Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
@@ -89,23 +89,22 @@ namespace HacktoberfestProject.Web.Data
 			}
 		}
 
-		public async Task<T> RetrieveEnitityAsync<T>(T userEntity) where T : TableEntity
+		public async Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (userEntity == null) throw new ArgumentNullException(nameof(userEntity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
-				TableOperation retriveOperation = TableOperation.Retrieve<T>(userEntity.PartitionKey, userEntity.RowKey);
+				TableOperation retriveOperation = TableOperation.Retrieve<T>(entity.PartitionKey, entity.RowKey);
 
 				TableResult result = await _table.ExecuteAsync(retriveOperation);
 
 				_logger.LogTrace("Retrieving record from table");
 				
-				var retriveEntity =	result.Result as T;
+				var retrieveEntity =	result.Result as T;
 
-				return retriveEntity;
+				return retrieveEntity;
 			}
 			catch (Exception e)
 			{
@@ -114,15 +113,14 @@ namespace HacktoberfestProject.Web.Data
 			}
 		}
 
-		public async Task DeleteEntity<T>(T userEntity) where T: TableEntity
+		public async Task DeleteEntity<T>(T entity) where T: TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (userEntity == null) throw new ArgumentNullException(nameof(userEntity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
-				TableOperation deleteOperation = TableOperation.Delete(userEntity);
+				TableOperation deleteOperation = TableOperation.Delete(entity);
 
 				_logger.LogTrace("Deleting record from table");
 
