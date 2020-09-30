@@ -11,7 +11,6 @@ using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Data.Repositories;
 using HacktoberfestProject.Web.Services;
-using HacktoberfestProject.Web.Testing;
 
 namespace HacktoberfestProject.Web
 {
