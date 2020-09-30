@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,8 +10,6 @@ using Microsoft.AspNetCore.Http;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.Entities;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -30,16 +30,20 @@ namespace HacktoberfestProject.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            UserinfoViewModel model = null;
             if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
                 var user = await _tableContext.RetrieveEnitityAsync<UserEntity>(UserEntity.PARTITIONKEY, username);
-                if (user == null)
+                if (user != null)
                 {
-                    ViewData.Add("Message", $"Hey there {username}, we haven't seen you here before!");
+                    model = new UserinfoViewModel()
+                    {
+                        Username = user.Username
+                    };
                 }
             }
-            return View();
+            return View(model);
         }
 
         [Authorize]
@@ -49,8 +53,7 @@ namespace HacktoberfestProject.Web.Controllers
             // How to access claims - left here for reference         
             // ViewBag.Username = _contextAccessor.HttpContext.User
             //    .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
-
-            
+  
             return View();
         }
 

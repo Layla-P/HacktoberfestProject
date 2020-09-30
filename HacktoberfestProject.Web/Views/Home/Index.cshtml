@@ -1,10 +1,7 @@
-﻿@{
+﻿@model UserinfoViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
-
-
-
-
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="text-center">
@@ -13,22 +10,30 @@
             <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
             <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
         </div>
-
     }
     else
     {
         <h1 class="display-4">Welcome @User.Identity.Name</h1>
-        if (ViewData.ContainsKey("Message"))
-        {
-            <h2>@ViewData["Message"]</h2>
-        }
-        else
+        if (Model != null)
         {
             <div class="text-center">
-                <p>Below is a list of all the pull requests you have logged </p>
+                <p>Below is a list of all the pull requests you have logged:</p>
+                @foreach(var repo in Model.Repositories)
+                {
+                    <h5>@repo.Owner - @repo.Name</h5>
+                    <ul>
+                        @foreach (var pr in repo.PullRequests)
+                        {
+                            <li><a href="@pr.Url">@pr.Title</a></li>
+                        }
+                    </ul>
+                }
                 @* this will bring back a list of PRs, if there are some. *@
                 <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
             </div>
         }
+        else
+        {
+            <h4>Hey there, we see you haven't registered yet. Do so now and start logging your PRs.</h4>
+        }
     }
-
