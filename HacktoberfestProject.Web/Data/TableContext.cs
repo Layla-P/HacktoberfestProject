@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using HacktoberfestProject.Web.Data.Configuration;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Data
 {
@@ -40,7 +41,7 @@ namespace HacktoberfestProject.Web.Data
 			}
 			else
 			{
-				_logger.LogTrace($"Table {_configuration.TableName} already exsists! using that table to stored data.");
+				_logger.LogTrace($"Table {_configuration.TableName} already exsists! Using that table to store data.");
 			}
 			_logger.LogTrace("Table Storage initialized");
 		}
@@ -55,7 +56,7 @@ namespace HacktoberfestProject.Web.Data
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.HResult, e, "Invaild storage account connection string. Please check values in the appsettings file(or user secrets if in dev mode).");
+				_logger.LogError(e.HResult, e, "Invalid storage account connection string. Please check values in appsettings (or user secrets if in dev mode).");
 				throw;
 			}
 
@@ -65,8 +66,7 @@ namespace HacktoberfestProject.Web.Data
 		public async Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
@@ -76,7 +76,7 @@ namespace HacktoberfestProject.Web.Data
 				// Execute the operation.
 				TableResult result = await _table.ExecuteAsync(insertOrMergeOperation);
 
-				_logger.LogTrace("Inserting record to table");
+				_logger.LogTrace("Inserting record into table");
 
 				var InsertedEntity = result.Result as T;
 
@@ -84,47 +84,45 @@ namespace HacktoberfestProject.Web.Data
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.HResult, e, "Insert Or Merge to table failed");
+				_logger.LogError(e.HResult, e, "Insert Or Merge into table failed");
 				throw;
 			}
 		}
 
-		public async Task<T> RetrieveEnitityAsync<T>(T userEntity) where T : TableEntity
+		public async Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (userEntity == null) throw new ArgumentNullException(nameof(userEntity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
-				TableOperation retriveOperation = TableOperation.Retrieve<T>(userEntity.PartitionKey, userEntity.RowKey);
+				TableOperation retriveOperation = TableOperation.Retrieve<T>(entity.PartitionKey, entity.RowKey);
 
 				TableResult result = await _table.ExecuteAsync(retriveOperation);
 
-				_logger.LogTrace("Retriving record from table");
+				_logger.LogTrace("Retrieving record from table");
 				
-				var retriveEntity =	result.Result as T;
+				var retrieveEntity =	result.Result as T;
 
-				return retriveEntity;
+				return retrieveEntity;
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.HResult, e, "Retrive from table failed");
+				_logger.LogError(e.HResult, e, "Retrieve from table failed");
 				throw;
 			}
 		}
 
-		public async Task<bool> DeleteEntity<T>(T userEntity) where T: TableEntity
+		public async Task<bool> DeleteEntity<T>(T entity) where T: TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-
-			if (userEntity == null) throw new ArgumentNullException(nameof(userEntity));
+			NullChecker.IsNotNull(entity, nameof(entity));
 
 			try
 			{
-				TableOperation deleteOperation = TableOperation.Delete(userEntity);
+				TableOperation deleteOperation = TableOperation.Delete(entity);
 
-				_logger.LogTrace("Deleteing Record");
+				_logger.LogTrace("Deleting record from table");
 
 				TableResult result = await _table.ExecuteAsync(deleteOperation);
 				if (result.Result != null)
@@ -138,7 +136,7 @@ namespace HacktoberfestProject.Web.Data
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.HResult, e, "Remove from table failed");
+				_logger.LogError(e.HResult, e, "Delete from table failed");
 				throw;
 			}
 		}

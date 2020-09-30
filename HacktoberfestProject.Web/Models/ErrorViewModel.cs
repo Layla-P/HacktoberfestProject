@@ -1,5 +1,3 @@
-using System;
-
 namespace HacktoberfestProject.Web.Models
 {
     public class ErrorViewModel

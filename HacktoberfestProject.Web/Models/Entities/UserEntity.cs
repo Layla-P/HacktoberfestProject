@@ -8,18 +8,25 @@ namespace HacktoberfestProject.Web.Models.Entities
 {
 	public class UserEntity : TableEntity
     {
-        public string Username { get; set; }
+        [IgnoreProperty]
+        public string Username
+        {
+            get => RowKey;
+            set => RowKey = value;
+        }
 
         [IgnoreProperty]
         public List<RepositoryEntity> RepositoryPrAddedTo { get; set; }
+
+        public UserEntity()
+		{
+		}
 
         public UserEntity(string username = null, List<RepositoryEntity> repositoryPrAddedTo = null)
         {
             Username = username;
             RepositoryPrAddedTo = repositoryPrAddedTo;
             PartitionKey = "Users";
-            RowKey = username;
-            
         }
 
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
@@ -43,12 +50,19 @@ namespace HacktoberfestProject.Web.Models.Entities
 
         public static explicit operator User(UserEntity userEntity)
         {
-            return new User(userEntity.Username, 
-                            userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner, 
-                                                                                         repo.Name, 
-                                                                                         null,
-                                                                                         repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
-                                                                 ).ToList());
+            if (userEntity == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new User(userEntity.Username,
+                                userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner,
+                                                                                             repo.Name,
+                                                                                             null,
+                                                                                             repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
+                                                                     ).ToList());
+            }
         }
 
         public static explicit operator UserEntity(User user)
