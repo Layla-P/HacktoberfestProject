@@ -8,13 +8,13 @@ using HacktoberfestProject.Web.Models.Entities;
 
 namespace HacktoberfestProject.Web.Testing
 {
-	public class CosmosTableTest
+	public class CosmosTableTests
 	{
 		private ITableContext _context;
-		private string _testUsername = "AwesomeUsername";
+		private string _testUsername = "TestUser";
 		private UserEntity _entityToRemove;
 
-		public CosmosTableTest(ITableContext context)
+		public CosmosTableTests(ITableContext context)
 		{
 			_context = context;
 		}
@@ -22,7 +22,7 @@ namespace HacktoberfestProject.Web.Testing
 		public void TestInsert()
 		{
 			PrEntity prEntity = new PrEntity(3, "http://test");
-			RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new[] { prEntity });
+			RepositoryEntity repositoryEntity = new RepositoryEntity("test", "test", new List<PrEntity>{ prEntity });
 			UserEntity userEntity = new UserEntity(_testUsername, new List<RepositoryEntity> { repositoryEntity });
 
 			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
@@ -44,7 +44,7 @@ namespace HacktoberfestProject.Web.Testing
 		{
 			IServiceProvider sp = services.BuildServiceProvider();
 
-			var ctt = new CosmosTableTest(sp.GetService<ITableContext>());
+			var ctt = new CosmosTableTests(sp.GetService<ITableContext>());
 			ctt.TestInsert();
 			ctt.TestRetrieve();
 			ctt.TestDelete();
