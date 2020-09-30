@@ -17,7 +17,12 @@ namespace HacktoberfestProject.Web.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsername(string username)
+        public Task<ServiceResponse<IEnumerable<Pr>>> AddPrByUsernameAsync(string username, Pr pr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsernameAsync(string username)
         {
             var user = new User(username);
 

@@ -7,6 +7,7 @@ namespace HacktoberfestProject.Web.Services
 {
 	public interface ITableService
     {
-        Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsername(string username);
+        Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsernameAsync(string username);
+        Task<ServiceResponse<IEnumerable<Pr>>> AddPrByUsernameAsync(string username, Pr pr);
     }
 }
