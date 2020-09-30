@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HacktoberfestProject.Web.Extensions.DependancyInjection
+namespace HacktoberfestProject.Web.Extensions.DependencyInjection
 {
     public static class AuthenticationServiceCollectionExtensions
     {
