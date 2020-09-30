@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Testing
 {
-	[TestFixture]
+    [TestFixture]
     public class TableServiceTests
     {
         Mock<IUserRepository> _userRepository;
@@ -19,6 +19,8 @@ namespace HacktoberfestProject.Web.Testing
 
         private string _username;
         private User _user;
+        private string _owner;
+        private string _repositoryName;
         private Pr _pr;
         private ServiceResponse<IEnumerable<Pr>> _expectedResult;
 
@@ -26,8 +28,11 @@ namespace HacktoberfestProject.Web.Testing
         public void Setup()
         {
             _username = "Layla-P";
+            _owner = "SiliconOrchid";
+            _repositoryName = "TheTestRepository";
+
             _pr = new Pr(3, "http://test");
-            Repository repository = new Repository("test", "test",null, new List<Pr> { _pr });
+            Repository repository = new Repository(_owner, _repositoryName, null, new List<Pr> { _pr });
             _user = new User(_username, new List<Repository> { repository });
             _expectedResult = new ServiceResponse<IEnumerable<Pr>>
             {
@@ -74,5 +79,21 @@ namespace HacktoberfestProject.Web.Testing
         //	Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Ok));
         //}
 
+        [Test]
+        public async Task GivenUsernameAndOwnerAndRepositoynameAndPr_ShouldReturn_ServiceResponse()
+        {
+            _userRepository.Setup(e => e.ReadAsync(It.IsAny<User>()))
+                .ReturnsAsync(_user);
+
+            _userRepository.Setup(e => e.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(_user);
+
+            var pr = new Pr(100, "fakeURL");
+
+            var result = await _sut.AddPrByUsernameAsync(_username, _owner, _repositoryName, pr);
+
+            Assert.That(result.Content, Is.EqualTo(pr));
+            Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Created));
+        }
     }
 }
