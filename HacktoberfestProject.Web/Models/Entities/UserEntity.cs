@@ -50,12 +50,19 @@ namespace HacktoberfestProject.Web.Models.Entities
 
         public static explicit operator User(UserEntity userEntity)
         {
-            return new User(userEntity.Username, 
-                            userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner, 
-                                                                                         repo.Name, 
-                                                                                         null,
-                                                                                         repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
-                                                                 ).ToList());
+            if (userEntity == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new User(userEntity.Username,
+                                userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner,
+                                                                                             repo.Name,
+                                                                                             null,
+                                                                                             repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
+                                                                     ).ToList());
+            }
         }
 
         public static explicit operator UserEntity(User user)
