@@ -93,8 +93,8 @@ namespace HacktoberfestProject.Web.Data
 		public async Task<T> RetrieveEnitityAsync<T>(string partitionKey, string rowKey) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
-			Guard.IsNotNull(partitionKey, nameof(partitionKey));
-			Guard.IsNotNull(rowKey, nameof(rowKey));
+			NullChecker.IsNotNull(partitionKey, nameof(partitionKey));
+			NullChecker.IsNotNull(rowKey, nameof(rowKey));
 
 			try
 			{

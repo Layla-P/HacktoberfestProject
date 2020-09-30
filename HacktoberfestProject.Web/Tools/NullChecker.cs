@@ -2,7 +2,7 @@
 
 namespace HacktoberfestProject.Web.Tools
 {
-    public static class Guard
+    public static class NullChecker
     {
         /// <summary>
         /// Throws an <see cref="ArgumentNullException" /> when the given <paramref name="argumentValue" /> is null.
