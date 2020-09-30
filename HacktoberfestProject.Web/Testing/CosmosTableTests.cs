@@ -1,8 +1,10 @@
-﻿using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Models.Entities;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using HacktoberfestProject.Web.Data;
+using HacktoberfestProject.Web.Models.Entities;
 
 namespace HacktoberfestProject.Web.Testing
 {
@@ -26,7 +28,7 @@ namespace HacktoberfestProject.Web.Testing
 			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
 		}
 
-		public void TestRetrive()
+		public void TestRetrieve()
 		{
 			UserEntity userEntity = new UserEntity(_testUsername);
 
@@ -44,7 +46,7 @@ namespace HacktoberfestProject.Web.Testing
 
 			var ctt = new CosmosTableTests(sp.GetService<ITableContext>());
 			ctt.TestInsert();
-			ctt.TestRetrive();
+			ctt.TestRetrieve();
 			ctt.TestDelete();
 		}
 	}

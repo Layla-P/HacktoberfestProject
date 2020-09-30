@@ -1,13 +1,12 @@
 ﻿using HacktoberfestProject.Web.Services;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Testing
 {
-	public class GithubAPITests
+    public class GithubAPITests
 	{
 
 		public static async void RunTableStorageTests(IServiceCollection services)

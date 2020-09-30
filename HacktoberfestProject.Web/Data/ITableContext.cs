@@ -1,12 +1,15 @@
-﻿using Microsoft.Azure.Cosmos.Table;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Microsoft.Azure.Cosmos.Table;
 
 namespace HacktoberfestProject.Web.Data
 {
 	public interface ITableContext
 	{
 		Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity;
-		Task<T> RetrieveEnitityAsync<T>(T userEntity) where T : TableEntity;
-		Task<bool> DeleteEntity<T>(T userEntity) where T : TableEntity;
+
+		Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity;
+
+		Task<bool> DeleteEntity<T>(T entity) where T : TableEntity;
 	}
 }
