@@ -11,5 +11,7 @@ namespace HacktoberfestProject.Web.Services
         Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsernameAsync(string username);
 
         Task<ServiceResponse<User>> GetUserByUsernameAsync(string username);
+
+        Task<ServiceResponse<IEnumerable<Pr>>> AddPrByUsernameAsync(string username, Pr pr);
     }
 }

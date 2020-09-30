@@ -56,7 +56,7 @@ namespace HacktoberfestProject.Web.Testing
             _userRepository.Setup(e => e.ReadAsync(It.IsAny<User>()))
                .ReturnsAsync(_user);
 
-            var result = await _sut.GetPrsByUsername(_username);
+            var result = await _sut.GetPrsByUsernameAsync(_username);
 
             Assert.That(result.Content, Is.EqualTo(new List<Pr> { _pr }));
             Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Ok));
