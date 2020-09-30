@@ -10,6 +10,6 @@ namespace HacktoberfestProject.Web.Data
 
 		Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity;
 
-		Task DeleteEntity<T>(T entity) where T : TableEntity;
+		Task<bool> DeleteEntity<T>(T entity) where T : TableEntity;
 	}
 }
