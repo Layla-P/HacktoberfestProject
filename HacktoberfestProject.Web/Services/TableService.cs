@@ -40,5 +40,28 @@ namespace HacktoberfestProject.Web.Services
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<User>> GetUserByUsernameAsync(string username)
+        {
+            var user = new User(username);
+
+            var userEntity = await _userRepository.ReadAsync(user);
+
+            List<Pr> pr = new List<Pr>();
+            var temp = userEntity.RepositoryPrAddedTo;
+
+            foreach (var repository in temp)
+            {
+                pr.AddRange(repository.Prs);
+            }
+
+            var serviceResponse = new ServiceResponse<User>
+            {
+                Content = userEntity,
+                ServiceResponseStatus = ServiceResponseStatus.Ok
+            };
+
+            return serviceResponse;
+        }
     }
 }
