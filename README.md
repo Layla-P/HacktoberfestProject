@@ -4,6 +4,9 @@ We welcome PRs small and large to any .NET open source project on GitHub.
 
 This project is intended to be used as a PR Tracker to help with Hacktoberfest.
 
+### Making a PR
+PRs will be accepted on the DEV branch and not on MAIN as that is the live branch.
+
 #### Hacktoberfest Project Dev Setup
 This project currently uses Table storage for persistant data. 
 To allow for development of this application we are using CosmosDb Emulator with Table storage API.
