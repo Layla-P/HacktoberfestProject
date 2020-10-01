@@ -30,7 +30,6 @@ namespace HacktoberfestProject.Web.Services
                 Url = pr.Url
             };
             await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
-
             var serviceResponse = new ServiceResponse<PullRequest>
             {
                 ServiceResponseStatus = ServiceResponseStatus.Created
@@ -53,7 +52,17 @@ namespace HacktoberfestProject.Web.Services
                 foreach (var entity in entities.OrderBy(e => e.RowKey))
                 {
                     var info = entity.RowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
-                    // TODO: implement splitting the entities into a class-structure for the frontend model
+                    if (info.Length != 3)
+                    {
+                        // TODO: define how to proceed with this
+                        continue;
+                    }
+                    var repo = new Repository(info[0], info[1], entity.Url);
+                    var prs = entities.Where(e => e.RowKey.StartsWith($"{info[0]}:{info[1]}"));
+                    foreach (var pr in prs)
+                    {
+                        repo.Prs.Add(new PullRequest(int.Parse(info[2]), entity.Url));
+                    }
                 }
 
                 serviceResponse = new ServiceResponse<User>

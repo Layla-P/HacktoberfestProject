@@ -1,10 +1,11 @@
-﻿using HacktoberfestProject.Web.Models.DTOs;
-using Microsoft.Extensions.Logging;
-using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Octokit;
+
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -31,7 +32,7 @@ namespace HacktoberfestProject.Web.Services
 			_logger.LogTrace($"Sending request to Github for pull requests on repositoy: {name}");
 			var prs = await _client.PullRequest.GetAllForRepository(owner, name, new PullRequestRequest() { State = ItemStateFilter.All});
 
-			return prs.Select(pr => new PullRequest(pr.Number, pr.Url)).ToList();
+			return prs.Select(pr => new Models.DTOs.PullRequest(pr.Number, pr.Url)).ToList();
 		}
 	}
 }
