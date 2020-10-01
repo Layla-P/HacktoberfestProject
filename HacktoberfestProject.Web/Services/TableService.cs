@@ -21,9 +21,9 @@ namespace HacktoberfestProject.Web.Services
 
         public async Task<ServiceResponse<Pr>> AddPrByUsernameAsync(string username, string owner, string repositoryName, Pr pr)
         {
-            var user = await GetUser(username);
+            var user = await GetUserAsync(username);
 
-            Repository repository = GetReporitory(user , owner, repositoryName);
+            Repository repository = GetRepository(user , owner, repositoryName);
 
             var serviceResponse = new ServiceResponse<Pr>
             {
@@ -50,7 +50,7 @@ namespace HacktoberfestProject.Web.Services
 
         public async Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsernameAsync(string username)
         {
-            var user = await GetUser(username);
+            var user = await GetUserAsync(username);
 
             List<Pr> pr = new List<Pr>();
             var temp = user.RepositoryPrAddedTo;
@@ -71,7 +71,7 @@ namespace HacktoberfestProject.Web.Services
 
         public async Task<ServiceResponse<User>> GetUserByUsernameAsync(string username)
         {
-            var user = await GetUser(username);
+            var user = await GetUserAsync(username);
 
 
             List<Pr> pr = new List<Pr>();
@@ -94,7 +94,7 @@ namespace HacktoberfestProject.Web.Services
             return serviceResponse;
         }
 
-        private async Task<User> GetUser(string username)
+        private async Task<User> GetUserAsync(string username)
         {
             User user = new User(username);
 
@@ -104,7 +104,7 @@ namespace HacktoberfestProject.Web.Services
 
         }
 
-        private Repository GetReporitory(User user, string owner, string repositoryName)
+        private Repository GetRepository(User user, string owner, string repositoryName)
         {
             Repository repository;
 
