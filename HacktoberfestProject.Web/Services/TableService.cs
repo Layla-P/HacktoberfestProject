@@ -1,124 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-using HacktoberfestProject.Web.Models.Helpers;
-using HacktoberfestProject.Web.Models.Enums;
-using HacktoberfestProject.Web.Data.Repositories;
-using System.Linq;
+using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Models.DTOs;
+using HacktoberfestProject.Web.Models.Entities;
+using HacktoberfestProject.Web.Models.Enums;
+using HacktoberfestProject.Web.Models.Helpers;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Services
 {
     public class TableService : ITableService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ITableContext _tableContext;
 
-        public TableService(IUserRepository userRepository)
+        public TableService(ITableContext tableContext)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            NullChecker.IsNotNull(tableContext, nameof(tableContext));
+            _tableContext = tableContext;
         }
 
-        public async Task<ServiceResponse<Pr>> AddPrByUsernameAsync(string username, string owner, string repositoryName, Pr pr)
+        public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
         {
-            var user = await GetUserAsync(username);
+            var trackerEntry = new TrackerEntryEntity
+            { 
+                Username = username,
+                RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
+                Url = pr.Url
+            };
+            await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
 
-            Repository repository = GetRepository(user , owner, repositoryName);
-
-            var serviceResponse = new ServiceResponse<Pr>
+            var serviceResponse = new ServiceResponse<PullRequest>
             {
                 ServiceResponseStatus = ServiceResponseStatus.Created
             };
 
-            if (!repository.Prs.All(p => p.PrId == pr.PrId))
-            {
-                repository.Prs.Add(pr);
-                user.RepositoryPrAddedTo.Add(repository);
-                await _userRepository.UpdateAsync(user);
-                serviceResponse.Message = "Pr Added!";
-            }
-            else
-            {
-                serviceResponse.Message = "Pr was already added!";
-                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.DuplicateFound;
-            }
-
-            serviceResponse.Content = pr;
-
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<Pr>>> GetPrsByUsernameAsync(string username)
+        public async Task<ServiceResponse<User>> GetUserAsync(string username)
         {
-            var user = await GetUserAsync(username);
-
-            List<Pr> pr = new List<Pr>();
-            var temp = user.RepositoryPrAddedTo;
-
-            foreach (var repository in temp)
-            {
-                pr.AddRange(repository.Prs);
-            }
-
-            var serviceResponse = new ServiceResponse<IEnumerable<Pr>>
-            {
-                Content = pr,
-                ServiceResponseStatus = ServiceResponseStatus.Ok
-            };
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<User>> GetUserByUsernameAsync(string username)
-        {
-            var user = await GetUserAsync(username);
-
-
-            List<Pr> pr = new List<Pr>();
-            var temp = user?.RepositoryPrAddedTo;
-
-            if (temp != null)
-            {
-                foreach (var repository in temp)
-                {
-                    pr.AddRange(repository.Prs);
-                }
-            }
-
+            var entities = await _tableContext.GetEntities<TrackerEntryEntity>(username);
             var serviceResponse = new ServiceResponse<User>
             {
-                Content = user,
-                ServiceResponseStatus = ServiceResponseStatus.Ok
+                ServiceResponseStatus = ServiceResponseStatus.NotFound
             };
 
+            if (entities.Any())
+            {
+                var user = new User(username);
+                foreach (var entity in entities.OrderBy(e => e.RowKey))
+                {
+                    var info = entity.RowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                    // TODO: implement splitting the entities into a class-structure for the frontend model
+                }
+
+                serviceResponse = new ServiceResponse<User>
+                {
+                    Content = user,
+                    ServiceResponseStatus = ServiceResponseStatus.Ok
+                };
+            }
+
             return serviceResponse;
-        }
-
-        private async Task<User> GetUserAsync(string username)
-        {
-            User user = new User(username);
-
-            User tablestorageUser = await _userRepository.ReadAsync(user);
-
-            return tablestorageUser;
-
-        }
-
-        private Repository GetRepository(User user, string owner, string repositoryName)
-        {
-            Repository repository;
-
-            if (user.RepositoryPrAddedTo.All(r => r.Owner == owner && r.Name == repositoryName))
-            {
-                repository = user.RepositoryPrAddedTo.FirstOrDefault(r => r.Owner == owner && r.Name == repositoryName);
-                user.RepositoryPrAddedTo.Remove(repository);
-            }
-            else
-            {
-                repository = new Repository(owner, repositoryName);
-            }
-
-            return repository;
         }
     }
 }

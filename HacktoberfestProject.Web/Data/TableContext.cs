@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.Azure.Cosmos.Table;
@@ -25,42 +26,30 @@ namespace HacktoberfestProject.Web.Data
 			Task.Run(() => CheckForTableAsync());
 		}
 
-		private async Task CheckForTableAsync()
+		public async Task<IEnumerable<T>> GetEntities<T>(string partitionKey) where T : ITableEntity, new()
 		{
-			_logger.LogTrace("Initializing Table Storage.");
+			if (_table == null) await CheckForTableAsync();
+			NullChecker.IsNotNull(partitionKey, nameof(partitionKey));
 
-			CloudStorageAccount storageAccount = CheckStorageAccount();
-
-			CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-			_table = tableClient.GetTableReference(_configuration.TableName);
-
-			if (await _table.CreateIfNotExistsAsync())
-			{
-				_logger.LogTrace($"Table {_configuration.TableName} has been created.");
-			}
-			else
-			{
-				_logger.LogTrace($"Table {_configuration.TableName} already exsists! Using that table to store data.");
-			}
-			_logger.LogTrace("Table Storage initialized");
-		}
-
-		private CloudStorageAccount CheckStorageAccount()
-		{
-			CloudStorageAccount storageAccount;
-			
 			try
 			{
-				storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
+				TableQuerySegment<T> querySegment = null;
+				var entities = new List<T>();
+				var query = new TableQuery<T>().Where(TableQuery.GenerateFilterCondition(nameof(ITableEntity.PartitionKey), QueryComparisons.Equal, partitionKey));
+
+				do
+				{
+					querySegment = await _table.ExecuteQuerySegmentedAsync(query, querySegment?.ContinuationToken);
+					entities.AddRange(querySegment.Results);
+				} while (querySegment.ContinuationToken != null);
+
+				return entities;
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.HResult, e, "Invalid storage account connection string. Please check values in appsettings (or user secrets if in dev mode).");
+				_logger.LogError(e.HResult, e, "Retrieve from table failed");
 				throw;
 			}
-
-			return storageAccount;
 		}
 
 		public async Task<T> InsertOrMergeEntityAsync<T>(T entity) where T : TableEntity
@@ -96,13 +85,13 @@ namespace HacktoberfestProject.Web.Data
 
 			try
 			{
-				TableOperation retriveOperation = TableOperation.Retrieve<T>(entity.PartitionKey, entity.RowKey);
+				TableOperation retrieveOperation = TableOperation.Retrieve<T>(entity.PartitionKey, entity.RowKey);
 
-				TableResult result = await _table.ExecuteAsync(retriveOperation);
+				TableResult result = await _table.ExecuteAsync(retrieveOperation);
 
 				_logger.LogTrace("Retrieving record from table");
 				
-				var retrieveEntity =	result.Result as T;
+				var retrieveEntity = result.Result as T;
 
 				return retrieveEntity;
 			}
@@ -125,18 +114,44 @@ namespace HacktoberfestProject.Web.Data
 				_logger.LogTrace("Deleting record from table");
 
 				TableResult result = await _table.ExecuteAsync(deleteOperation);
-				if (result.Result != null)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
+                return result.Result != null;
+            }
 			catch (Exception e)
 			{
 				_logger.LogError(e.HResult, e, "Delete from table failed");
+				throw;
+			}
+		}
+
+		private async Task CheckForTableAsync()
+		{
+			_logger.LogTrace("Initializing Table Storage.");
+
+			CloudStorageAccount storageAccount = CheckStorageAccount();
+			CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+
+			_table = tableClient.GetTableReference(_configuration.TableName);
+
+			if (await _table.CreateIfNotExistsAsync())
+			{
+				_logger.LogTrace($"Table {_configuration.TableName} has been created.");
+			}
+			else
+			{
+				_logger.LogTrace($"Table {_configuration.TableName} already exsists! Using that table to store data.");
+			}
+			_logger.LogTrace("Table Storage initialized");
+		}
+
+		private CloudStorageAccount CheckStorageAccount()
+		{
+			try
+			{
+                return CloudStorageAccount.Parse(_configuration.ConnectionString);
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e.HResult, e, "Invalid storage account connection string. Please check values in appsettings (or user secrets if in dev mode).");
 				throw;
 			}
 		}

@@ -34,8 +34,8 @@ namespace HacktoberfestProject.Web.Controllers
             if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
-                var response = await _tableService.GetUserByUsernameAsync(username);
-                
+                var response = await _tableService.GetUserAsync(username);
+
                 if (response.ServiceResponseStatus == Models.Enums.ServiceResponseStatus.Ok)
                 {
                     user = response.Content;

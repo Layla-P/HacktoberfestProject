@@ -7,8 +7,6 @@ using Microsoft.Extensions.Hosting;
 using HacktoberfestProject.Web.Extensions.DependencyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
-using HacktoberfestProject.Web.Extensions.DependencyInjection;
-using HacktoberfestProject.Web.Data.Repositories;
 using HacktoberfestProject.Web.Services;
 
 namespace HacktoberfestProject.Web
@@ -29,7 +27,7 @@ namespace HacktoberfestProject.Web
             //Configure CosmosDB Table API
             services.Configure<TableConfiguration>(Configuration.GetSection("CosmosTableStorage"));
             services.AddSingleton<ITableContext, TableContext>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            //services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddSingleton<IGithubService, GithubService>();
             services.AddSingleton<ITableService, TableService>();
