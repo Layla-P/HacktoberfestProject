@@ -21,10 +21,17 @@ namespace HacktoberfestProject.Web.Services
             _tableContext = tableContext;
         }
 
-        public async Task<ServiceResponse<Pr>> AddPrAsync(string username, string owner, string repositoryName, Pr pr)
+        public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
         {
-            // TODO: implement flattening the information into a TrackerEntryEntity
-            var serviceResponse = new ServiceResponse<Pr>
+            var trackerEntry = new TrackerEntryEntity
+            { 
+                Username = username,
+                RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
+                Url = pr.Url
+            };
+            await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
+
+            var serviceResponse = new ServiceResponse<PullRequest>
             {
                 ServiceResponseStatus = ServiceResponseStatus.Created
             };

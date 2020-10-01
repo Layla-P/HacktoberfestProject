@@ -7,7 +7,7 @@ namespace HacktoberfestProject.Web.Services
 {
     public interface ITableService
     {
-        Task<ServiceResponse<Pr>> AddPrAsync(string username, string owner, string repositoryName, Pr pr);
+        Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr);
 
         Task<ServiceResponse<User>> GetUserAsync(string username);
     }

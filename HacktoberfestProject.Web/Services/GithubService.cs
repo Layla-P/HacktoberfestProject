@@ -26,12 +26,12 @@ namespace HacktoberfestProject.Web.Services
 			return repositories.Select(r => new Models.DTOs.Repository(owner, r.Name, r.Url)).ToList();
 		}
 
-		public async Task<List<Pr>> GetPullRequestsForRepo(string owner, string name)
+		public async Task<List<Models.DTOs.PullRequest>> GetPullRequestsForRepo(string owner, string name)
 		{
 			_logger.LogTrace($"Sending request to Github for pull requests on repositoy: {name}");
 			var prs = await _client.PullRequest.GetAllForRepository(owner, name, new PullRequestRequest() { State = ItemStateFilter.All});
 
-			return prs.Select(pr => new Pr(pr.Number, pr.Url)).ToList();
+			return prs.Select(pr => new PullRequest(pr.Number, pr.Url)).ToList();
 		}
 	}
 }

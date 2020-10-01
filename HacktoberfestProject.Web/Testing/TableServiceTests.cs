@@ -22,8 +22,8 @@ namespace HacktoberfestProject.Web.Testing
         private User _user;
         private string _owner;
         private string _repositoryName;
-        private Pr _pr;
-        private ServiceResponse<IEnumerable<Pr>> _expectedResult;
+        private PullRequest _pr;
+        private ServiceResponse<IEnumerable<PullRequest>> _expectedResult;
 
         [SetUp]
         public void Setup()
@@ -32,12 +32,12 @@ namespace HacktoberfestProject.Web.Testing
             _owner = "SiliconOrchid";
             _repositoryName = "TheTestRepository";
 
-            _pr = new Pr(3, "http://test");
-            Repository repository = new Repository(_owner, _repositoryName, null, new List<Pr> { _pr });
+            _pr = new PullRequest(3, "http://test");
+            Repository repository = new Repository(_owner, _repositoryName, null, new List<PullRequest> { _pr });
             _user = new User(_username, new List<Repository> { repository });
-            _expectedResult = new ServiceResponse<IEnumerable<Pr>>
+            _expectedResult = new ServiceResponse<IEnumerable<PullRequest>>
             {
-                Content = new List<Pr> { _pr },
+                Content = new List<PullRequest> { _pr },
                 ServiceResponseStatus = ServiceResponseStatus.Ok,
                 Message = "test message"
             };
