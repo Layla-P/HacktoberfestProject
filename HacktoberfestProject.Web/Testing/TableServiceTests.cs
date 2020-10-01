@@ -80,7 +80,7 @@ namespace HacktoberfestProject.Web.Testing
         //}
 
         [Test]
-        public async Task GivenUsernameAndOwnerAndRepositoynameAndPr_ShouldReturn_ServiceResponse()
+        public async Task GivenUsernameAndOwnerAndRepositoynameAndUniquePr_ShouldReturn_ServiceResponseCreated()
         {
             _userRepository.Setup(e => e.ReadAsync(It.IsAny<User>()))
                 .ReturnsAsync(_user);
@@ -94,6 +94,23 @@ namespace HacktoberfestProject.Web.Testing
 
             Assert.That(result.Content, Is.EqualTo(pr));
             Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.Created));
+        }
+
+        [Test]
+        public async Task GivenUsernameAndOwnerAndRepositoynameAndDuplicatePr_ShouldReturn_ServiceResponseDuplicateFound()
+        {
+            _userRepository.Setup(e => e.ReadAsync(It.IsAny<User>()))
+                .ReturnsAsync(_user);
+
+            _userRepository.Setup(e => e.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(_user);
+
+            
+
+            var result = await _sut.AddPrByUsernameAsync(_username, _owner, _repositoryName, _pr);
+
+            Assert.That(result.Content, Is.EqualTo(_pr));
+            Assert.That(result.ServiceResponseStatus, Is.EqualTo(ServiceResponseStatus.DuplicateFound));
         }
     }
 }
