@@ -28,7 +28,10 @@ namespace HacktoberfestProject.Web.Models.Enums
 
         // typical expected usage: some minor or handled fault - would return an http200 ok, but supply an error message as the body - for example, a data problem where a business-rule could not be met, etc
         [Description("Failure, was Handled")]
-        FailHandled = 7
+        FailHandled = 7,
+
+        [Description("Duplicate Found")]
+        DuplicateFound = 8
 
     }
 }

@@ -40,7 +40,7 @@ namespace HacktoberfestProject.Web.Services
             else
             {
                 serviceResponse.Message = "Pr was already added!";
-                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.Ok;
+                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.DuplicateFound;
             }
 
             serviceResponse.Content = pr;
