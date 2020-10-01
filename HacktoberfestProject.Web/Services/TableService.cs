@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace HacktoberfestProject.Web.Services
         public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
         {
             var trackerEntry = new TrackerEntryEntity
-            { 
+            {
                 Username = username,
                 RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
                 Url = pr.Url
@@ -48,20 +49,45 @@ namespace HacktoberfestProject.Web.Services
 
             if (entities.Any())
             {
-                var user = new User(username);
-                foreach (var entity in entities.OrderBy(e => e.RowKey))
+                var user = new User(username, new List<Repository>());
+                foreach (var entity in entities)
                 {
+                    bool add = false;
                     var info = entity.RowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
                     if (info.Length != 3)
                     {
-                        // TODO: define how to proceed with this
+                        // TODO: define how to proceed with this.. this is corrupted data!
                         continue;
                     }
-                    var repo = new Repository(info[0], info[1], entity.Url);
-                    var prs = entities.Where(e => e.RowKey.StartsWith($"{info[0]}:{info[1]}"));
+                    var owner = info[0];
+                    var repoName = info[1];
+                    var prId = int.Parse(info[2]);
+
+                    Repository repo;
+                    var temp = user.RepositoryPrAddedTo
+                                   .FirstOrDefault(repo => repo.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
+                                                           repo.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
+                    if (temp != null)
+                    {
+                        repo = temp;
+                    }
+                    else 
+                    {
+                        repo = new Repository(owner, repoName, entity.Url, new List<PullRequest>());
+                        add = true;
+                    }
+                    var prs = entities.Where(e => e.RowKey.StartsWith($"{owner}:{repoName}", StringComparison.OrdinalIgnoreCase));
                     foreach (var pr in prs)
                     {
-                        repo.Prs.Add(new PullRequest(int.Parse(info[2]), entity.Url));
+                        var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
+                        if (!repo.Prs.Any(pr => pr.PrId == id))
+                        {
+                            repo.Prs.Add(new PullRequest(id, entity.Url));
+                        }
+                    }
+                    if (add)
+                    {
+                        user.RepositoryPrAddedTo.Add(repo);
                     }
                 }
 
