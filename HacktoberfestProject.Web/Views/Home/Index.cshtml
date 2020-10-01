@@ -1,41 +1,42 @@
 ﻿@model User
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <div class="text-center">
-            <h1>Welcome to the .NET PR Tracker!</h1>
-            <p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
-            <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
-            <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
-        </div>
+@if (!User.Identity.IsAuthenticated)
+{
+	<div class="text-center">
+		<h1>Welcome to the .NET PR Tracker!</h1>
+		<p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+		<p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+		<p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
+	</div>
 
-    }
-    else
-    {
-        <h1 class="display-4">Welcome @User.Identity.Name</h1>
-        if (Model != null)
-        {
-            <div class="text-center">
-                <p>Below is a list of all the pull requests you have logged:</p>
-                @foreach(var repo in Model.RepositoryPrAddedTo)
-                {
-                    <h5>@repo.Owner - @repo.Name</h5>
-                    <ul>
-                        @foreach (var pr in repo.Prs)
-                        {
-                            <li><a href="@pr.Url">@pr.PrId</a></li>
-                        }
-                    </ul>
-                }
-                @* this will bring back a list of PRs, if there are some. *@
-                <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
-            </div>
-        }
-        else
-        {
-            <h4>Hey there, we see you haven't registered yet. Do so now and start logging your PRs.</h4>
-        }
-    }
+}
+else
+{
+	<h1 class="display-4">Welcome @User.Identity.Name</h1>
+	if (Model != null)
+	{
+		<div class="text-center">
+			<p>Below is a list of all the pull requests you have logged:</p>
+			@foreach (var repo in Model.RepositoryPrAddedTo)
+			{
+				<h5>@repo.Owner - @repo.Name</h5>
+				<ul>
+					@foreach (var pr in repo.Prs)
+					{
+						<li><a href="@pr.Url">@pr.PrId</a></li>
+					}
+				</ul>
+			}
+			@* this will bring back a list of PRs, if there are some. *@
+			<a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+		</div>
+	}
+	else
+	{
+		<h4>Hey there, we see you haven't recorded any PR's yet. Please use the button below to add one!</h4>
+		<a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+	}
+}
