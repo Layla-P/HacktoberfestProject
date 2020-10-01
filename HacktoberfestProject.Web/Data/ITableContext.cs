@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Microsoft.Azure.Cosmos.Table;
 
@@ -11,5 +12,7 @@ namespace HacktoberfestProject.Web.Data
 		Task<T> RetrieveEnitityAsync<T>(T entity) where T : TableEntity;
 
 		Task<bool> DeleteEntity<T>(T entity) where T : TableEntity;
+
+		Task<IEnumerable<T>> GetEntities<T>(string partitionKey) where T : ITableEntity, new();
 	}
 }
