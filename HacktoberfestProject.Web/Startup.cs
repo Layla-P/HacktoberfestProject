@@ -34,12 +34,7 @@ namespace HacktoberfestProject.Web
             services.AddSingleton<ITableService, TableService>();
 
             services.AddControllersWithViews();
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
-
+            
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
 
@@ -53,15 +48,13 @@ namespace HacktoberfestProject.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseForwardedHeaders();
 
             }
-
+         
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthentication();
