@@ -8,6 +8,7 @@ using HacktoberfestProject.Web.Extensions.DependencyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace HacktoberfestProject.Web
 {
@@ -19,21 +20,10 @@ namespace HacktoberfestProject.Web
         }
 
         public IConfiguration Configuration { get; }
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("https://www.prtracker.net");
-                                  });
-            });
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CosmosDB Table API
             services.Configure<TableConfiguration>(Configuration.GetSection("CosmosTableStorage"));
@@ -44,6 +34,12 @@ namespace HacktoberfestProject.Web
             services.AddSingleton<ITableService, TableService>();
 
             services.AddControllersWithViews();
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
 
@@ -57,15 +53,16 @@ namespace HacktoberfestProject.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-               
+                app.UseForwardedHeaders();
+
             }
 
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
