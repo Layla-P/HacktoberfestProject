@@ -1,5 +1,5 @@
-name: Deploy ASP.NET Core Website
-
+name: Deploy ASP.NET Core Website Test Slot
+ 
 on:
   push:
     branches: [ dev ]
