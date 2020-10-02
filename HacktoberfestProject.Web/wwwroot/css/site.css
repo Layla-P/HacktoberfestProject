@@ -12,6 +12,10 @@ a {
   color: #0366d6;
 }
 
+.error-txt {
+    color: red;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

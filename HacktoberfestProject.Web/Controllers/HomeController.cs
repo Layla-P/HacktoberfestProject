@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.DTOs;
 using HacktoberfestProject.Web.Services;
+using HacktoberfestProject.Web.ViewModels;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -33,7 +34,7 @@ namespace HacktoberfestProject.Web.Controllers
             User user = null;
             if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
+                var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType)?.Value;
                 var response = await _tableService.GetUserAsync(username);
 
                 if (response.ServiceResponseStatus == Models.Enums.ServiceResponseStatus.Ok)
@@ -48,12 +49,26 @@ namespace HacktoberfestProject.Web.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            //How to access claims -left here for reference
-            ViewBag.Username = _contextAccessor.HttpContext.User
-                .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
-
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(AddPrViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Add", vm);
+            }
+
+            vm.UserName = _contextAccessor.HttpContext.User
+                .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType)?.Value;
+
+            await _tableService.AddPrAsync(vm.UserName, vm.Owner, 
+                vm.Repository, new PullRequest(vm.PrNumber, vm.PrUrl));
+
+            return Redirect("Add");
+        } 
 
         public IActionResult Privacy()
         {
