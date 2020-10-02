@@ -67,7 +67,7 @@ namespace HacktoberfestProject.Web.Controllers
             await _tableService.AddPrAsync(vm.UserName, vm.Owner, 
                 vm.Repository, new PullRequest(vm.PrNumber, vm.PrUrl));
 
-            return Redirect("Add");
+            return RedirectToAction("Index");
         } 
 
         public IActionResult Privacy()

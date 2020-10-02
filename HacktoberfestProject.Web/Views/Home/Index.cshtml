@@ -39,7 +39,7 @@ else
             @foreach (var repo in Model.RepositoryPrAddedTo)
             {
                 <h5>@repo.Owner - @repo.Name</h5>
-                <ul>
+                <ul id="Prs">
                     @foreach (var pr in repo.Prs)
                     {
                         <li><a href="@pr.Url">Pull Request @pr.PrId</a></li>
