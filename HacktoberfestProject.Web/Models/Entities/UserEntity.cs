@@ -60,7 +60,7 @@ namespace HacktoberfestProject.Web.Models.Entities
                                 userEntity.RepositoryPrAddedTo?.Select(repo => new Repository(repo.Owner,
                                                                                              repo.Name,
                                                                                              null,
-                                                                                             repo.PrEntities?.Select(pr => new Pr(pr.PrId, pr.Url)).ToList())
+                                                                                             repo.PrEntities?.Select(pr => new PullRequest(pr.PrId, pr.Url)).ToList())
                                                                      ).ToList());
             }
         }

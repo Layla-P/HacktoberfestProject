@@ -10,7 +10,7 @@ namespace HacktoberfestProject.Web.Models.DTOs
 
 		public User(string username, List<Repository> repositoryPrAddedTo = null)
 		{
-			RepositoryPrAddedTo = repositoryPrAddedTo;
+			RepositoryPrAddedTo = repositoryPrAddedTo ?? new List<Repository>();
 			Username = username;
 		}
 	}
