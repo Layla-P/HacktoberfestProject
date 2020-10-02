@@ -19,10 +19,21 @@ namespace HacktoberfestProject.Web
         }
 
         public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://www.prtracker.net");
+                                  });
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CosmosDB Table API
             services.Configure<TableConfiguration>(Configuration.GetSection("CosmosTableStorage"));
@@ -54,6 +65,7 @@ namespace HacktoberfestProject.Web
             }
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
