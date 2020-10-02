@@ -1,7 +1,34 @@
-﻿
+﻿@model AddPrViewModel
+
 @{
-    ViewData["Title"] = "Test";
+    ViewData["Title"] = "Add PR";
 }
 
-<h1>Hello @ViewBag.Username</h1>
+<h1>Add PR</h1>
 
+<form asp-controller="Home" asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="Owner"></label>
+        <input asp-for="Owner" class="form-control w-25" />
+        <span asp-validation-for="Owner" class="error-txt"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Repository"></label>
+        <input asp-for="Repository" class="form-control w-25" />
+        <span asp-validation-for="Repository" class="error-txt"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PrNumber"></label>
+        <input asp-for="PrNumber" class="form-control w-25" />
+        <span asp-validation-for="PrNumber" class="error-txt"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PrUrl"></label>
+        <input asp-for="PrUrl" class="form-control w-25" />
+        <span asp-validation-for="PrUrl" class="error-txt"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="button" 
+            class="btn btn-secondary"
+            onclick="window.location.href='/'">Cancel</button>
+</form>
