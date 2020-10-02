@@ -3,7 +3,7 @@ name: Deploy ASP.NET Core Website
 on:
   push:
     branches:
-      - main
+      - dev
 
 env:
     AZURE_WEBAPP_NAME: 'prtrackerweb'
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@main
+      - uses: actions/checkout@dev
 
       - name: Login using Azure CLI
         uses: azure/login@v1
@@ -36,4 +36,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: 'test'
           package: '${{ env.AZURE_WEBAPP_PATH }}/prtrackerweb_artifacts'
