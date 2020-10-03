@@ -1,0 +1,39 @@
+name: Deploy ASP.NET Core Website
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+    AZURE_WEBAPP_NAME: 'prtrackerweb'
+    AZURE_WEBAPP_PATH: '.'
+    DOTNET_VERSION: '3.1.100'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@main
+
+      - name: Login using Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Build and Publish
+        run: |
+          dotnet build --configuration release
+          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PATH }}/prtrackerweb_artifacts'
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: '${{ env.AZURE_WEBAPP_PATH }}/prtrackerweb_artifacts'

@@ -12,6 +12,10 @@ a {
   color: #0366d6;
 }
 
+.error-txt {
+    color: red;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -69,3 +73,11 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/*Pr List
+ --------------------------------------------------*/
+
+#Prs { 
+    list-style:none;
+ }

@@ -1,27 +1,58 @@
-﻿@{
+﻿@model User
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1>Welcome to the .NET PR Tracker!</h1>
+        <p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+        <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+        <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
+    </div>
+    <hr />
+    <div>
+        <p>If you are unsure where to start, you can start with PRs to this actual site! This site has been left intentionally bare-bones and somewhat devoid of style so the community can have fun with it! </p>
+        <p>The Repo can be found <a href="https://github.com/Layla-P/HacktoberfestProject">https://github.com/Layla-P/HacktoberfestProject</a></p>
+    </div>
+    <div>
+        <p>Community member and MVP <a href="">Luce Carter</a>has created this video on how to make a PR</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/DoS_VKM542Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+    </div>
+    <div>
+        <p>Join the community channel on <a href="https://discord.gg/dvcMTyy">discord.</a></p>
+    </div>
+    <div>
+        <p>Checkout this <a href="https://blog.jetbrains.com/dotnet/2020/09/30/hacktoberfest-2020-and-net-oss/?utm_source=twitter&utm_medium=referral&utm_campaign=resharper&utm_content=hacktober">blog from the JetBrains</a> crew with some cool suggestions for open source .NET projects to work on.</p>
+    </div>
 
-
-    @if (!User.Identity.IsAuthenticated)
+}
+else
+{
+    <h1 class="display-4">Welcome @User.Identity.Name</h1>
+    if (Model != null)
     {
         <div class="text-center">
-            <h1>Welcome to the .NET PR Tracker!</h1>
-            <p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
-            <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
-            <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
-        </div>
-
-    }
-    else
-    {
-        <div class="text-center">
-            <h1 class="display-4">Welcome @User.Identity.Name</h1>
-            <p>Below is a list of all the pull requests you have logged </p>
+            <p>Below is a list of all the pull requests you have logged:</p>
+            @foreach (var repo in Model.RepositoryPrAddedTo)
+            {
+                <h5>@repo.Owner - @repo.Name</h5>
+                <ul id="Prs">
+                    @foreach (var pr in repo.Prs)
+                    {
+                        <li><a href="@pr.Url">Pull Request @pr.PrId</a></li>
+                    }
+                </ul>
+            }
             @* this will bring back a list of PRs, if there are some. *@
             <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
         </div>
     }
-
+    else
+    {
+        <h4>Hey there, we see you haven't recorded any PR's yet. Please use the button below to add one!</h4>
+        <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+    }
+}

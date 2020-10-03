@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using HacktoberfestProject.Web.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using HacktoberfestProject.Web.Models;
+using HacktoberfestProject.Web.Models.DTOs;
+using HacktoberfestProject.Web.Services;
+using HacktoberfestProject.Web.ViewModels;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -16,31 +18,57 @@ namespace HacktoberfestProject.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ITableService _tableService;
         private const string GitHubUsernameClaimType = "urn:github:login";
         private const string EmailClaimType = "urn:github:email";
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor, ITableService tableService)
         {
-            
             _logger = logger;
             _contextAccessor = contextAccessor;
+            _tableService = tableService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            User user = null;
+            if (_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var username = _contextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType)?.Value;
+                var response = await _tableService.GetUserAsync(username);
+
+                if (response.ServiceResponseStatus == Models.Enums.ServiceResponseStatus.Ok)
+                {
+                    user = response.Content;
+                }
+            }
+            return View(user);
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
-               //How to access claims - left here for reference         
-            //ViewBag.Username = _contextAccessor.HttpContext.User
-            //    .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType).Value;
-
-            
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(AddPrViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Add", vm);
+            }
+
+            vm.UserName = _contextAccessor.HttpContext.User
+                .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType)?.Value;
+
+            await _tableService.AddPrAsync(vm.UserName, vm.Owner, 
+                vm.Repository, new PullRequest(vm.PrNumber, vm.PrUrl));
+
+            return RedirectToAction("Index");
+        } 
 
         public IActionResult Privacy()
         {
