@@ -8,6 +8,7 @@ using HacktoberfestProject.Web.Extensions.DependencyInjection;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace HacktoberfestProject.Web
 {
@@ -33,6 +34,7 @@ namespace HacktoberfestProject.Web
             services.AddSingleton<ITableService, TableService>();
 
             services.AddControllersWithViews();
+            
             services.AddGithubOauthAuthentication(Configuration);
             services.AddLogging();
 
@@ -50,9 +52,9 @@ namespace HacktoberfestProject.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-               
-            }
 
+            }
+         
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthentication();
