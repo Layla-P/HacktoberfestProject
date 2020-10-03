@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using HacktoberfestProject.Web.Extensions.DependencyInjection;
+using HacktoberfestProject.Web.Extensions;
 using HacktoberfestProject.Web.Data.Configuration;
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Services;
-using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace HacktoberfestProject.Web
 {
@@ -45,14 +45,17 @@ namespace HacktoberfestProject.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var options = new RewriteOptions();
+            options.AddRedirectToApex();
+            app.UseRewriter(options);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-
+                app.UseExceptionHandler("/Home/Error");               
             }
          
             app.UseRouting();
