@@ -17,10 +17,33 @@
         <p>The Repo can be found <a href="https://github.com/Layla-P/HacktoberfestProject">https://github.com/Layla-P/HacktoberfestProject</a></p>
     </div>
     <div>
-        <p>Community member and MVP <a href="">Luce Carter</a>has created this video on how to make a PR</p>
+        <p>Community member and MVP <a href="">Luce Carter</a> has created this video on how to make a PR</p>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/DoS_VKM542Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
     </div>
+    <div>
+        <h5>New to .NET and C#?</h5>
+
+        <p> .NET Core is open source and cross platform.</p>
+
+        <ul>
+            <li>
+                <a href="https://docs.microsoft.com/en-us/dotnet/standard/get-started">Getting started with .NET and C#</a>
+            </li>
+            <li>
+                <a href="https://docs.microsoft.com/en-us/dotnet/core/install/">Installing .NET on your machine</a>
+            </li>
+            <li>
+                <a href="https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt">C# for absolute beginners video</a>
+            </li>
+        </ul>
+
+        <h5>I'm a front end developer, can I help?</h5>
+        <p>Yes!</p>
+        <p>Many .NET project such as this one have plenty of front-endy stuff whether you tinker with HTML and CSS or you're a full-blown JavaScript developer.
+        We welcome your input that's why this site started off looking so ugly and janky!</p>
+    </div>
+    <hr/>
     <div>
         <p>Join the community channel on <a href="https://discord.gg/dvcMTyy">discord.</a></p>
     </div>
@@ -39,7 +62,7 @@ else
             @foreach (var repo in Model.RepositoryPrAddedTo)
             {
                 <h5>@repo.Owner - @repo.Name</h5>
-                <ul>
+                <ul id="Prs">
                     @foreach (var pr in repo.Prs)
                     {
                         <li><a href="@pr.Url">Pull Request @pr.PrId</a></li>

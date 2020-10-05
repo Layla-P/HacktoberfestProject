@@ -10,6 +10,18 @@ Be sure to check the wiki for more information too!
 This project currently uses Table storage for persisting data. To allow for development of this application we are using Cosmos DB Emulator
 with Table storage API.
 
+
+### New to .NET and C#?
+
+.NET Core is open source and cross platform.
+
+* [Getting started with .NET and C#](https://docs.microsoft.com/en-us/dotnet/standard/get-started)
+* [Installing .NET on your machine](https://docs.microsoft.com/en-us/dotnet/core/install/)
+* [C# for absolute beginners video](https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt)
+
+Come hang out in the Doscord and we'll help you!
+
+
 ##### [Emulator download and install instructions](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=cli%2Cssl-netstd21)
 
 ##### Emulator Configuration
