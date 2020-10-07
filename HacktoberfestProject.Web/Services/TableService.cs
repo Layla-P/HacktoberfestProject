@@ -52,31 +52,23 @@ namespace HacktoberfestProject.Web.Services
                 var user = new User(username, new List<Repository>());
                 foreach (var entity in entities)
                 {
-                    bool add = false;
-                    var info = entity.RowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
-                    if (info.Length != 3)
-                    {
-                        // TODO: define how to proceed with this.. this is corrupted data!
-                        continue;
-                    }
-                    var owner = info[0];
-                    var repoName = info[1];
-                    var prId = int.Parse(info[2]);
-
                     Repository repo;
+                    bool addToList = false;
+
+                    var info = GetInfo(entity.RowKey);
                     var temp = user.RepositoryPrAddedTo
-                                   .FirstOrDefault(repo => repo.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
-                                                           repo.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
+                                   .FirstOrDefault(repo => repo.Owner.Equals(info.Owner, StringComparison.OrdinalIgnoreCase) &&
+                                                           repo.Name.Equals(info.RepoName, StringComparison.OrdinalIgnoreCase));
                     if (temp != null)
                     {
                         repo = temp;
                     }
                     else 
                     {
-                        repo = new Repository(owner, repoName, entity.Url, new List<PullRequest>());
-                        add = true;
+                        repo = new Repository(info.Owner, info.RepoName, entity.Url, new List<PullRequest>());
+                        addToList = true;
                     }
-                    var prs = entities.Where(e => e.RowKey.StartsWith($"{owner}:{repoName}", StringComparison.OrdinalIgnoreCase));
+                    var prs = entities.Where(e => e.RowKey.StartsWith($"{info.Owner}:{info.RepoName}", StringComparison.OrdinalIgnoreCase));
                     foreach (var pr in prs)
                     {
                         var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
@@ -85,7 +77,7 @@ namespace HacktoberfestProject.Web.Services
                             repo.Prs.Add(new PullRequest(id, entity.Url));
                         }
                     }
-                    if (add)
+                    if (addToList)
                     {
                         user.RepositoryPrAddedTo.Add(repo);
                     }
@@ -99,6 +91,12 @@ namespace HacktoberfestProject.Web.Services
             }
 
             return serviceResponse;
+        }
+
+        private (string Owner, string RepoName) GetInfo(string rowKey)
+        {
+            var info = rowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            return (info[0], info[1]);
         }
     }
 }
