@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 
 using HacktoberfestProject.Web.Tools;
+using System;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -67,6 +68,75 @@ namespace HacktoberfestProject.Web.Services
                 Content = searchResults.Take(limit),
                 ServiceResponseStatus = ServiceResponseStatus.Ok
             };
+        }
+
+        public async Task<ServiceResponse<PrStatus?>> ValidatePrStatus(string owner, string repo, int id)
+        {
+            /*
+             * PRs count if:
+             *       Submitted in a repo with the hacktoberfest topic AND
+             *       during the month of October AND (
+             *         The PR is merged OR
+             *         The PR is labelled as hacktoberfest-accepted by a maintainer OR
+             *         The PR has been approved
+             *       )
+             */
+
+            var serviceResponse = new ServiceResponse<PrStatus?> { Content = PrStatus.Valid, ServiceResponseStatus = ServiceResponseStatus.Ok };
+
+            try
+            {
+
+                var repoTags = await _client.Repository.GetAllTags(owner, repo);
+                if (!repoTags.Any(rt => rt.Name == "hacktoberfest"))
+                {
+                    serviceResponse.Content = PrStatus.TopicInvalid;
+                }
+
+                var pr = await _client.PullRequest.Get(owner, repo, id);
+                if (!(pr.CreatedAt.Year == 2020 && pr.CreatedAt.Date.Month == 10))
+                {
+                    serviceResponse.Content = PrStatus.InvalidDate;
+                }
+
+
+                if (!(pr.Merged || pr.Labels.Any(l => l.Name.ToLower() == "hacktoberfest-accepted") || await PrIsApproved(owner, repo, id)))
+                {
+                    serviceResponse.Content = PrStatus.Awaiting;
+                }
+
+                if (!pr.Merged && pr.State == ItemState.Closed)
+                {
+                    serviceResponse.Content = PrStatus.Invalid;
+                }
+
+                return serviceResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"Failed to aquire data");
+                serviceResponse.Content = null;
+                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.BadRequest;
+                return serviceResponse;
+
+            }
+        }
+
+        private async Task<bool> PrIsApproved(string owner, string repo, int id)
+        {
+            var commits = await _client.PullRequest.Commits(owner, repo, id);
+            var reviews = await _client.PullRequest.Review.GetAll(owner, repo, id);
+
+
+            var latestReview = reviews[0].SubmittedAt;
+            var latestCommit = commits[0].Commit.Author.Date;
+
+
+            if (latestReview > latestCommit)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

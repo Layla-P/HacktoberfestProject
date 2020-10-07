@@ -15,20 +15,30 @@ namespace HacktoberfestProject.Web.Services
     public class TableService : ITableService
     {
         private readonly ITableContext _tableContext;
+        private readonly IGithubService _githubService;
 
-        public TableService(ITableContext tableContext)
+        public TableService(ITableContext tableContext, IGithubService githubService)
         {
             NullChecker.IsNotNull(tableContext, nameof(tableContext));
             _tableContext = tableContext;
+            _githubService = githubService;
         }
 
         public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
         {
+            PrStatus? dbStatus = null;
+            if (pr.Status == PrStatus.Valid)
+            {
+                dbStatus = pr.Status;
+            }
+
             var trackerEntry = new TrackerEntryEntity
             {
                 Username = username,
                 RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
-                Url = pr.Url
+                Url = pr.Url,
+                Status = dbStatus
+                
             };
             await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
             var serviceResponse = new ServiceResponse<PullRequest>
@@ -74,7 +84,16 @@ namespace HacktoberfestProject.Web.Services
                         var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
                         if (!repo.Prs.Any(pr => pr.PrId == id))
                         {
-                            repo.Prs.Add(new PullRequest(id, entity.Url));
+                            if (entity.Status is null)
+                            {
+                                var response = await ValidatePrStatus(repo.Owner, repo.Name, id);
+                                repo.Prs.Add(new PullRequest(id, entity.Url, response));
+                            }
+                            else
+                            {
+                                repo.Prs.Add(new PullRequest(id, entity.Url, entity.Status));
+                            }
+                            
                         }
                     }
                     if (addToList)
@@ -98,5 +117,19 @@ namespace HacktoberfestProject.Web.Services
             var info = rowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
             return (info[0], info[1]);
         }
+
+        private async Task<PrStatus?> ValidatePrStatus(string owner, string repo, int id)
+        {
+
+            var response = await _githubService.ValidatePrStatus(owner, repo, id);
+
+            if (response.ServiceResponseStatus == ServiceResponseStatus.Ok)
+            {
+                return response.Content;
+            }
+
+            return null;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using HacktoberfestProject.Web.Models.Enums;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace HacktoberfestProject.Web.Models.Entities
 {
@@ -12,5 +13,6 @@ namespace HacktoberfestProject.Web.Models.Entities
         }
 
         public string Url { get; set; }
+        public PrStatus? Status { get; set; }
     }
 }
