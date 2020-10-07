@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HacktoberfestProject.Web.Models.Enums;
+using HacktoberfestProject.Web.Models.Helpers;
 using Microsoft.Extensions.Logging;
 using Octokit;
 
@@ -35,7 +37,7 @@ namespace HacktoberfestProject.Web.Services
             return prs.Select(pr => new Models.DTOs.PullRequest(pr.Number, pr.Url)).ToList();
         }
 
-        public async Task<IEnumerable<string>> SearchOwners(string owner)
+        public async Task<ServiceResponse<IEnumerable<string>>> SearchOwners(string owner, int limit)
         {
             var searchResults = new List<string>();
 
@@ -48,11 +50,23 @@ namespace HacktoberfestProject.Web.Services
                     In = new[] { UserInQualifier.Username }
                 });
 
-                NullChecker.IsNotNull(users, nameof(users));
+                if (users == null || !users.Items.Any())
+                {
+                    return new ServiceResponse<IEnumerable<string>>
+                    {
+                        ServiceResponseStatus = ServiceResponseStatus.NotFound,
+                        Message = $"No results found for search term {owner}!"
+                    };
+                }
+
                 users.Items.ToList().ForEach(u => searchResults.Add(u.Login));
             }
 
-            return searchResults;
+            return new ServiceResponse<IEnumerable<string>>
+            {
+                Content = searchResults.Take(limit),
+                ServiceResponseStatus = ServiceResponseStatus.Ok
+            };
         }
     }
 }

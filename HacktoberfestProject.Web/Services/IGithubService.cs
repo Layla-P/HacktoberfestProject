@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HacktoberfestProject.Web.Models.Helpers;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -9,6 +10,6 @@ namespace HacktoberfestProject.Web.Services
 	{
 		Task<List<PullRequest>> GetPullRequestsForRepo(string owner, string name);
 		Task<List<Repository>> GetRepos(string owner);
-        Task<IEnumerable<string>> SearchOwners(string owner);
+        Task<ServiceResponse<IEnumerable<string>>> SearchOwners(string owner, int limit);
     }
 }
