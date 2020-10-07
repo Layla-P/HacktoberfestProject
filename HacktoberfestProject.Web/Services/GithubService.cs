@@ -48,7 +48,8 @@ namespace HacktoberfestProject.Web.Services
                     In = new[] { UserInQualifier.Username }
                 });
 
-                users?.Items.ToList().ForEach(u => searchResults.Add(u.Login));
+                NullChecker.IsNotNull(users, nameof(users));
+                users.Items.ToList().ForEach(u => searchResults.Add(u.Login));
             }
 
             return searchResults;
