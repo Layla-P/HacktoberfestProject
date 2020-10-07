@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HacktoberfestProject.Web.Extensions.Rules
 {
@@ -26,7 +24,6 @@ namespace HacktoberfestProject.Web.Extensions.Rules
                 context.Result = RuleResult.EndResponse;
             }
             context.Result = RuleResult.ContinueRules;
-            return;
         }
     }
 }
