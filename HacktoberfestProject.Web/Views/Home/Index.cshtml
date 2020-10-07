@@ -73,7 +73,7 @@ else
         <ul id="Prs">
           @foreach (var pr in repo.Prs)
           {
-            <li><a href="@pr.Url">Pull Request @pr.PrId</a></li>
+            <li><a href="@pr.Url">Pull Request @pr.PrId</a> Status: @pr.Status</li>
           }
         </ul>
       }

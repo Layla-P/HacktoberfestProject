@@ -20,6 +20,7 @@ namespace HacktoberfestProject.Web.Services
         public TableService(ITableContext tableContext, IGithubService githubService)
         {
             NullChecker.IsNotNull(tableContext, nameof(tableContext));
+            NullChecker.IsNotNull(githubService, nameof(githubService));
             _tableContext = tableContext;
             _githubService = githubService;
         }

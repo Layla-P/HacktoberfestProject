@@ -86,13 +86,6 @@ namespace HacktoberfestProject.Web.Services
 
             try
             {
-
-                var repoTags = await _client.Repository.GetAllTags(owner, repo);
-                if (!repoTags.Any(rt => rt.Name == "hacktoberfest"))
-                {
-                    serviceResponse.Content = PrStatus.TopicInvalid;
-                }
-
                 var pr = await _client.PullRequest.Get(owner, repo, id);
                 if (!(pr.CreatedAt.Year == 2020 && pr.CreatedAt.Date.Month == 10))
                 {
