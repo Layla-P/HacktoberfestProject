@@ -29,10 +29,29 @@ namespace HacktoberfestProject.Web.Services
 
         public async Task<List<Models.DTOs.PullRequest>> GetPullRequestsForRepo(string owner, string name)
         {
-            _logger.LogTrace($"Sending request to Github for pull requests on repositoy: {name}");
+            _logger.LogTrace($"Sending request to Github for pull requests on repository: {name}");
             var prs = await _client.PullRequest.GetAllForRepository(owner, name, new PullRequestRequest() { State = ItemStateFilter.All });
 
             return prs.Select(pr => new Models.DTOs.PullRequest(pr.Number, pr.Url)).ToList();
+        }
+
+        public async Task<IEnumerable<string>> SearchOwners(string owner)
+        {
+            var searchResults = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(owner))
+            {
+                _logger.LogTrace($"Sending request to Github for owners like: {owner}");
+                var users = await _client.Search.SearchUsers(new SearchUsersRequest(owner)
+                {
+                    AccountType = AccountSearchType.User,
+                    In = new[] { UserInQualifier.Username }
+                });
+
+                users?.Items.ToList().ForEach(u => searchResults.Add(u.Login));
+            }
+
+            return searchResults;
         }
     }
 }

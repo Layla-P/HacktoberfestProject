@@ -9,5 +9,6 @@ namespace HacktoberfestProject.Web.Services
 	{
 		Task<List<PullRequest>> GetPullRequestsForRepo(string owner, string name);
 		Task<List<Repository>> GetRepos(string owner);
-	}
+        Task<IEnumerable<string>> SearchOwners(string owner);
+    }
 }
