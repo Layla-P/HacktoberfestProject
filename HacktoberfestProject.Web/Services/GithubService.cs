@@ -81,8 +81,12 @@ namespace HacktoberfestProject.Web.Services
              *         The PR has been approved
              *       )
              */
+            bool dateValid = false;
+            bool mergeValid = false;
+            bool stateValid = false;
 
-            var serviceResponse = new ServiceResponse<PrStatus?> { Content = PrStatus.Valid, ServiceResponseStatus = ServiceResponseStatus.Ok };
+
+            var serviceResponse = new ServiceResponse<PrStatus?> {  ServiceResponseStatus = ServiceResponseStatus.BadRequest};
 
             try
             {
@@ -91,28 +95,47 @@ namespace HacktoberfestProject.Web.Services
                 {
                     serviceResponse.Content = PrStatus.InvalidDate;
                 }
+                else
+                {
+                    dateValid = true;
+                }
 
 
                 if (!(pr.Merged || pr.Labels.Any(l => l.Name.ToLower() == "hacktoberfest-accepted") || await PrIsApproved(owner, repo, id)))
                 {
+
                     serviceResponse.Content = PrStatus.Awaiting;
+                }
+                else
+                {
+                    mergeValid = true;
                 }
 
                 if (!pr.Merged && pr.State == ItemState.Closed)
                 {
                     serviceResponse.Content = PrStatus.Invalid;
                 }
+                else
+                {
+                    stateValid = true;
 
-                return serviceResponse;
+                }
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex,"Failed to aquire data");
-                serviceResponse.Content = null;
-                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.BadRequest;
-                return serviceResponse;
 
             }
+
+            if (dateValid && mergeValid && stateValid)
+            {
+                serviceResponse.Content = PrStatus.Valid;
+                serviceResponse.ServiceResponseStatus = ServiceResponseStatus.Ok;
+
+            }
+
+            return serviceResponse;
         }
 
         private async Task<bool> PrIsApproved(string owner, string repo, int id)
