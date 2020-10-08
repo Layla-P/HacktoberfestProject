@@ -1,33 +1,33 @@
 ﻿using System;
 
-using Xunit;
-
 using HacktoberfestProject.Web.Tools;
+
+using Xunit;
 
 namespace HacktoberfestProject.Tests.Tools
 {
-    public class NullCheckerTests
-    {
-        #region Fields
+	public class NullCheckerTests
+	{
+		#region Fields
 
-        private static object _nullValue = null;
-        private static object _nonNullValue = new object();
+		private static object _nullValue = null;
+		private static object _nonNullValue = new object();
 
-        #endregion
+		#endregion
 
-        [Fact]
-        public void IsNotNull_WithArgumentValueNull_ShouldThrowArgumentNullException()
-        {
-            var exception = Assert.Throws<ArgumentNullException>(() => NullChecker.IsNotNull(_nullValue, nameof(_nullValue)));
+		[Fact]
+		public void IsNotNull_WithArgumentValueNull_ShouldThrowArgumentNullException()
+		{
+			var exception = Assert.Throws<ArgumentNullException>(() => NullChecker.IsNotNull(_nullValue, nameof(_nullValue)));
 
-            Assert.Equal(nameof(_nullValue), exception.ParamName);
-        }
+			Assert.Equal(nameof(_nullValue), exception.ParamName);
+		}
 
-        [Fact]
-        public void IsNotNull_WithArgumentValueNotNull_ShouldNotThrowArgumentNullException()
-        {
-            NullChecker.IsNotNull(_nonNullValue, nameof(_nonNullValue));
-            //The fact the testcase was executed up until here means it was successful
-        }
-    }
+		[Fact]
+		public void IsNotNull_WithArgumentValueNotNull_ShouldNotThrowArgumentNullException()
+		{
+			NullChecker.IsNotNull(_nonNullValue, nameof(_nonNullValue));
+			//The fact the testcase was executed up until here means it was successful
+		}
+	}
 }
