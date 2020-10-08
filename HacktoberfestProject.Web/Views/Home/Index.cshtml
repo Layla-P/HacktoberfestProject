@@ -1,4 +1,4 @@
-﻿@model User
+@model User
 @{
   ViewData["Title"] = "Home Page";
 }
@@ -73,7 +73,9 @@ else
         <ul id="Prs">
           @foreach (var pr in repo.Prs)
           {
+
             <li><a href="@pr.Url">Pull Request @pr.PrId</a> <span pr-id="@pr.PrId" repo-owner ="@repo.Owner" repo-name="@repo.Name"  class="badge badge-light"> </span>   </li>
+
           }
         </ul>
       }
