@@ -2,11 +2,11 @@
 
 namespace HacktoberfestProject.Web.Models.DTOs
 {
-    public class Repository
+	public class Repository
 	{
 		public string Owner { get; set; }
 		public string Name { get; set; }
-		public string Url {get;set;}
+		public string Url { get; set; }
 		public List<PullRequest> Prs { get; set; }
 
 		public Repository(string owner, string name, string url = null, List<PullRequest> prs = null)

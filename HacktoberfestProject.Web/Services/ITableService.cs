@@ -5,10 +5,10 @@ using HacktoberfestProject.Web.Models.Helpers;
 
 namespace HacktoberfestProject.Web.Services
 {
-    public interface ITableService
-    {
-        Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr);
+	public interface ITableService
+	{
+		Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr);
 
-        Task<ServiceResponse<User>> GetUserAsync(string username);
-    }
+		Task<ServiceResponse<User>> GetUserAsync(string username);
+	}
 }

@@ -1,7 +1,7 @@
 {
-  "dependencies": {
-    "secrets1": {
-      "type": "secrets"
-    }
-  }
+	"dependencies": {
+		"secrets1": {
+			"type": "secrets"
+		}
+	}
 }

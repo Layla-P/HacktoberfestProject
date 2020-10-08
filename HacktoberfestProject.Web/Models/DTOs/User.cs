@@ -2,7 +2,7 @@
 
 namespace HacktoberfestProject.Web.Models.DTOs
 {
-    public class User
+	public class User
 	{
 		public string Username { get; set; }
 
