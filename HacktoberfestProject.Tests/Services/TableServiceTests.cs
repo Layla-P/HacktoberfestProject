@@ -44,9 +44,17 @@ namespace HacktoberfestProject.Tests.Services
         [Fact]
         public void GivenNullUserRepository_Should_ThrowException()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => new TableService(null,null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new TableService(null,_githubService.Object));
             Assert.Equal("Value cannot be null. (Parameter 'tableContext')", ex.Message);
         }
+
+        [Fact]
+        public void GivenNullGithubService_Should_ThrowException()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() => new TableService(_tableContext.Object,null));
+            Assert.Equal("Value cannot be null. (Parameter 'githubService')", ex.Message);
+        }
+
 
         [Fact]
         public async Task GivenUsername_ShouldReturn_ServiceResponse()
