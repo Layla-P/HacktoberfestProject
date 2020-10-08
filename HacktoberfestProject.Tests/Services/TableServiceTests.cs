@@ -17,6 +17,7 @@ namespace HacktoberfestProject.Tests.Services
 	public class TableServiceTests
 	{
 		readonly Mock<ITableContext> _tableContext;
+		readonly Mock<IGithubService> _githubService;
 		readonly ITableService _sut;
 
 		private readonly User _user;
@@ -36,16 +37,25 @@ namespace HacktoberfestProject.Tests.Services
 			};
 
 			_tableContext = new Mock<ITableContext>(MockBehavior.Strict);
-			_sut = new TableService(_tableContext.Object);
+			_githubService = new Mock<IGithubService>(MockBehavior.Strict);
+			_sut = new TableService(_tableContext.Object, _githubService.Object);
 		}
 
 
 		[Fact]
 		public void GivenNullUserRepository_Should_ThrowException()
 		{
-			var ex = Assert.Throws<ArgumentNullException>(() => new TableService(null));
+			var ex = Assert.Throws<ArgumentNullException>(() => new TableService(null, _githubService.Object));
 			Assert.Equal("Value cannot be null. (Parameter 'tableContext')", ex.Message);
 		}
+
+		[Fact]
+		public void GivenNullGithubService_Should_ThrowException()
+		{
+			var ex = Assert.Throws<ArgumentNullException>(() => new TableService(_tableContext.Object, null));
+			Assert.Equal("Value cannot be null. (Parameter 'githubService')", ex.Message);
+		}
+
 
 		[Fact]
 		public async Task GivenUsername_ShouldReturn_ServiceResponse()

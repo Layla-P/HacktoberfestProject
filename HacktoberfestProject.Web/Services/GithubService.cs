@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,6 +69,91 @@ namespace HacktoberfestProject.Web.Services
 				Content = searchResults.Take(limit),
 				ServiceResponseStatus = ServiceResponseStatus.Ok
 			};
+		}
+
+		public async Task<ServiceResponse<PrStatus?>> ValidatePrStatus(string owner, string repo, int id)
+		{
+			/*
+             * PRs count if:
+             *       Submitted in a repo with the hacktoberfest topic AND
+             *       during the month of October AND (
+             *         The PR is merged OR
+             *         The PR is labelled as hacktoberfest-accepted by a maintainer OR
+             *         The PR has been approved
+             *       )
+             */
+			bool dateValid = false;
+			bool mergeValid = false;
+			bool stateValid = false;
+
+
+			var serviceResponse = new ServiceResponse<PrStatus?> { ServiceResponseStatus = ServiceResponseStatus.BadRequest };
+
+			try
+			{
+				var pr = await _client.PullRequest.Get(owner, repo, id);
+				if (!(pr.CreatedAt.Year == 2020 && pr.CreatedAt.Date.Month == 10))
+				{
+					serviceResponse.Content = PrStatus.InvalidDate;
+				}
+				else
+				{
+					dateValid = true;
+				}
+
+
+				if (!(pr.Merged || pr.Labels.Any(l => l.Name.ToLower() == "hacktoberfest-accepted") || await PrIsApproved(owner, repo, id)))
+				{
+
+					serviceResponse.Content = PrStatus.Awaiting;
+				}
+				else
+				{
+					mergeValid = true;
+				}
+
+				if (!pr.Merged && pr.State == ItemState.Closed)
+				{
+					serviceResponse.Content = PrStatus.Invalid;
+				}
+				else
+				{
+					stateValid = true;
+
+				}
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Failed to aquire data");
+
+			}
+
+			if (dateValid && mergeValid && stateValid)
+			{
+				serviceResponse.Content = PrStatus.Valid;
+				serviceResponse.ServiceResponseStatus = ServiceResponseStatus.Ok;
+
+			}
+
+			return serviceResponse;
+		}
+
+		private async Task<bool> PrIsApproved(string owner, string repo, int id)
+		{
+			var commits = await _client.PullRequest.Commits(owner, repo, id);
+			var reviews = await _client.PullRequest.Review.GetAll(owner, repo, id);
+
+
+			var latestReview = reviews[0].SubmittedAt;
+			var latestCommit = commits[0].Commit.Author.Date;
+
+
+			if (latestReview > latestCommit)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }
