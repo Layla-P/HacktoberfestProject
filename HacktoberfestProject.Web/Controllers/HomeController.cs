@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.DTOs;
@@ -16,15 +15,12 @@ namespace HacktoberfestProject.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ITableService _tableService;
         private const string GitHubUsernameClaimType = "urn:github:login";
-        private const string EmailClaimType = "urn:github:email";
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor, ITableService tableService)
+        public HomeController(IHttpContextAccessor contextAccessor, ITableService tableService)
         {
-            _logger = logger;
             _contextAccessor = contextAccessor;
             _tableService = tableService;
         }
@@ -54,18 +50,18 @@ namespace HacktoberfestProject.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(AddPrViewModel vm)
+        public async Task<IActionResult> Add(AddPrViewModel addPrViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View("Add", vm);
+                return View("Add", addPrViewModel);
             }
 
-            vm.UserName = _contextAccessor.HttpContext.User
+            addPrViewModel.UserName = _contextAccessor.HttpContext.User
                 .Claims.FirstOrDefault(c => c.Type == GitHubUsernameClaimType)?.Value;
 
-            await _tableService.AddPrAsync(vm.UserName, vm.Owner, 
-                vm.Repository, new PullRequest(vm.PrNumber, vm.PrUrl));
+            await _tableService.AddPrAsync(addPrViewModel.UserName, addPrViewModel.Owner, 
+                addPrViewModel.Repository, new PullRequest(addPrViewModel.PrNumber, addPrViewModel.PrUrl));
 
             return RedirectToAction("Index");
         } 
