@@ -87,29 +87,31 @@ else
     <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
   }
 }
-<script type="text/javascript">
+@section Scripts {
+  <script type="text/javascript">
 
-    var matches = document.querySelectorAll("span[pr-id]");
-    for(var i = 0; i < matches.length;i++)
-    {
-        var owner = matches[i].attributes["repo-owner"].value;
-        var name = matches[i].attributes["repo-name"].value;
-        var id = matches[i].attributes["pr-id"].value;
-        fetchStatus(owner, name, id, i, function (index,data) {
-            matches[index].innerText = data;
-        });
-    }
+      var matches = document.querySelectorAll("span[pr-id]");
+      for(var i = 0; i < matches.length;i++)
+      {
+          var owner = matches[i].attributes["repo-owner"].value;
+          var name = matches[i].attributes["repo-name"].value;
+          var id = matches[i].attributes["pr-id"].value;
+          fetchStatus(owner, name, id, i, function (index,data) {
+              matches[index].innerText = data;
+          });
+      }
 
 
-    function fetchStatus(owner,name,prid,index,callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                var data = JSON.parse(xhr.response);
-                callback(index,data.state);
-            }
-        };
-        xhr.open('GET', 'https://api.github.com/repos/' + owner + '/' + name + '/pulls/' + prid);
-        xhr.send();
-    }
-</script>
+      function fetchStatus(owner,name,prid,index,callback) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                  var data = JSON.parse(xhr.response);
+                  callback(index,data.state);
+              }
+          };
+          xhr.open('GET', 'https://api.github.com/repos/' + owner + '/' + name + '/pulls/' + prid);
+          xhr.send();
+      }
+  </script>
+}
