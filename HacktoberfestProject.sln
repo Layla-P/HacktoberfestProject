@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HacktoberfestProject.Web", "HacktoberfestProject.Web\HacktoberfestProject.Web.csproj", "{507FF4B5-5327-4305-B31E-9FC843511950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HacktoberfestProject.Tests", "HacktoberfestProject.Tests\HacktoberfestProject.Tests.csproj", "{F46C6B10-150D-4CDD-BD44-E806A1083B9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HacktoberfestProject.Tests", "HacktoberfestProject.Tests\HacktoberfestProject.Tests.csproj", "{F46C6B10-150D-4CDD-BD44-E806A1083B9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90C30D19-C83B-4A75-A12D-8C5C673AB45F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
