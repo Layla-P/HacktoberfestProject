@@ -90,7 +90,7 @@ namespace HacktoberfestProject.Web.Data
 				TableResult result = await _table.ExecuteAsync(retrieveOperation);
 
 				_logger.LogTrace("Retrieving record from table");
-				
+
 				var retrieveEntity = result.Result as T;
 
 				return retrieveEntity;
@@ -102,7 +102,7 @@ namespace HacktoberfestProject.Web.Data
 			}
 		}
 
-		public async Task<bool> DeleteEntity<T>(T entity) where T: TableEntity
+		public async Task<bool> DeleteEntity<T>(T entity) where T : TableEntity
 		{
 			if (_table == null) await CheckForTableAsync();
 			NullChecker.IsNotNull(entity, nameof(entity));
@@ -114,8 +114,8 @@ namespace HacktoberfestProject.Web.Data
 				_logger.LogTrace("Deleting record from table");
 
 				TableResult result = await _table.ExecuteAsync(deleteOperation);
-                return result.Result != null;
-            }
+				return result.Result != null;
+			}
 			catch (Exception e)
 			{
 				_logger.LogError(e.HResult, e, "Delete from table failed");
@@ -147,7 +147,7 @@ namespace HacktoberfestProject.Web.Data
 		{
 			try
 			{
-                return CloudStorageAccount.Parse(_configuration.ConnectionString);
+				return CloudStorageAccount.Parse(_configuration.ConnectionString);
 			}
 			catch (Exception e)
 			{
