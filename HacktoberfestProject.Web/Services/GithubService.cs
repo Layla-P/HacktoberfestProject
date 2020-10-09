@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -6,6 +6,7 @@ using Octokit;
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
+using System;
 
 namespace HacktoberfestProject.Web.Services
 {
