@@ -81,19 +81,42 @@ body {
 	list-style: none;
 }
 
-@keyframes marquee-effect {
-	from {
-		right: -400px;
+.marquee {
+	height: 100px;
+	width: 1080px;
+	overflow: hidden;
+	position: relative;
+}
+
+	.marquee div {
+		display: block;
+		width: 200%;
+		height: 90px;
+		position: absolute;
+		overflow: hidden;
+		animation: marquee 5s  alternate infinite;
 	}
-	to {
-		right: 400px;
+
+	.marquee h1 {
+		float: left;
+		width: 50%;
+	}
+
+@keyframes marquee {
+	0% {
+		left: 0;
+		color:black;
+	}
+
+	100% {
+		left: -100%;
+		color:salmon
 	}
 }
 
-.header {
-	width: 100%;
-	height: 100%;
-	position: relative;
-	animation: marquee-effect 4s infinite ease-in-out;
+.marquee:hover div {
+	-webkit-animation-play-state: paused; /* Safari 4.0 - 8.0 */
+	animation-play-state: paused;
 }
+
 
