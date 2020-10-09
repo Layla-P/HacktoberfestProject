@@ -66,7 +66,7 @@ namespace HacktoberfestProject.Web
 
       app.Use(async (ctx, next) =>
       {
-          ctx.Response.Headers.Add("Content-Security-Policy", "default-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com;");
+          ctx.Response.Headers.Add("Content-Security-Policy", "default-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com;frame-src *.youtube.com;");
           await next();
       });
       
