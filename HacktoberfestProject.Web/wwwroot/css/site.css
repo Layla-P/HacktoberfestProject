@@ -81,7 +81,7 @@ body {
 	list-style: none;
 }
 
-@keyframes mymove {
+@keyframes marquee-effect {
 	from {
 		right: -400px;
 	}
@@ -94,7 +94,6 @@ body {
 	width: 100%;
 	height: 100%;
 	position: relative;
-
-animation: mymove 4s infinite ease-in-out;
+	animation: marquee-effect 4s infinite ease-in-out;
 }
 
