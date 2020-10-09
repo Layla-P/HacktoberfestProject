@@ -64,6 +64,12 @@ namespace HacktoberfestProject.Web
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+      app.Use(async (ctx, next) =>
+      {
+          ctx.Response.Headers.Add("Content-Security-Policy", "default-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com;");
+          await next();
+      });
+      
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(

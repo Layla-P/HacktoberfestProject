@@ -63,18 +63,14 @@ namespace HacktoberfestProject.Web.Services
 				var user = new User(username, new List<Repository>());
 				foreach (var entity in entities)
 				{
-					Repository repo;
+					
 					bool addToList = false;
 
 					var info = GetInfo(entity.RowKey);
-					var temp = user.RepositoryPrAddedTo
+					Repository repo =  user.RepositoryPrAddedTo
 								   .FirstOrDefault(repo => repo.Owner.Equals(info.Owner, StringComparison.OrdinalIgnoreCase) &&
 														   repo.Name.Equals(info.RepoName, StringComparison.OrdinalIgnoreCase));
-					if (temp != null)
-					{
-						repo = temp;
-					}
-					else
+					if (repo == null)
 					{
 						repo = new Repository(info.Owner, info.RepoName, entity.Url, new List<PullRequest>());
 						addToList = true;
