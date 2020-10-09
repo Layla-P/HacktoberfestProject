@@ -41,6 +41,14 @@ namespace HacktoberfestProject.Web.Controllers
 			return View(user);
 		}
 
+
+		
+		[HttpGet]
+		public IActionResult About()
+		{
+			return View();
+		}
+
 		[Authorize]
 		[HttpGet]
 		public IActionResult Add()
