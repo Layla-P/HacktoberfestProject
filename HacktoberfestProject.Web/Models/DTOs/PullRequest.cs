@@ -2,7 +2,7 @@
 
 namespace HacktoberfestProject.Web.Models.DTOs
 {
-    public class PullRequest
+	public class PullRequest
 	{
 		public int PrId { get; set; }
 		public string Url { get; set; }

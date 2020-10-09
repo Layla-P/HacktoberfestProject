@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HacktoberfestProject.Web.Models.Enums;
-using HacktoberfestProject.Web.Models.Helpers;
 using Microsoft.Extensions.Logging;
 using Octokit;
-
+using HacktoberfestProject.Web.Models.Enums;
+using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
-using System;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -177,5 +175,6 @@ namespace HacktoberfestProject.Web.Services
 			_logger.LogInformation($"Api Requets left to use : {howManyRequestsDoIHaveLeft}");
 			_logger.LogInformation($"Api Resets in : {whenDoesTheLimitReset - DateTime.UtcNow}");
 		}
+
 	}
 }

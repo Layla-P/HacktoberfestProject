@@ -1,59 +1,57 @@
 ﻿@model AddPrViewModel
 
 @{
-    ViewData["Title"] = "Add PR";
+	ViewData["Title"] = "Add PR";
 }
 
 <h1>Add PR</h1>
 
 <div class="container">
-    <form asp-controller="Home" asp-action="Add" method="post">
-        <div class="form-group">
-            <label asp-for="PrUrl"></label>
-            <input asp-for="PrUrl" class="form-control" oninput="processURL()" />
-            <span asp-validation-for="PrUrl" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Owner"></label>
-            <input asp-for="Owner" class="form-control" />
-            <span asp-validation-for="Owner" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Repository"></label>
-            <input asp-for="Repository" class="form-control" />
-            <span asp-validation-for="Repository" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PrNumber"></label>
-            <input asp-for="PrNumber" class="form-control" />
-            <span asp-validation-for="PrNumber" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="button"
-                class="btn btn-secondary"
-                onclick="window.location.href='/'">
-            Cancel
-        </button>
-    </form>
+	<form asp-controller="Home" asp-action="Add" method="post">
+		<div class="form-group">
+			<label asp-for="PrUrl"></label>
+			<input asp-for="PrUrl" class="form-control" oninput="processURL()" />
+			<span asp-validation-for="PrUrl" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Owner"></label>
+			<input asp-for="Owner" class="form-control" />
+			<span asp-validation-for="Owner" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Repository"></label>
+			<input asp-for="Repository" class="form-control" />
+			<span asp-validation-for="Repository" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="PrNumber"></label>
+			<input asp-for="PrNumber" class="form-control" />
+			<span asp-validation-for="PrNumber" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary">Add</button>
+		<button type="button"
+		class="btn btn-secondary"
+		onclick="window.location.href='/'">
+			Cancel
+		</button>
+	</form>
 </div>
 
-<script type="text/javascript">
-    function processURL() {
-        let prUrl = (document.getElementById("PrUrl")).value;
-        let ownerElement = document.getElementById("Owner");
-        let repositoryElement = document.getElementById("Repository");
-        let prNumberElement = document.getElementById("PrNumber");
-        urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
+<script type="text/javascript">function processURL() {
+	let prUrl = (document.getElementById("PrUrl")).value;
+	let ownerElement = document.getElementById("Owner");
+	let repositoryElement = document.getElementById("Repository");
+	let prNumberElement = document.getElementById("PrNumber");
+	urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
 
-        if (prUrl.match(urlRegex)) {
+	if (prUrl.match(urlRegex)) {
 
-            //https://github.com/Layla-P/HacktoberfestProject/pull/20
-            let prUrlSubstring = prUrl.replace("https://github.com/", "");
-            let prUrlArray = prUrlSubstring.split("/");
+	//https://github.com/Layla-P/HacktoberfestProject/pull/20
+	let prUrlSubstring = prUrl.replace("https://github.com/", "");
+	let prUrlArray = prUrlSubstring.split("/");
 
-            ownerElement.value = prUrlArray[0];
-            repositoryElement.value = prUrlArray[1];
-            prNumberElement.value = prUrlArray[3];
-        }
-    }
-</script>
+	ownerElement.value = prUrlArray[0];
+	repositoryElement.value = prUrlArray[1];
+	prNumberElement.value = prUrlArray[3];
+	}
+	}</script>
