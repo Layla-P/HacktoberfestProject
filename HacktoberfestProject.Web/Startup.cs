@@ -39,7 +39,7 @@ namespace HacktoberfestProject.Web
 			services.AddGithubOauthAuthentication(Configuration);
 			services.AddLogging();
 
-			//CosmosTableTest.RunTableStorageTests(services);
+			//TableContextTests.RunTableStorageTests(services);
 			//GithubAPITests.RunTableStorageTests(services);
 		}
 
