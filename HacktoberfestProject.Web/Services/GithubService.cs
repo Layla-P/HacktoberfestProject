@@ -1,11 +1,8 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.Extensions.Logging;
 using Octokit;
-
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
@@ -28,6 +25,8 @@ namespace HacktoberfestProject.Web.Services
 			_logger.LogTrace($"Sending request to Github for repositories belonging to user: {owner}");
 			var repositories = await _client.Repository.GetAllForUser(owner);
 
+			CheckAPILimits();
+
 			return repositories.Select(r => new Models.DTOs.Repository(owner, r.Name, r.Url)).ToList();
 		}
 
@@ -35,6 +34,8 @@ namespace HacktoberfestProject.Web.Services
 		{
 			_logger.LogTrace($"Sending request to Github for pull requests on repository: {name}");
 			var prs = await _client.PullRequest.GetAllForRepository(owner, name, new PullRequestRequest() { State = ItemStateFilter.All });
+
+			CheckAPILimits();
 
 			return prs.Select(pr => new Models.DTOs.PullRequest(pr.Number, pr.Url)).ToList();
 		}
@@ -54,6 +55,7 @@ namespace HacktoberfestProject.Web.Services
 
 				if (users == null || !users.Items.Any())
 				{
+					CheckAPILimits();
 					return new ServiceResponse<IEnumerable<string>>
 					{
 						ServiceResponseStatus = ServiceResponseStatus.NotFound,
@@ -63,6 +65,8 @@ namespace HacktoberfestProject.Web.Services
 
 				users.Items.ToList().ForEach(u => searchResults.Add(u.Login));
 			}
+
+			CheckAPILimits();
 
 			return new ServiceResponse<IEnumerable<string>>
 			{
@@ -74,20 +78,20 @@ namespace HacktoberfestProject.Web.Services
 		public async Task<ServiceResponse<PrStatus?>> ValidatePrStatus(string owner, string repo, int id)
 		{
 			/*
-             * PRs count if:
-             *       Submitted in a repo with the hacktoberfest topic AND
-             *       during the month of October AND (
-             *         The PR is merged OR
-             *         The PR is labelled as hacktoberfest-accepted by a maintainer OR
-             *         The PR has been approved
-             *       )
-             */
+			 * PRs count if:
+			 *       Submitted in a repo with the hacktoberfest topic AND
+			 *       during the month of October AND (
+			 *         The PR is merged OR
+			 *         The PR is labelled as hacktoberfest-accepted by a maintainer OR
+			 *         The PR has been approved
+			 *       )
+			 */
 			bool dateValid = false;
 			bool mergeValid = false;
 			bool stateValid = false;
 
 
-			var serviceResponse = new ServiceResponse<PrStatus?> { ServiceResponseStatus = ServiceResponseStatus.BadRequest };
+			var serviceResponse = new ServiceResponse<PrStatus?> {  ServiceResponseStatus = ServiceResponseStatus.BadRequest};
 
 			try
 			{
@@ -125,7 +129,7 @@ namespace HacktoberfestProject.Web.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Failed to aquire data");
+				_logger.LogError(ex,"Failed to aquire data");
 
 			}
 
@@ -136,6 +140,7 @@ namespace HacktoberfestProject.Web.Services
 
 			}
 
+			CheckAPILimits();
 			return serviceResponse;
 		}
 
@@ -155,5 +160,21 @@ namespace HacktoberfestProject.Web.Services
 			}
 			return false;
 		}
+
+
+		private void CheckAPILimits()
+		{
+			var apiInfo = _client.GetLastApiInfo();
+
+			var rateLimit = apiInfo?.RateLimit;
+			var howManyRequestsCanIMakePerHour = rateLimit?.Limit;
+			var howManyRequestsDoIHaveLeft = rateLimit?.Remaining;
+			var whenDoesTheLimitReset = rateLimit?.Reset; // UTC time
+
+			_logger.LogInformation($"Api Requets Per Hour can be made : {howManyRequestsCanIMakePerHour}");
+			_logger.LogInformation($"Api Requets left to use : {howManyRequestsDoIHaveLeft}");
+			_logger.LogInformation($"Api Resets in : {whenDoesTheLimitReset - DateTime.UtcNow}");
+		}
+
 	}
 }

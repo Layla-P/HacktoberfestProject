@@ -1,118 +1,119 @@
 @model User
 @{
-  ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 @if (!User.Identity.IsAuthenticated)
 {
-  <div class="text-center">
-    <h1>Welcome to the .NET PR Tracker!</h1>
-    <p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
-    <p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
-    <p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-sm-6">
-      <div>
-        <p>If you are unsure where to start, you can start with PRs to this actual site! This site has been left intentionally bare-bones and somewhat devoid of style so the community can have fun with it! </p>
-        <p>The Repo can be found <a href="https://github.com/Layla-P/HacktoberfestProject">https://github.com/Layla-P/HacktoberfestProject</a></p>
-      </div>
-      <div>
-        <p>Community member and MVP <a href="">Luce Carter</a> has created this video on how to make a PR</p>
-        <div class="embed-responsive  embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/DoS_VKM542Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <h5>New to .NET and C#?</h5>
+	<div class="text-center">
+		<h1>Welcome to the .NET PR Tracker!</h1>
+		<p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+		<p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+		<p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-sm-6">
+			<div>
+				<p>If you are unsure where to start, you can start with PRs to this actual site! This site has been left intentionally bare-bones and somewhat devoid of style so the community can have fun with it! </p>
+				<p>The Repo can be found <a href="https://github.com/Layla-P/HacktoberfestProject">https://github.com/Layla-P/HacktoberfestProject</a></p>
+			</div>
+			<div>
+				<p>Community member and MVP <a href="">Luce Carter</a> has created this video on how to make a PR</p>
+				<div class="embed-responsive  embed-responsive-16by9">
+					<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/DoS_VKM542Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<h5>New to .NET and C#?</h5>
 
-      <p> .NET Core is open source and cross platform.</p>
+			<p> .NET Core is open source and cross platform.</p>
 
-      <ul>
-        <li>
-          <a href="https://docs.microsoft.com/en-us/dotnet/standard/get-started">Getting started with .NET and C#</a>
-        </li>
-        <li>
-          <a href="https://docs.microsoft.com/en-us/dotnet/core/install/">Installing .NET on your machine</a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt">C# for absolute beginners video</a>
-        </li>
-      </ul>
+			<ul>
+				<li>
+					<a href="https://docs.microsoft.com/en-us/dotnet/standard/get-started">Getting started with .NET and C#</a>
+				</li>
+				<li>
+					<a href="https://docs.microsoft.com/en-us/dotnet/core/install/">Installing .NET on your machine</a>
+				</li>
+				<li>
+					<a href="https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt">C# for absolute beginners video</a>
+				</li>
+			</ul>
 
-      <h5>I'm a front end developer, can I help?</h5>
-      <p>Yes!</p>
-      <p>
-        Many .NET project such as this one have plenty of front-endy stuff whether you tinker with HTML and CSS or you're a full-blown JavaScript developer.
-        We welcome your input that's why this site started off looking so ugly and janky!
-      </p>
-    </div>
-  </div>
+			<h5>I'm a front end developer, can I help?</h5>
+			<p>Yes!</p>
+			<p>
+				Many .NET project such as this one have plenty of front-endy stuff whether you tinker with HTML and CSS or you're a full-blown JavaScript developer.
+				We welcome your input that's why this site started off looking so ugly and janky!
+			</p>
+		</div>
+	</div>
 
-  <hr />
-  <div>
-    <p>Join the community channel on <a href="https://discord.gg/dvcMTyy">discord.</a></p>
-  </div>
-  <div>
-    <p>Checkout this <a href="https://blog.jetbrains.com/dotnet/2020/09/30/hacktoberfest-2020-and-net-oss/?utm_source=twitter&utm_medium=referral&utm_campaign=resharper&utm_content=hacktober">blog from the JetBrains</a> crew with some cool suggestions for open source .NET projects to work on.</p>
-  </div>
-  }
+	<hr />
+	<div>
+		<p>Join the community channel on <a href="https://discord.gg/dvcMTyy">discord.</a></p>
+	</div>
+	<div>
+		<p>Checkout this <a href="https://blog.jetbrains.com/dotnet/2020/09/30/hacktoberfest-2020-and-net-oss/?utm_source=twitter&utm_medium=referral&utm_campaign=resharper&utm_content=hacktober">blog from the JetBrains</a> crew with some cool suggestions for open source .NET projects to work on.</p>
+	</div>
+
+}
 else
 {
-  <h1 class="display-4">Welcome @User.Identity.Name</h1>
-  if (Model != null)
-  {
-    <div class="text-center">
-      <p>Below is a list of all the pull requests you have logged:</p>
-      @foreach (var repo in Model.RepositoryPrAddedTo)
-      {
-        <h5>@repo.Owner - @repo.Name</h5>
-        <ul id="Prs">
-          @foreach (var pr in repo.Prs)
-          {
+	<h1 class="display-4">Welcome @User.Identity.Name</h1>
+	if (Model != null)
+	{
+		<div class="text-center">
+			<p>Below is a list of all the pull requests you have logged:</p>
+			@foreach (var repo in Model.RepositoryPrAddedTo)
+			{
+				<h5>@repo.Owner - @repo.Name</h5>
+				<ul id="Prs">
+					@foreach (var pr in repo.Prs)
+					{
 
-            <li><a href="@pr.Url">Pull Request @pr.PrId</a> <span pr-id="@pr.PrId" repo-owner ="@repo.Owner" repo-name="@repo.Name"  class="badge badge-light"> </span>   </li>
+						<li><a href="@pr.Url">Pull Request @pr.PrId</a> <span title="@pr.Status?.GetDescription()" class="badge badge-light"> @pr.Status </span>   </li>
 
-          }
-        </ul>
-      }
-      @* this will bring back a list of PRs, if there are some. *@
-      <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
-    </div>
-  }
-  else
-  {
-    <h4>Hey there, we see you haven't recorded any PR's yet. Please use the button below to add one!</h4>
-    <a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
-  }
+					}
+				</ul>
+			}
+			@* this will bring back a list of PRs, if there are some. *@
+			<a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+		</div>
+	}
+	else
+	{
+		<h4>Hey there, we see you haven't recorded any PR's yet. Please use the button below to add one!</h4>
+		<a asp-action="Add" asp-controller="Home" class="btn btn-outline-primary">Add a PR</a>
+	}
 }
-@section Scripts {
-  <script type="text/javascript">
+@*@section Scripts {
+	  <script type="text/javascript">
 
-      var matches = document.querySelectorAll("span[pr-id]");
-      for(var i = 0; i < matches.length;i++)
-      {
-          var owner = matches[i].attributes["repo-owner"].value;
-          var name = matches[i].attributes["repo-name"].value;
-          var id = matches[i].attributes["pr-id"].value;
-          fetchStatus(owner, name, id, i, function (index,data) {
-              matches[index].innerText = data;
-          });
-      }
+		  var matches = document.querySelectorAll("span[pr-id]");
+		  for(var i = 0; i < matches.length;i++)
+		  {
+			  var owner = matches[i].attributes["repo-owner"].value;
+			  var name = matches[i].attributes["repo-name"].value;
+			  var id = matches[i].attributes["pr-id"].value;
+			  fetchStatus(owner, name, id, i, function (index,data) {
+				  matches[index].innerText = data;
+			  });
+		  }
 
 
-      function fetchStatus(owner,name,prid,index,callback) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                  var data = JSON.parse(xhr.response);
-                  callback(index,data.state);
-              }
-          };
-          xhr.open('GET', 'https://api.github.com/repos/' + owner + '/' + name + '/pulls/' + prid);
-          xhr.send();
-      }
-  </script>
-}
+		  function fetchStatus(owner,name,prid,index,callback) {
+			  var xhr = new XMLHttpRequest();
+			  xhr.onreadystatechange = function () {
+				  if (xhr.readyState === 4) {
+					  var data = JSON.parse(xhr.response);
+					  callback(index,data.state);
+				  }
+			  };
+			  xhr.open('GET', 'https://api.github.com/repos/' + owner + '/' + name + '/pulls/' + prid);
+			  xhr.send();
+		  }
+	  </script>
+	}*@
