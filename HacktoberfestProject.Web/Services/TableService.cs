@@ -12,125 +12,125 @@ using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Services
 {
-    public class TableService : ITableService
-    {
-        private readonly ITableContext _tableContext;
-        private readonly IGithubService _githubService;
+	public class TableService : ITableService
+	{
+		private readonly ITableContext _tableContext;
+		private readonly IGithubService _githubService;
 
-        public TableService(ITableContext tableContext, IGithubService githubService)
-        {
-            NullChecker.IsNotNull(tableContext, nameof(tableContext));
-            NullChecker.IsNotNull(githubService, nameof(githubService));
-            _tableContext = tableContext;
-            _githubService = githubService;
-        }
+		public TableService(ITableContext tableContext, IGithubService githubService)
+		{
+			NullChecker.IsNotNull(tableContext, nameof(tableContext));
+			NullChecker.IsNotNull(githubService, nameof(githubService));
+			_tableContext = tableContext;
+			_githubService = githubService;
+		}
 
-        public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
-        {
-            PrStatus? dbStatus = null;
-            if (pr.Status == PrStatus.Valid)
-            {
-                dbStatus = pr.Status;
-            }
+		public async Task<ServiceResponse<PullRequest>> AddPrAsync(string username, string owner, string repositoryName, PullRequest pr)
+		{
+			PrStatus? dbStatus = null;
+			if (pr.Status == PrStatus.Valid)
+			{
+				dbStatus = pr.Status;
+			}
 
-            var trackerEntry = new TrackerEntryEntity
-            {
-                Username = username,
-                RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
-                Url = pr.Url,
-                Status = dbStatus
-                
-            };
-            await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
-            var serviceResponse = new ServiceResponse<PullRequest>
-            {
-                ServiceResponseStatus = ServiceResponseStatus.Created
-            };
+			var trackerEntry = new TrackerEntryEntity
+			{
+				Username = username,
+				RowKey = $"{owner}:{repositoryName}:{pr.PrId}",
+				Url = pr.Url,
+				Status = dbStatus
 
-            return serviceResponse;
-        }
+			};
+			await _tableContext.InsertOrMergeEntityAsync(trackerEntry);
+			var serviceResponse = new ServiceResponse<PullRequest>
+			{
+				ServiceResponseStatus = ServiceResponseStatus.Created
+			};
 
-        public async Task<ServiceResponse<User>> GetUserAsync(string username)
-        {
-            var entities = await _tableContext.GetEntities<TrackerEntryEntity>(username);
-            var serviceResponse = new ServiceResponse<User>
-            {
-                ServiceResponseStatus = ServiceResponseStatus.NotFound
-            };
+			return serviceResponse;
+		}
 
-            if (entities.Any())
-            {
-                var user = new User(username, new List<Repository>());
-                foreach (var entity in entities)
-                {
-                    Repository repo;
-                    bool addToList = false;
+		public async Task<ServiceResponse<User>> GetUserAsync(string username)
+		{
+			var entities = await _tableContext.GetEntities<TrackerEntryEntity>(username);
+			var serviceResponse = new ServiceResponse<User>
+			{
+				ServiceResponseStatus = ServiceResponseStatus.NotFound
+			};
 
-                    var info = GetInfo(entity.RowKey);
-                    var temp = user.RepositoryPrAddedTo
-                                   .FirstOrDefault(repo => repo.Owner.Equals(info.Owner, StringComparison.OrdinalIgnoreCase) &&
-                                                           repo.Name.Equals(info.RepoName, StringComparison.OrdinalIgnoreCase));
-                    if (temp != null)
-                    {
-                        repo = temp;
-                    }
-                    else 
-                    {
-                        repo = new Repository(info.Owner, info.RepoName, entity.Url, new List<PullRequest>());
-                        addToList = true;
-                    }
-                    var prs = entities.Where(e => e.RowKey.StartsWith($"{info.Owner}:{info.RepoName}", StringComparison.OrdinalIgnoreCase));
-                    foreach (var pr in prs)
-                    {
-                        var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
-                        if (!repo.Prs.Any(pr => pr.PrId == id))
-                        {
-                            if (entity.Status is null)
-                            {
-                                var response = await ValidatePrStatus(repo.Owner, repo.Name, id);
-                                repo.Prs.Add(new PullRequest(id, entity.Url, response));
-                            }
-                            else
-                            {
-                                repo.Prs.Add(new PullRequest(id, entity.Url, entity.Status));
-                            }
-                            
-                        }
-                    }
-                    if (addToList)
-                    {
-                        user.RepositoryPrAddedTo.Add(repo);
-                    }
-                }
+			if (entities.Any())
+			{
+				var user = new User(username, new List<Repository>());
+				foreach (var entity in entities)
+				{
+					Repository repo;
+					bool addToList = false;
 
-                serviceResponse = new ServiceResponse<User>
-                {
-                    Content = user,
-                    ServiceResponseStatus = ServiceResponseStatus.Ok
-                };
-            }
+					var info = GetInfo(entity.RowKey);
+					var temp = user.RepositoryPrAddedTo
+								   .FirstOrDefault(repo => repo.Owner.Equals(info.Owner, StringComparison.OrdinalIgnoreCase) &&
+														   repo.Name.Equals(info.RepoName, StringComparison.OrdinalIgnoreCase));
+					if (temp != null)
+					{
+						repo = temp;
+					}
+					else
+					{
+						repo = new Repository(info.Owner, info.RepoName, entity.Url, new List<PullRequest>());
+						addToList = true;
+					}
+					var prs = entities.Where(e => e.RowKey.StartsWith($"{info.Owner}:{info.RepoName}", StringComparison.OrdinalIgnoreCase));
+					foreach (var pr in prs)
+					{
+						var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
+						if (!repo.Prs.Any(pr => pr.PrId == id))
+						{
+							if (entity.Status is null)
+							{
+								var response = await ValidatePrStatus(repo.Owner, repo.Name, id);
+								repo.Prs.Add(new PullRequest(id, entity.Url, response));
+							}
+							else
+							{
+								repo.Prs.Add(new PullRequest(id, entity.Url, entity.Status));
+							}
 
-            return serviceResponse;
-        }
+						}
+					}
+					if (addToList)
+					{
+						user.RepositoryPrAddedTo.Add(repo);
+					}
+				}
 
-        private (string Owner, string RepoName) GetInfo(string rowKey)
-        {
-            var info = rowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
-            return (info[0], info[1]);
-        }
+				serviceResponse = new ServiceResponse<User>
+				{
+					Content = user,
+					ServiceResponseStatus = ServiceResponseStatus.Ok
+				};
+			}
 
-        private async Task<PrStatus?> ValidatePrStatus(string owner, string repo, int id)
-        {
+			return serviceResponse;
+		}
 
-            var response = await _githubService.ValidatePrStatus(owner, repo, id);
+		private (string Owner, string RepoName) GetInfo(string rowKey)
+		{
+			var info = rowKey.Split(':', StringSplitOptions.RemoveEmptyEntries);
+			return (info[0], info[1]);
+		}
 
-            if (response.ServiceResponseStatus == ServiceResponseStatus.Ok)
-            {
-                return response.Content;
-            }
+		private async Task<PrStatus?> ValidatePrStatus(string owner, string repo, int id)
+		{
 
-            return null;
-        }
+			var response = await _githubService.ValidatePrStatus(owner, repo, id);
 
-    }
+			if (response.ServiceResponseStatus == ServiceResponseStatus.Ok)
+			{
+				return response.Content;
+			}
+
+			return null;
+		}
+
+	}
 }
