@@ -38,21 +38,21 @@ namespace HacktoberfestProject.Tests.Services
 
 			_tableContext = new Mock<ITableContext>(MockBehavior.Strict);
 			_githubService = new Mock<IGithubService>(MockBehavior.Strict);
-			_sut = new TableService(_tableContext.Object, _githubService.Object);
+			_sut = new TrackerEntryService(_tableContext.Object, _githubService.Object);
 		}
 
 
 		[Fact]
 		public void GivenNullUserRepository_Should_ThrowException()
 		{
-			var ex = Assert.Throws<ArgumentNullException>(() => new TableService(null, _githubService.Object));
+			var ex = Assert.Throws<ArgumentNullException>(() => new TrackerEntryService(null, _githubService.Object));
 			Assert.Equal("Value cannot be null. (Parameter 'tableContext')", ex.Message);
 		}
 
 		[Fact]
 		public void GivenNullGithubService_Should_ThrowException()
 		{
-			var ex = Assert.Throws<ArgumentNullException>(() => new TableService(_tableContext.Object, null));
+			var ex = Assert.Throws<ArgumentNullException>(() => new TrackerEntryService(_tableContext.Object, null));
 			Assert.Equal("Value cannot be null. (Parameter 'githubService')", ex.Message);
 		}
 

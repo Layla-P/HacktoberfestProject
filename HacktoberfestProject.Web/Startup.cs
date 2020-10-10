@@ -32,7 +32,7 @@ namespace HacktoberfestProject.Web
 			//services.AddSingleton<IUserRepository, UserRepository>();
 
 			services.AddSingleton<IGithubService, GithubService>();
-			services.AddSingleton<ITableService, TableService>();
+			services.AddSingleton<ITableService, TrackerEntryService>();
 
 			services.AddControllersWithViews();
 
