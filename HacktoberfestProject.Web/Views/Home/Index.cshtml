@@ -6,7 +6,11 @@
 @if (!User.Identity.IsAuthenticated)
 {
 	<div class="text-center">
-		<h1 class="header">Welcome to the .NET PR Tracker!</h1>
+		<div class="marquee">
+			<div>
+				<h1>Welcome to the .NET PR Tracker!</h1>
+			</div>
+		</div>
 		<p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
 		<p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
 		<p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
