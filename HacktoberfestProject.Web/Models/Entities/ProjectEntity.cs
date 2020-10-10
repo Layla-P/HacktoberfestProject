@@ -1,16 +1,25 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using HacktoberfestProject.Web.Models.DTOs;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace HacktoberfestProject.Web.Models.Entities
 {
 	public class ProjectEntity : TableEntity
 	{
-		[IgnoreProperty] 
-		public string RepoName 
+		public ProjectEntity() { }
+
+		public ProjectEntity(Project project)
 		{
-			get => PartitionKey;
-			set => PartitionKey = value;
+			PartitionKey = "Project";
+			RowKey = $"{project.Owner}:{project.RepoName}";
+			RepoName = project.Owner;
+			Owner = project.RepoName;
+			Url = project.Url;
 		}
+
+		public string RepoName { get; set; }
 		public string Url { get; set; }
 		public string Owner { get; set; }
 	}
+
+	
 }

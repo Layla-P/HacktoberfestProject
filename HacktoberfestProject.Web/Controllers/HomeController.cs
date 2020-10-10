@@ -16,10 +16,10 @@ namespace HacktoberfestProject.Web.Controllers
 	public class HomeController : Controller
 	{
 		private readonly IHttpContextAccessor _contextAccessor;
-		private readonly ITableService _tableService;
+		private readonly ITrackerEntryService _tableService;
 		private const string GitHubUsernameClaimType = "urn:github:login";
 
-		public HomeController(IHttpContextAccessor contextAccessor, ITableService tableService)
+		public HomeController(IHttpContextAccessor contextAccessor, ITrackerEntryService tableService)
 		{
 			_contextAccessor = contextAccessor;
 			_tableService = tableService;

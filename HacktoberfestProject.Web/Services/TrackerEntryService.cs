@@ -12,7 +12,7 @@ using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Services
 {
-	public class TrackerEntryService : ITableService
+	public class TrackerEntryService : ITrackerEntryService
 	{
 		private readonly ITableContext _tableContext;
 		private readonly IGithubService _githubService;
