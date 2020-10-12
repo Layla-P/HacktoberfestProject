@@ -29,10 +29,10 @@ namespace HacktoberfestProject.Web
 			//Configure CosmosDB Table API
 			services.Configure<TableConfiguration>(Configuration.GetSection("CosmosTableStorage"));
 			services.AddSingleton<ITableContext, TableContext>();
-			//services.AddSingleton<IUserRepository, UserRepository>();
 
 			services.AddSingleton<IGithubService, GithubService>();
-			services.AddSingleton<ITableService, TableService>();
+			services.AddSingleton<ITrackerEntryService, TrackerEntryService>();
+			services.AddSingleton<IProjectService, ProjectService>();
 
 			services.AddControllersWithViews();
 

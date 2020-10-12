@@ -12,12 +12,12 @@ using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Services
 {
-	public class TableService : ITableService
+	public class TrackerEntryService : ITrackerEntryService
 	{
 		private readonly ITableContext _tableContext;
 		private readonly IGithubService _githubService;
 
-		public TableService(ITableContext tableContext, IGithubService githubService)
+		public TrackerEntryService(ITableContext tableContext, IGithubService githubService)
 		{
 			NullChecker.IsNotNull(tableContext, nameof(tableContext));
 			NullChecker.IsNotNull(githubService, nameof(githubService));
