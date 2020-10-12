@@ -133,6 +133,8 @@ body {
 		transform: translateX(100%);
 	}
 
+
+
 	100% {
 		-moz-transform: translateX(-100%); /* Firefox bug fix */
 		-webkit-transform: translateX(-100%); /* Firefox bug fix */
@@ -140,3 +142,6 @@ body {
 	}
 }
 
+.dotnet-foundation {
+	width: 60px;
+}
