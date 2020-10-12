@@ -11,8 +11,8 @@ namespace HacktoberfestProject.Web.Models.Entities
 		{
 			PartitionKey = "Project";
 			RowKey = $"{project.Owner}:{project.RepoName}";
-			RepoName = project.Owner;
-			Owner = project.RepoName;
+			RepoName = project.RepoName;
+			Owner = project.Owner;
 			Url = project.Url;
 		}
 

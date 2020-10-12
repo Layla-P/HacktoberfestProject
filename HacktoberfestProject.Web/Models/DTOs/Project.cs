@@ -1,4 +1,5 @@
-﻿using HacktoberfestProject.Web.Models.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using HacktoberfestProject.Web.Models.Entities;
 
 namespace HacktoberfestProject.Web.Models.DTOs
 {
@@ -11,8 +12,11 @@ namespace HacktoberfestProject.Web.Models.DTOs
 			Owner = projectEntity.Owner;
 			Url = projectEntity.Url;
 		}
+		[Display(Name = "Repository Name")]
 		public string RepoName { get; set; }
+		[Display(Name = "URL")]
 		public string Url { get; set; }
+		[Display(Name = "Repository Owner")]
 		public string Owner { get; set; }
 	}
 }
