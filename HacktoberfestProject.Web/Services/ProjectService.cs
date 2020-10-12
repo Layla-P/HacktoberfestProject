@@ -32,7 +32,6 @@ namespace HacktoberfestProject.Web.Services
 				Message = $"The project {project.RepoName} was added."
 			};
 		}
-
 		public async Task<ServiceResponse<IEnumerable<Project>>> GetAllProjectsAsync()
 		{
 			var projectEntities = await _tableContext.GetEntities<ProjectEntity>("Project");

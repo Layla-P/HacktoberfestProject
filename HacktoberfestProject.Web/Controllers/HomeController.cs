@@ -10,6 +10,7 @@ using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.DTOs;
 using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.ViewModels;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Controllers
 {
@@ -21,6 +22,8 @@ namespace HacktoberfestProject.Web.Controllers
 
 		public HomeController(IHttpContextAccessor contextAccessor, ITrackerEntryService tableService)
 		{
+			NullChecker.IsNotNull(contextAccessor, nameof(contextAccessor));
+			NullChecker.IsNotNull(tableService, nameof(tableService));
 			_contextAccessor = contextAccessor;
 			_tableService = tableService;
 		}
@@ -71,7 +74,7 @@ namespace HacktoberfestProject.Web.Controllers
 			await _tableService.AddPrAsync(addPrViewModel.UserName, addPrViewModel.Owner,
 				addPrViewModel.Repository, new PullRequest(addPrViewModel.PrNumber, addPrViewModel.PrUrl));
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Home");
 		}
 
 		public IActionResult Privacy()

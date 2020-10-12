@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Project>;
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+	<ul>
+		@foreach (var project in Model)
+		{
+			var url = $"https://github.com/{project.Owner}/{project.RepoName}";
+		<li><a href="@url">@project.RepoName</a></li>
+		}
+	</ul>
+</div>
