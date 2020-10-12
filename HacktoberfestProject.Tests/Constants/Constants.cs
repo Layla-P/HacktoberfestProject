@@ -1,4 +1,6 @@
-﻿namespace HacktoberfestProject.Tests
+﻿using HacktoberfestProject.Web.Models.Entities;
+
+namespace HacktoberfestProject.Tests
 {
 	public static class Constants
 	{
@@ -10,5 +12,6 @@
 		public const string TEST_REPO_NAME = "test";
 		public const string URL = "http://test";
 		public const string USERNAME = "TestUser";
+		
 	}
 }

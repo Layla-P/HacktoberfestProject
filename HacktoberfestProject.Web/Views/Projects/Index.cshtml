@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Project>;
+@{
+	ViewData["Title"] = "Projects";
+}
+
+<h1>A list of OSS projects</h1>
+
+<div>
+	<ul>
+		@foreach (var project in Model)
+		{
+			var url = $"https://github.com/{project.Owner}/{project.RepoName}";
+			<li><a href="@url">@project.RepoName</a> by @project.Owner</li>
+		}
+	</ul>
+	@if (User.Identity.IsAuthenticated)
+	{
+		<a class="btn btn-sm btn-success" asp-area="" asp-controller="Projects" asp-action="Add">Add a project</a>
+	}
+	else
+	{
+		<p>Log in to add a project!</p>
+	}
+</div>

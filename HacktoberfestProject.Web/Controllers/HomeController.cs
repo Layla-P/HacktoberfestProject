@@ -10,17 +10,20 @@ using HacktoberfestProject.Web.Models;
 using HacktoberfestProject.Web.Models.DTOs;
 using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.ViewModels;
+using HacktoberfestProject.Web.Tools;
 
 namespace HacktoberfestProject.Web.Controllers
 {
 	public class HomeController : Controller
 	{
 		private readonly IHttpContextAccessor _contextAccessor;
-		private readonly ITableService _tableService;
+		private readonly ITrackerEntryService _tableService;
 		private const string GitHubUsernameClaimType = "urn:github:login";
 
-		public HomeController(IHttpContextAccessor contextAccessor, ITableService tableService)
+		public HomeController(IHttpContextAccessor contextAccessor, ITrackerEntryService tableService)
 		{
+			NullChecker.IsNotNull(contextAccessor, nameof(contextAccessor));
+			NullChecker.IsNotNull(tableService, nameof(tableService));
 			_contextAccessor = contextAccessor;
 			_tableService = tableService;
 		}
@@ -71,7 +74,7 @@ namespace HacktoberfestProject.Web.Controllers
 			await _tableService.AddPrAsync(addPrViewModel.UserName, addPrViewModel.Owner,
 				addPrViewModel.Repository, new PullRequest(addPrViewModel.PrNumber, addPrViewModel.PrUrl));
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Home");
 		}
 
 		public IActionResult Privacy()

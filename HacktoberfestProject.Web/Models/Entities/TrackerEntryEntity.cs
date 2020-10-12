@@ -1,5 +1,4 @@
 ﻿using HacktoberfestProject.Web.Models.Enums;
-
 using Microsoft.Azure.Cosmos.Table;
 
 namespace HacktoberfestProject.Web.Models.Entities
