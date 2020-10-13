@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/Layla-P/HacktoberfestProject#readme",
 	"dependencies": {},
 	"devDependencies": {
-		"tailwindcss": "^1.9.0"
+		"tailwindcss": "^1.9.0",
+		"tailwindcss-responsive-embed": "^1.0.0"
 	}
 }

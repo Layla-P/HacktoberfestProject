@@ -8,8 +8,7 @@ Be sure to check the wiki for more information too!
 
 ### Hacktoberfest Project Dev Setup
 
-This project currently uses Table storage for persisting data. To allow for development of this application we are using Cosmos DB Emulator
-with Table storage API.
+This project currently uses Table storage for persisting data. To allow for development of this application we are using Cosmos DB Emulator with Table storage API.
 
 ### New to .NET and C#?
 
@@ -25,11 +24,9 @@ Come hang out in the Doscord and we'll help you!
 
 ##### Emulator Configuration
 
-For this project we are using the Table Storage Emulation which is not enabled by default. To enable this, run the Cosmos Emulator with the
-command line switch `/EnableTableEndpoint` e.g.: `{{InstallLocation}}\Microsoft.Azure.Cosmos.Emulator.exe /EnableTableEndpoint`
+For this project we are using the Table Storage Emulation which is not enabled by default. To enable this, run the Cosmos Emulator with the command line switch `/EnableTableEndpoint` e.g.: `{{InstallLocation}}\Microsoft.Azure.Cosmos.Emulator.exe /EnableTableEndpoint`
 
-Once the emulator is up and running the only thing left to do is to set the connection string and table name in the application. You can use
-appsettings.json or user secrets.
+Once the emulator is up and running the only thing left to do is to set the connection string and table name in the application. You can use appsettings.json or user secrets.
 
 The connection string should be as follows (the account key shown here is the default installed by the emulator):
 `DefaultEndpointsProtocol=http;AccountName=localhost;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;TableEndpoint=http://localhost:8902/;`
