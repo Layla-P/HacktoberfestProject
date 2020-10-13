@@ -1,10 +1,8 @@
-﻿<ul class="navbar-nav">
-	@if (!User.Identity.IsAuthenticated)
-	{
-		<a asp-action="Login" asp-controller="Auth" class="btn btn-outline-primary">Log In with GitHub</a>
-	} else
-	{
-		<a asp-action="Logout" asp-controller="Auth" class="btn btn-outline-primary">Logout</a>
-	}
+﻿@if (!User.Identity.IsAuthenticated)
+{
+	<a class="bg-purple-600 hover:bg-purple-900 text-white py-2 px-4 rounded" asp-action="Login" asp-controller="Auth">Log In with GitHub</a>
+} else
+{
+	<a class="p-4" asp-action="Logout" asp-controller="Auth">Logout</a>
+}
 
-</ul>

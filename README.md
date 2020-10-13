@@ -72,4 +72,45 @@ To correct the problem:
 - Visit chrome://flags
 - Change setting `Cookies without SameSite must be secure` to `Disabled`.
 
+---
+
 ## Styling the front end
+
+The project uses [tailwind CSS](https://tailwindcss.com/)!
+
+System requirements:
+
+```
+Node.js
+npm
+```
+
+## To install dependencies, run the following commands:
+
+```
+cd /HacktoberfestProject.Web
+npm install
+```
+
+## Adding styles
+
+The raw css is stored in `/HacktoberfestProject.Web/styles/raw.css`.
+
+The aim of using tailwind, is this:
+
+```
+Instead of opinionated predesigned components, Tailwind provides low-level utility classes that let you build completely custom designs without ever leaving your HTML.
+```
+
+Ideally, we shouldn't have to add any custom css to raw.css. To follow this pattern, attempt to add and edit styles only in the HTML layout files.
+
+## Compiling css
+
+To compile any extra css you add to raw.css, run the following command:
+
+```
+cd /HacktoberfestProject.Web
+npm run tailwind
+```
+
+Take a look at `package.json` to see what the `tailwind` task is doing. Essentially it takes the `styles/raw.css` file, processes it and moves the output to `wwwroot/css/output.css`.
