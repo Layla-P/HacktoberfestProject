@@ -5,14 +5,29 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-	<section>
-			<h1>Welcome to the .NET PR Tracker!</h1>
-		<p>We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
-		<p>We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
-		<p>To get started, log in with GitHub at the top of the page and start logging your pull requests!!</p>
-	</section>
+	<section class="mb-16">
+		<h1 class="text-5xl mb-16 font-bold max-w-lg text-purple-900">Welcome to the .NET PR Tracker!</h1>
+		
+		<div class="flex flex-col sm:flex-row justify-evenly mx-auto">
+			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:ml-0">
+				<img class="w-full" src="~/images/card-top.jpg" alt="Sunset in the mountains">
+				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Everything is welcome</h2>
+				<p class="text-gray-700 text-base px-4 mb-8">We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+			</div>
 
-	<hr />
+			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4">
+				<img class="w-full" src="~/images/card-top.jpg" alt="Sunset in the mountains">
+				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Hacktoberfest rules!</h2>
+				<p class="text-gray-700 text-base px-4 mb-8">We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+			</div>
+
+			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:mr-0">
+				<img class="w-full" src="~/images/card-top.jpg" alt="Sunset in the mountains">
+				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Log in with GitHub</h2>
+				<p class="text-gray-700 text-base px-4 mb-8">To get started, log in with GitHub at the top of the page and start logging your pull requests!</p>
+			</div>
+		</div>
+	</section>
 
 	<section>
 			<div>
