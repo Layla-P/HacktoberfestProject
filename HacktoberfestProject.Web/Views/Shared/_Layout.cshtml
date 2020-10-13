@@ -7,30 +7,31 @@
 	<link rel="stylesheet" href="~/css/output.css" />
 </head>
 <body>
-		<header class="max-w-screen-lg mx-auto flex flex-col my-4">
+		<header class="flex flex-col mb-8 px-4 bg-gradient-to-r from-purple-400 via-purple-700 to-purple-900">
+			<div class="max-w-screen-lg mx-auto w-full p-8">	
 
-			<div class="flex flex-row">
-				<div class="flex flex-row justify-between w-full items-center">
-					<a class="p-4" asp-area="" asp-controller="Home" asp-action="Index">PR Tracker</a>
-					<span class="p-4">
-						<partial name="_Login" />
-					</span>
-				</div>
+				<nav class="flex flex-col sm:flex-row justify-center sm:justify-between">
+						<a class="text-center sm:text-left" asp-area="" asp-controller="Home" asp-action="Index">LOGO</a>
+					<ul class="flex flex-row justify-center sm:justify-end w-full mb-8">
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
+						</li>
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
+						</li>
+					</ul>
+				</nav>
+
+				<h1 class="text-center md:text-left text-5xl md:text-6xl mb-16 font-bold md:max-w-lg text-white">Welcome to the .NET PR Tracker</h1>
+
+				<div class="my-4 flex justify-center md:justify-start">
+					<partial name="_Login" />
+				</span>
 			</div>
 
-			<nav class="flex flex-col md:flex-row justify-between">
-				<ul class="flex flex-row justify-center sm:justify-end w-full">
-					<li class="p-4">
-						<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					</li>
-					<li class="p-4">
-						<a asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
-					</li>
-					<li class="p-4">
-						<a asp-area="" asp-controller="Home" asp-action="About">About the project</a>
-					</li>
-				</ul>
-			</nav>
 		</header>
 
 		<main class="max-w-screen-lg mx-auto flex flex-col my-4 px-8" role="main">
