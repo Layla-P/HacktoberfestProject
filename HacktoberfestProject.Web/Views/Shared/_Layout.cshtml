@@ -4,47 +4,44 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>PR Tracker for .NET projects</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/output.css" />
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-			<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PR Tracker</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-			aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row flex-column">
-				<ul class="navbar-nav flex-grow-1">
-					<li class="nav-item">
-						<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About the project</a>
-					</li>
-				</ul>
-				<partial name="_Login" />
+		<header class="flex flex-col mb-8 px-4 bg-gradient-to-r from-purple-400 via-purple-700 to-purple-900">
+			<div class="max-w-screen-lg mx-auto w-full p-8">	
+
+				<nav class="flex flex-col sm:flex-row justify-center sm:justify-between">
+						<a class="text-center sm:text-left" asp-area="" asp-controller="Home" asp-action="Index">LOGO</a>
+					<ul class="flex flex-row justify-center sm:justify-end w-full mb-8">
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
+						</li>
+						<li class="p-4 flex-1 sm:flex-none text-center sm:text-right">
+							<a class="font-bold text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
+						</li>
+					</ul>
+				</nav>
+
+				<h1 class="text-center md:text-left text-5xl md:text-6xl mb-16 font-bold md:max-w-lg text-white">Welcome to the .NET PR Tracker</h1>
+
+				<div class="my-4 flex justify-center md:justify-start">
+					<partial name="_Login" />
+				</span>
 			</div>
-		</nav>
-	</header>
-	<div class="container">
-		<main role="main" class="pb-3">
+
+		</header>
+
+		<main class="max-w-screen-lg mx-auto flex flex-col my-4 px-8" role="main">
 			@RenderBody()
 		</main>
-	</div>
 
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2020 - PR Tracker for .NET
-		</div>
-	</footer>
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@RenderSection("Scripts", required: false)
-</body>
+		<footer class="text-center py-16">
+				<p class="text-base text-gray-700">&copy; 2020 - PR Tracker for .NET</p>
+		</footer>
+
+		@RenderSection("Scripts", required: false)
+	</body>
 </html>
