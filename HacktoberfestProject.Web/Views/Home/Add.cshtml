@@ -12,7 +12,7 @@
 			<label asp-for="Owner"></label>
 			<input asp-for="Owner" 
 			       class="form-control"
-			       placeholder="Start typing something to search..."
+			       placeholder="Start typing the Github owner name..."
 			       autocomplete="off"/>
 			<span asp-validation-for="Owner" class="text-danger"></span>
 		</div>
@@ -42,42 +42,24 @@
 
 @section Scripts {
 	<script type="text/javascript">
-		//http://davidwalsh.name/javascript-debounce-function
-		//function debounce(func, wait, immediate) {
-		//	var timeout;
-		//	return function() {
-		//		var context = this, args = arguments;
-		//		var later = function() {
-		//			timeout = null;
-		//			if (!immediate) func.apply(context, args);
-		//		};
-		//		var callNow = immediate && !timeout;
-		//		clearTimeout(timeout);
-		//		timeout = setTimeout(later, wait);
-		//		if (callNow) func.apply(context, args);
-		//	};
-		//};
-
 		$(document).ready(function() {
-			console.log('ready');
-
-			$('#Owner').typeahead({
-					hint: true,
-					highlight: true,
-					minLength: 1
-			},
-			{
-				name: 'owners',
-				source: function(query, syncResults, asyncResults) {
-					$.ajax('/api/Search?owner=' + query, {
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							success: function(response) {
-								return asyncResults(response.content);
-							}
-						});
+			var owners = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: '/api/Search?owner=%QUERY',
+					wildcard: '%QUERY',
+					rateLimitWait: 500,
+					transform: function (response) {
+						return response.content;
+					}
 				}
+			});
+
+			$("#Owner").typeahead(null, {
+				name: 'owners',
+				display: 'name',
+				source: owners
 			});
 		});
 	</script>
