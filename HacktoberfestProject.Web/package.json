@@ -1,0 +1,25 @@
+{
+	"name": "hacktoberfestproject",
+	"version": "1.0.0",
+	"description": "We welcome PRs small and large to any .NET open source project on GitHub.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"tailwind": "tailwindcss build styles/raw.css -o wwwroot/css/output.css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Layla-P/HacktoberfestProject.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Layla-P/HacktoberfestProject/issues"
+	},
+	"homepage": "https://github.com/Layla-P/HacktoberfestProject#readme",
+	"dependencies": {},
+	"devDependencies": {
+		"tailwindcss": "^1.9.0",
+		"tailwindcss-responsive-embed": "^1.0.0"
+	}
+}
