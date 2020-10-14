@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using HacktoberfestProject.Web.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +24,8 @@ namespace HacktoberfestProject.Web.Controllers.Api
 		}
 
 		[HttpGet]
-		public async Task<ServiceResponse<IEnumerable<string>>> Search([FromQuery] string owner, [FromQuery] int limit = 100)
+		public async Task<ServiceResponse<IEnumerable<TypeaheadResult>>> Search([FromQuery] string owner, 
+			[FromQuery] int limit = 100)
 		{
 			var searchResponse = await _githubService.SearchOwners(owner, limit);
 			return searchResponse;

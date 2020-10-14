@@ -7,6 +7,7 @@ using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
 using System;
+using HacktoberfestProject.Web.Models.DTOs;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -41,9 +42,9 @@ namespace HacktoberfestProject.Web.Services
 			return prs.Select(pr => new Models.DTOs.PullRequest(pr.Number, pr.Url)).ToList();
 		}
 
-		public async Task<ServiceResponse<IEnumerable<string>>> SearchOwners(string owner, int limit)
+		public async Task<ServiceResponse<IEnumerable<TypeaheadResult>>> SearchOwners(string owner, int limit)
 		{
-			var searchResults = new List<string>();
+			var searchResults = new List<TypeaheadResult>();
 
 			if (!string.IsNullOrWhiteSpace(owner))
 			{
@@ -57,19 +58,24 @@ namespace HacktoberfestProject.Web.Services
 				if (users == null || !users.Items.Any())
 				{
 					CheckAPILimits();
-					return new ServiceResponse<IEnumerable<string>>
+					return new ServiceResponse<IEnumerable<TypeaheadResult>>
 					{
 						ServiceResponseStatus = ServiceResponseStatus.NotFound,
 						Message = $"No results found for search term {owner}!"
 					};
 				}
 
-				users.Items.ToList().ForEach(u => searchResults.Add(u.Login));
+				users.Items.ToList().ForEach(u => searchResults.Add(
+					new TypeaheadResult
+					{
+						Id = u.Id.ToString(),
+						Name = u.Login
+					}));
 			}
 
 			CheckAPILimits();
 
-			return new ServiceResponse<IEnumerable<string>>
+			return new ServiceResponse<IEnumerable<TypeaheadResult>>
 			{
 				Content = searchResults.Take(limit),
 				ServiceResponseStatus = ServiceResponseStatus.Ok

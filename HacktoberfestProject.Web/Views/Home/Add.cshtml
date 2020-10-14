@@ -9,49 +9,76 @@
 <div class="container">
 	<form asp-controller="Home" asp-action="Add" method="post">
 		<div class="form-group">
-			<label asp-for="PrUrl"></label>
-			<input asp-for="PrUrl" class="form-control" oninput="processURL()" />
-			<span asp-validation-for="PrUrl" class="text-danger"></span>
-		</div>
-		<div class="form-group">
 			<label asp-for="Owner"></label>
-			<input asp-for="Owner" class="form-control" />
+			<input asp-for="Owner" 
+			       class="form-control"
+			       placeholder="Start typing something to search..."
+			       autocomplete="off"/>
 			<span asp-validation-for="Owner" class="text-danger"></span>
 		</div>
 		<div class="form-group">
+			<label asp-for="PrUrl"></label>
+			<input asp-for="PrUrl" class="form-control" oninput="processURL()"/>
+			<span asp-validation-for="PrUrl" class="text-danger"></span>
+		</div>
+		<div class="form-group">
 			<label asp-for="Repository"></label>
-			<input asp-for="Repository" class="form-control" />
+			<input asp-for="Repository" class="form-control"/>
 			<span asp-validation-for="Repository" class="text-danger"></span>
 		</div>
 		<div class="form-group">
 			<label asp-for="PrNumber"></label>
-			<input asp-for="PrNumber" class="form-control" />
+			<input asp-for="PrNumber" class="form-control"/>
 			<span asp-validation-for="PrNumber" class="text-danger"></span>
 		</div>
 		<button type="submit" class="btn btn-primary">Add</button>
 		<button type="button"
-		class="btn btn-secondary"
-		onclick="window.location.href='/'">
+		        class="btn btn-secondary"
+		        onclick="window.location.href = '/'">
 			Cancel
 		</button>
 	</form>
 </div>
 
-<script type="text/javascript">function processURL() {
-	let prUrl = (document.getElementById("PrUrl")).value;
-	let ownerElement = document.getElementById("Owner");
-	let repositoryElement = document.getElementById("Repository");
-	let prNumberElement = document.getElementById("PrNumber");
-	urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
+@section Scripts {
+	<script type="text/javascript">
+		//http://davidwalsh.name/javascript-debounce-function
+		//function debounce(func, wait, immediate) {
+		//	var timeout;
+		//	return function() {
+		//		var context = this, args = arguments;
+		//		var later = function() {
+		//			timeout = null;
+		//			if (!immediate) func.apply(context, args);
+		//		};
+		//		var callNow = immediate && !timeout;
+		//		clearTimeout(timeout);
+		//		timeout = setTimeout(later, wait);
+		//		if (callNow) func.apply(context, args);
+		//	};
+		//};
 
-	if (prUrl.match(urlRegex)) {
+		$(document).ready(function() {
+			console.log('ready');
 
-	//https://github.com/Layla-P/HacktoberfestProject/pull/20
-	let prUrlSubstring = prUrl.replace("https://github.com/", "");
-	let prUrlArray = prUrlSubstring.split("/");
-
-	ownerElement.value = prUrlArray[0];
-	repositoryElement.value = prUrlArray[1];
-	prNumberElement.value = prUrlArray[3];
-	}
-	}</script>
+			$('#Owner').typeahead({
+					hint: true,
+					highlight: true,
+					minLength: 1
+			},
+			{
+				name: 'owners',
+				source: function(query, syncResults, asyncResults) {
+					$.ajax('/api/Search?owner=' + query, {
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(response) {
+								return asyncResults(response.content);
+							}
+						});
+				}
+			});
+		});
+	</script>
+}
