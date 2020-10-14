@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Models.Entities;
 
@@ -11,27 +8,29 @@ namespace HacktoberfestProject.Tests.Data
 	public class TableContextTests
 	{
 		private ITableContext _context;
-		private UserEntity _entityToRemove;
+		private TrackerEntryEntity _entityToRemove;
+		private TrackerEntryEntity _trackerEntryEntity;
 
 		public TableContextTests(ITableContext context)
 		{
 			_context = context;
+
+			_trackerEntryEntity = new TrackerEntryEntity
+			{
+				Username = Constants.USERNAME,
+				Url = Constants.URL,
+				Status = null
+			};
 		}
 
 		public void TestInsert()
-		{
-			PrEntity prEntity = new PrEntity(Constants.PR_ID, Constants.URL);
-			RepositoryEntity repositoryEntity = new RepositoryEntity(Constants.TEST_OWNER, Constants.TEST_REPO_NAME, new List<PrEntity>{ prEntity });
-			UserEntity userEntity = new UserEntity(Constants.USERNAME, new List<RepositoryEntity> { repositoryEntity });
-
-			var insertedEntity = _context.InsertOrMergeEntityAsync(userEntity).Result;
+		{			
+			var insertedEntity = _context.InsertOrMergeEntityAsync(_trackerEntryEntity).Result;
 		}
 
 		public void TestRetrieve()
 		{
-			UserEntity userEntity = new UserEntity(Constants.USERNAME);
-
-			_entityToRemove = _context.RetrieveEnitityAsync(userEntity).Result;
+			_entityToRemove = _context.RetrieveEnitityAsync(_trackerEntryEntity).Result;
 		}
 
 		public void TestDelete()

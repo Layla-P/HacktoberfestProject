@@ -18,7 +18,8 @@ namespace HacktoberfestProject.Web.Data
 
 		private CloudTable _table;
 
-		public TableContext(ILogger<TableContext> logger, IOptions<TableConfiguration> tableConfiguration)
+		public TableContext(ILogger<TableContext> logger,
+			IOptions<TableConfiguration> tableConfiguration)
 		{
 			_logger = logger;
 			_configuration = tableConfiguration.Value;
