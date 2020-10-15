@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using Xunit;
-
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.Services.Configuration;
+
 using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Tests.Services
@@ -20,8 +20,8 @@ namespace HacktoberfestProject.Tests.Services
 		public GithubServiceTests()
 		{
 			var config = new ConfigurationBuilder()
-
 				.AddUserSecrets(Assembly.Load(new AssemblyName("HacktoberfestProject.Web")))
+				.AddEnvironmentVariables()
 				.Build();
 
 			GitHubClient client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
@@ -35,7 +35,7 @@ namespace HacktoberfestProject.Tests.Services
 		[Fact]
 		public async void GetRepos_GivenOwner_Loop60_ReturnRepositories()
 		{
-			for (int i = 0; i < 60; i++)
+			for (int i = 0; i < 61; i++)
 			{
 				var repos = await _githubService.GetRepos(Constants.OWNER);
 				Assert.NotEmpty(repos);

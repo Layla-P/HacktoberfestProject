@@ -22,7 +22,7 @@ namespace HacktoberfestProject.Web.Services
 		private GitHubClient _client;
 		private readonly GithubConfiguration _githubConfiguration;
 
-		public GithubService(ILogger<GithubService> logger, IOptions<GithubConfiguration>  githubConfiguration, GitHubClient client)
+		public GithubService(ILogger<GithubService> logger, IOptions<GithubConfiguration> githubConfiguration, GitHubClient client)
 		{
 			NullChecker.IsNotNull(logger, nameof(logger));
 			_logger = logger;
