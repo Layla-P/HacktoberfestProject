@@ -9,17 +9,17 @@
 <div class="container">
 	<form asp-controller="Home" asp-action="Add" method="post">
 		<div class="form-group">
+			<label asp-for="PrUrl"></label>
+			<input asp-for="PrUrl" class="form-control" oninput="processURL()"/>
+			<span asp-validation-for="PrUrl" class="text-danger"></span>
+		</div>
+		<div class="form-group">
 			<label asp-for="Owner"></label>
-			<input asp-for="Owner" 
+			<input asp-for="Owner"
 			       class="form-control"
 			       placeholder="Start typing the Github owner name..."
 			       autocomplete="off"/>
 			<span asp-validation-for="Owner" class="text-danger"></span>
-		</div>
-		<div class="form-group">
-			<label asp-for="PrUrl"></label>
-			<input asp-for="PrUrl" class="form-control" oninput="processURL()"/>
-			<span asp-validation-for="PrUrl" class="text-danger"></span>
 		</div>
 		<div class="form-group">
 			<label asp-for="Repository"></label>
@@ -42,6 +42,25 @@
 
 @section Scripts {
 	<script type="text/javascript">
+		function processURL() {
+			let prUrl = (document.getElementById("PrUrl")).value;
+			let ownerElement = document.getElementById("Owner");
+			let repositoryElement = document.getElementById("Repository");
+			let prNumberElement = document.getElementById("PrNumber");
+			urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
+
+			if (prUrl.match(urlRegex)) {
+
+				//https://github.com/Layla-P/HacktoberfestProject/pull/20
+				let prUrlSubstring = prUrl.replace("https://github.com/", "");
+				let prUrlArray = prUrlSubstring.split("/");
+
+				ownerElement.value = prUrlArray[0];
+				repositoryElement.value = prUrlArray[1];
+				prNumberElement.value = prUrlArray[3];
+			}
+		}
+
 		$(document).ready(function() {
 			var owners = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
