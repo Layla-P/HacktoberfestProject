@@ -36,7 +36,7 @@ namespace HacktoberfestProject.Tests.Services
 			Assert.NotNull(serviceResponse);
 			Assert.Equal(ServiceResponseStatus.Ok, serviceResponse.ServiceResponseStatus);
 			Assert.Equal(5, serviceResponse.Content.Count());
-			Assert.Equal(Constants.OWNER, serviceResponse.Content.FirstOrDefault());
+			Assert.Equal(Constants.OWNER, serviceResponse.Content.FirstOrDefault().Name);
 		}
 
 		[Fact]
