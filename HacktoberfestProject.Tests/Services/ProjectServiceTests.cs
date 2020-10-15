@@ -19,7 +19,6 @@ namespace HacktoberfestProject.Tests.Services
 		ProjectEntity _projectEntity;
 		IEnumerable<ProjectEntity> _projectEntities;
 		IEnumerable<Project> _projects;
-		private readonly ServiceResponse<IEnumerable<Project>> _expectedResult;
 		readonly Mock<ITableContext> _tableContextMock;
 		readonly IProjectService _sut;
 
