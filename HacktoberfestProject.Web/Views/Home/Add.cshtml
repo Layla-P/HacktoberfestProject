@@ -1,5 +1,7 @@
 ﻿@model AddPrViewModel
-
+@section Styles {
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+}
 @{
 	ViewData["Title"] = "Add PR";
 }
@@ -30,28 +32,35 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Add</button>
 		<button type="button"
-		class="btn btn-secondary"
-		onclick="window.location.href='/'">
+				class="btn btn-secondary"
+				onclick="window.location.href='/'">
 			Cancel
 		</button>
 	</form>
 </div>
 
-<script type="text/javascript">function processURL() {
-	let prUrl = (document.getElementById("PrUrl")).value;
-	let ownerElement = document.getElementById("Owner");
-	let repositoryElement = document.getElementById("Repository");
-	let prNumberElement = document.getElementById("PrNumber");
-	urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
 
-	if (prUrl.match(urlRegex)) {
+@section Scripts{
 
-	//https://github.com/Layla-P/HacktoberfestProject/pull/20
-	let prUrlSubstring = prUrl.replace("https://github.com/", "");
-	let prUrlArray = prUrlSubstring.split("/");
 
-	ownerElement.value = prUrlArray[0];
-	repositoryElement.value = prUrlArray[1];
-	prNumberElement.value = prUrlArray[3];
-	}
-	}</script>
+	<script type="text/javascript">
+		function processURL() {
+			let prUrl = (document.getElementById("PrUrl")).value;
+			let ownerElement = document.getElementById("Owner");
+			let repositoryElement = document.getElementById("Repository");
+			let prNumberElement = document.getElementById("PrNumber");
+			urlRegex = "^https://github.com[/[a-z A-Z 0-9 -]*/[0-9]*";
+
+			if (prUrl.match(urlRegex)) {
+
+				//https://github.com/Layla-P/HacktoberfestProject/pull/20
+				let prUrlSubstring = prUrl.replace("https://github.com/", "");
+				let prUrlArray = prUrlSubstring.split("/");
+
+				ownerElement.value = prUrlArray[0];
+				repositoryElement.value = prUrlArray[1];
+				prNumberElement.value = prUrlArray[3];
+			}
+		}
+	</script>
+}
