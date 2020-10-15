@@ -21674,6 +21674,48 @@ video {
   padding-bottom: 42.857142857142854%;
 }
 
+/*Twitter Typeahead
+ --------------------------------------------------*/
+
+.twitter-typeahead {
+  /* I hate this hack but... */
+  /* https://github.com/twitter/typeahead.js/issues/677 */
+  display: block !important;
+}
+
+.tt-query {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu { /* used to be tt-dropdown-menu in older versions */
+  width: 422px;
+  margin-top: 4px;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor, .tt-suggestion:hover {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
