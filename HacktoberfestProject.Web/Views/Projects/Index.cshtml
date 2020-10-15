@@ -15,7 +15,7 @@
 	</ul>
 	@if (User.Identity.IsAuthenticated)
 	{
-		<a class="btn btn-sm btn-success" asp-area="" asp-controller="Projects" asp-action="Add">Add a project</a>
+		<a asp-area="" asp-controller="Projects" asp-action="Add">Add a project</a>
 	}
 	else
 	{
