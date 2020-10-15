@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HacktoberfestProject.Web.Services.Configuration
+﻿namespace HacktoberfestProject.Web.Services.Configuration
 {
 	public class GithubConfiguration
 	{
