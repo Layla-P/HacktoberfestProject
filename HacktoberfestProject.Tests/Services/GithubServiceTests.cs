@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 using Xunit;
 using System.Reflection;
+using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Tests.Services
 {
@@ -18,13 +19,13 @@ namespace HacktoberfestProject.Tests.Services
 		public GithubServiceTests()
 		{
 			var config = new ConfigurationBuilder()
-
 				.AddUserSecrets(Assembly.Load(new AssemblyName("HacktoberfestProject.Web")))
+				.AddEnvironmentVariables()
 				.Build();
 
 			GitHubClient client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
-			GithubConfiguration configuration = new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"]};
-			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration,client);
+			var configuration = Options.Create( new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"]});
+			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration, client);
 		}
 
 		/// <summary>
@@ -33,7 +34,7 @@ namespace HacktoberfestProject.Tests.Services
 		[Fact]
 		public async void GetRepos_GivenOwner_Loop60_ReturnRepositories()
 		{
-			for (int i = 0; i < 60; i++)
+			for (int i = 0; i < 61; i++)
 			{
 				var repos = await _githubService.GetRepos(Constants.OWNER);
 				Assert.NotEmpty(repos);

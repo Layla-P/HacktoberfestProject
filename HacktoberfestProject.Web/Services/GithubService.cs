@@ -12,6 +12,7 @@ using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
 using HacktoberfestProject.Web.Models.DTOs;
 using HacktoberfestProject.Web.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -21,11 +22,11 @@ namespace HacktoberfestProject.Web.Services
 		private GitHubClient _client;
 		private readonly GithubConfiguration _githubConfiguration;
 
-		public GithubService(ILogger<GithubService> logger, GithubConfiguration githubConfiguration, GitHubClient client)
+		public GithubService(ILogger<GithubService> logger, IOptions<GithubConfiguration> githubConfiguration, GitHubClient client)
 		{
 			NullChecker.IsNotNull(logger, nameof(logger));
 			_logger = logger;
-			_githubConfiguration = githubConfiguration;
+			_githubConfiguration = githubConfiguration.Value;
 			_client = client;
 			_client.Credentials = new Credentials(_githubConfiguration.ClientId, _githubConfiguration.ClientSecret);
 		}
