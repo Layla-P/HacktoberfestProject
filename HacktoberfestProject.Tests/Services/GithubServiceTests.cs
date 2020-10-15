@@ -3,13 +3,13 @@ using System.Reflection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Octokit;
 using Xunit;
+
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.Services.Configuration;
-
-using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Tests.Services
 {
@@ -24,8 +24,8 @@ namespace HacktoberfestProject.Tests.Services
 				.AddEnvironmentVariables()
 				.Build();
 
-			GitHubClient client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
-			IOptions<GithubConfiguration> configuration = Options.Create(new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"] });
+			var client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
+			var configuration = Options.Create( new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"]});
 			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration, client);
 		}
 
