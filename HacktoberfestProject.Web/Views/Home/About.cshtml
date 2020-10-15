@@ -1,15 +1,26 @@
-﻿
+﻿@model List<Contributor>
 @{
-    ViewData["Title"] = "About the Pr Tracker Project";
+	ViewData["Title"] = "About the Pr Tracker Project";
 }
 
-	
-	<div>
-		<h1>About the Pr Tracker Project</h1>
-		<p>
-			This project has been created as a safe space 
-			for people to make their first commits to an open source project.
-			There are some intentional mistakes in the UI to encourage people to make a commit!
+<h1>About the Pr Tracker Project</h1>
+<p>
+	This project has been created as a safe space
+	for people to make their first commits to an open source project.
+	There are some intentional mistakes in the UI to encourage people to make a commit!
+</p>
 
-		</p>
+<h2>Contributors</h2>
+<div class="flex flex-wrap -mb-4">
+@foreach (var contributor in Model)
+{
+	<div class="w-1/4 mb-3">
+		<div class="max-w-sm rounded overflow-hidden shadow-lg">
+			<img class="w-full" src="@contributor.ImageUrl" alt="@contributor.Name">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2"><a href="@contributor.ProfileUrl" target="_blank">@contributor.Name</a></div>
+			</div>
+		</div>
 	</div>
+}
+</div>

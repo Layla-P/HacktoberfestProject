@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Logging;
 using Octokit;
+
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
-using System;
 
 namespace HacktoberfestProject.Web.Services
 {
@@ -29,6 +31,14 @@ namespace HacktoberfestProject.Web.Services
 			CheckAPILimits();
 
 			return repositories.Select(r => new Models.DTOs.Repository(owner, r.Name, r.Url)).ToList();
+		}
+
+		public async Task<List<Models.DTOs.Contributor>> GetContributorsAsync()
+		{
+			_logger.LogTrace($"Sending request to Github for pull contributors on our repository");
+			var contributors = await _client.Repository.GetAllContributors("Layla-P", "HacktoberfestProject");
+
+			return contributors.Select(rc => new Models.DTOs.Contributor { Name = rc.Login, ImageUrl = rc.AvatarUrl, ProfileUrl = rc.HtmlUrl }).ToList();
 		}
 
 		public async Task<List<Models.DTOs.PullRequest>> GetPullRequestsForRepo(string owner, string name)
@@ -92,7 +102,7 @@ namespace HacktoberfestProject.Web.Services
 			bool stateValid = false;
 
 
-			var serviceResponse = new ServiceResponse<PrStatus?> {  ServiceResponseStatus = ServiceResponseStatus.BadRequest};
+			var serviceResponse = new ServiceResponse<PrStatus?> { ServiceResponseStatus = ServiceResponseStatus.BadRequest };
 
 			try
 			{
@@ -130,7 +140,7 @@ namespace HacktoberfestProject.Web.Services
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex,"Failed to aquire data");
+				_logger.LogError(ex, "Failed to aquire data");
 
 			}
 

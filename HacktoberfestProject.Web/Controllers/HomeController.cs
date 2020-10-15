@@ -18,14 +18,17 @@ namespace HacktoberfestProject.Web.Controllers
 	{
 		private readonly IHttpContextAccessor _contextAccessor;
 		private readonly ITrackerEntryService _tableService;
+		private readonly IGithubService _githubService;
 		private const string GitHubUsernameClaimType = "urn:github:login";
 
-		public HomeController(IHttpContextAccessor contextAccessor, ITrackerEntryService tableService)
+		public HomeController(IHttpContextAccessor contextAccessor, ITrackerEntryService tableService, IGithubService githubService)
 		{
 			NullChecker.IsNotNull(contextAccessor, nameof(contextAccessor));
 			NullChecker.IsNotNull(tableService, nameof(tableService));
+			NullChecker.IsNotNull(githubService, nameof(githubService));
 			_contextAccessor = contextAccessor;
 			_tableService = tableService;
+			_githubService = githubService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -47,9 +50,9 @@ namespace HacktoberfestProject.Web.Controllers
 
 		
 		[HttpGet]
-		public IActionResult About()
+		public async Task<IActionResult> About()
 		{
-			return View();
+			return View(await _githubService.GetContributorsAsync());
 		}
 
 		[Authorize]
