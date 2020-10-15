@@ -5,71 +5,71 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-	<section class="mb-16 flex flex-col sm:flex-row justify-evenly mx-auto">		
-			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:ml-0">
-				<img class="w-full" src="~/images/pair.png" alt="Two people pair programming">
-				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Everything is welcome</h2>
-				<p class="text-gray-700 text-base px-4 mb-8">We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
-			</div>
+	<section class="mb-16 flex flex-col sm:flex-row justify-evenly mx-auto">
+		<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:ml-0">
+			<img class="w-full" src="~/images/pair.png" alt="Two people pair programming">
+			<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Everything is welcome</h2>
+			<p class="text-gray-700 text-base px-4 mb-8">We are celebrating valid PRs of any kind, from documentations to aesthetics to, of course, code in any .NET open source project.</p>
+		</div>
 
-			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4">
-				<img class="w-full" src="~/images/crowd.png" alt="A crowd of people at a concert">
-				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Hacktoberfest rules!</h2>
-				<p class="text-gray-700 text-base px-4 mb-8">We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
-			</div>
+		<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4">
+			<img class="w-full" src="~/images/crowd.png" alt="A crowd of people at a concert">
+			<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Hacktoberfest rules!</h2>
+			<p class="text-gray-700 text-base px-4 mb-8">We are following the <a href="https://hacktoberfest.digitalocean.com/details">Hacktoberfest participation rules.</a></p>
+		</div>
 
-			<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:mr-0">
-				<img class="w-full" src="~/images/code.png" alt="A close up of some code in an IDE">
-				<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Log in with GitHub</h2>
-				<p class="text-gray-700 text-base px-4 mb-8">To get started, log in with GitHub at the top of the page and start logging your pull requests!</p>
-			</div>
+		<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:mr-0">
+			<img class="w-full" src="~/images/code.png" alt="A close up of some code in an IDE">
+			<h2 class="font-bold text-xl text-purple-900 px-4 my-4">Log in with GitHub</h2>
+			<p class="text-gray-700 text-base px-4 mb-8">To get started, log in with GitHub at the top of the page and start logging your pull requests!</p>
+		</div>
 	</section>
 
 	<section class="mb-16 text-center">
-			<h3 class="text-5xl text-pink-700 font-bold mb-4">Unsure where to start?</h3>
-			<p class="text-gray-700 text-2xl mb-16">Start with a pull request to the .NET PR Tracker project!</p>
-			<a class="bg-purple-700 hover:bg-pink-700 text-white text-lg py-4 px-4 rounded-sm font-bold flex flex-row justify-center max-w-md mx-auto" target="_blank" href="https://github.com/Layla-P/HacktoberfestProject">
-				<svg class="h-6 mr-2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"viewBox="0 0 384 512">
-					<path fill="currentColor" d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/>
-				</svg>
+		<h3 class="text-5xl text-pink-700 font-bold mb-4">Unsure where to start?</h3>
+		<p class="text-gray-700 text-2xl mb-16">Start with a pull request to the .NET PR Tracker project!</p>
+		<a class="bg-purple-700 hover:bg-pink-700 text-white text-lg py-4 px-4 rounded-sm font-bold flex flex-row justify-center max-w-md mx-auto" target="_blank" href="https://github.com/Layla-P/HacktoberfestProject">
+			<svg class="h-6 mr-2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 384 512">
+				<path fill="currentColor" d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z" />
+			</svg>
 			Fork the repo
-			</a>
+		</a>
 	</section>
 
 	<section class="mb-16">
-			<h3 class="text-5xl text-pink-700 font-bold mb-4">FAQs</h3>
+		<h3 class="text-5xl text-pink-700 font-bold mb-4">FAQs</h3>
 
-			<div class="mb-16">
-				<h4 class="text-3xl text-purple-700 font-bold mb-4">What is a pull request?</h4>
-				<p class="text-gray-700 text-base mb-4">A pull request is a way to submit contributions to code.</p>
-				<p class="text-gray-700 text-base mb-4">A pull request is created when a developer asks for changes committed to an external repository (or a ‘fork’) to be considered for inclusion in a project’s main repository.</p>
-				<p class="text-gray-700 text-base mb-4">Check out GitHub's <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests" target="_blank" class="underline text-pink-700">article about pull requests</a> for more information.</p>
-			</div>
+		<div class="mb-16">
+			<h4 class="text-3xl text-purple-700 font-bold mb-4">What is a pull request?</h4>
+			<p class="text-gray-700 text-base mb-4">A pull request is a way to submit contributions to code.</p>
+			<p class="text-gray-700 text-base mb-4">A pull request is created when a developer asks for changes committed to an external repository (or a ‘fork’) to be considered for inclusion in a project’s main repository.</p>
+			<p class="text-gray-700 text-base mb-4">Check out GitHub's <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests" target="_blank" class="underline text-pink-700">article about pull requests</a> for more information.</p>
+		</div>
 
-			<div class="mb-16">
-				<h4 class="text-3xl text-purple-700 font-bold mb-4">How do I submit a pull request?</h4>
-				<p class="text-gray-700 text-base mb-4">Check out this helpful video from community member and MVP <a href="">Luce Carter</a> on how to make a pull request.</p>
-				<div class="embed-responsive aspect-ratio-16/9">
-					<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/DoS_VKM542Y"	title="Coding with Luce - How to submit your first PR to GitHub for documentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
+		<div class="mb-16">
+			<h4 class="text-3xl text-purple-700 font-bold mb-4">How do I submit a pull request?</h4>
+			<p class="text-gray-700 text-base mb-4">Check out this helpful video from community member and MVP <a href="">Luce Carter</a> on how to make a pull request.</p>
+			<div class="embed-responsive aspect-ratio-16/9">
+				<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/DoS_VKM542Y" title="Coding with Luce - How to submit your first PR to GitHub for documentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
+		</div>
 
-			<div class="mb-16">
-				<h4 class="text-3xl text-purple-700 font-bold mb-4">What is .NET?</h4>
-				<p class="text-gray-700 text-base mb-4">.NET is an open-source, cross-platform software framework developed by Microsoft.</p>
-				<p class="text-gray-700 text-base mb-4">Check out the following links to learn more:</p>
-				<ul class="flex flex-col lg:flex-row lg:justify-between mt-8">
-					<li class="mb-4">
-						<a href="https://docs.microsoft.com/en-us/dotnet/standard/get-started" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-blue-700 text-white hover:bg-blue-900">Getting started with .NET and C#</a>
-					</li>
-					<li class="mb-4">
-						<a href="https://docs.microsoft.com/en-us/dotnet/core/install/" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-purple-700 text-white hover:bg-purple-900">Installing .NET on your machine</a>
-					</li>
-					<li class="mb-4">
-						<a href="https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-pink-700 text-white hover:bg-pink-900">C# for absolute beginners video</a>
-					</li>
-				</ul>
-			</div>
+		<div class="mb-16">
+			<h4 class="text-3xl text-purple-700 font-bold mb-4">What is .NET?</h4>
+			<p class="text-gray-700 text-base mb-4">.NET is an open-source, cross-platform software framework developed by Microsoft.</p>
+			<p class="text-gray-700 text-base mb-4">Check out the following links to learn more:</p>
+			<ul class="flex flex-col lg:flex-row lg:justify-between mt-8">
+				<li class="mb-4">
+					<a href="https://docs.microsoft.com/en-us/dotnet/standard/get-started" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-blue-700 text-white hover:bg-blue-900">Getting started with .NET and C#</a>
+				</li>
+				<li class="mb-4">
+					<a href="https://docs.microsoft.com/en-us/dotnet/core/install/" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-purple-700 text-white hover:bg-purple-900">Installing .NET on your machine</a>
+				</li>
+				<li class="mb-4">
+					<a href="https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt" target="_blank" class="flex flex-row items-center font-bold justify-between text-lg py-4 px-4 rounded-sm bg-pink-700 text-white hover:bg-pink-900">C# for absolute beginners video</a>
+				</li>
+			</ul>
+		</div>
 
 		<div>
 			<h4 class="text-3xl text-purple-700 font-bold mb-4">I'm a front end developer, can I help?</h4>
@@ -107,6 +107,10 @@
 }
 else
 {
+	@section Styles {
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	}
+
 	<h1>Welcome @User.Identity.Name</h1>
 	if (Model != null)
 	{
@@ -119,8 +123,8 @@ else
 					@foreach (var pr in repo.Prs)
 					{
 						<li>
-							<a href="@pr.Url">Pull Request @pr.PrId</a> 
-							<span title="@pr.Status?.GetDescription()"> @pr.Status </span>   
+							<a href="@pr.Url">Pull Request @pr.PrId</a>
+							<span title="@pr.Status?.GetDescription()"> @pr.Status </span>
 						</li>
 					}
 				</ul>
