@@ -1,13 +1,15 @@
 ﻿using System.Linq;
+using System.Reflection;
 
 using Microsoft.Extensions.Configuration;
-using HacktoberfestProject.Web.Models.Enums;
-using HacktoberfestProject.Web.Services;
-using HacktoberfestProject.Web.Services.Configuration;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using Xunit;
-using System.Reflection;
+
+using HacktoberfestProject.Web.Models.Enums;
+using HacktoberfestProject.Web.Services;
+using HacktoberfestProject.Web.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Tests.Services
 {
@@ -23,8 +25,8 @@ namespace HacktoberfestProject.Tests.Services
 				.Build();
 
 			GitHubClient client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
-			GithubConfiguration configuration = new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"]};
-			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration,client);
+			IOptions<GithubConfiguration> configuration = Options.Create(new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"] });
+			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration, client);
 		}
 
 		/// <summary>
@@ -43,8 +45,8 @@ namespace HacktoberfestProject.Tests.Services
 		[Fact]
 		public async void GetRepos_GivenOwner_Should_ReturnRepositories()
 		{
-				var repos = await _githubService.GetRepos(Constants.OWNER);
-				Assert.NotEmpty(repos);
+			var repos = await _githubService.GetRepos(Constants.OWNER);
+			Assert.NotEmpty(repos);
 		}
 
 		[Fact]
