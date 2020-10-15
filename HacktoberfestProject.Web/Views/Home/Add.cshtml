@@ -1,43 +1,38 @@
 ﻿@model AddPrViewModel
-@section Styles {
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-}
 @{
 	ViewData["Title"] = "Add PR";
 }
 
 <h1>Add PR</h1>
 
-<div class="container">
-	<form asp-controller="Home" asp-action="Add" method="post">
+	<form asp-controller="Home" asp-action="Add" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 		<div class="form-group">
-			<label asp-for="PrUrl"></label>
-			<input asp-for="PrUrl" class="form-control" oninput="processURL()" />
+			<label asp-for="PrUrl" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="PrUrl" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" oninput="processURL()" />
 			<span asp-validation-for="PrUrl" class="text-danger"></span>
 		</div>
 		<div class="form-group">
-			<label asp-for="Owner"></label>
-			<input asp-for="Owner" class="form-control" />
+			<label asp-for="Owner" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="Owner" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 			<span asp-validation-for="Owner" class="text-danger"></span>
 		</div>
 		<div class="form-group">
-			<label asp-for="Repository"></label>
-			<input asp-for="Repository" class="form-control" />
+			<label asp-for="Repository" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="Repository" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 			<span asp-validation-for="Repository" class="text-danger"></span>
 		</div>
 		<div class="form-group">
-			<label asp-for="PrNumber"></label>
-			<input asp-for="PrNumber" class="form-control" />
+			<label asp-for="PrNumber" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="PrNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 			<span asp-validation-for="PrNumber" class="text-danger"></span>
 		</div>
-		<button type="submit" class="btn btn-primary">Add</button>
+		<button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
 		<button type="button"
-				class="btn btn-secondary"
+				class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 				onclick="window.location.href='/'">
 			Cancel
 		</button>
 	</form>
-</div>
 
 
 @section Scripts{
@@ -62,5 +57,25 @@
 				prNumberElement.value = prUrlArray[3];
 			}
 		}
+
+		$(document).ready(function() {
+			var owners = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				remote: {
+					url: '/api/Search?owner=%QUERY',
+					wildcard: '%QUERY',
+					rateLimitWait: 500,
+					transform: function (response) {
+						return response.content;
+					}
+				}
+			});
+			$("#Owner").typeahead(null, {
+				name: 'owners',
+				display: 'name',
+				source: owners
+			});
+		});
 	</script>
 }
