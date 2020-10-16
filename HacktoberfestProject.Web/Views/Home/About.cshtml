@@ -24,3 +24,16 @@
 	</div>
 }
 </div>
+
+<script>
+	$(document).ready(function () {
+		fitty('div.font-bold.text-xl > a', { multiLine: true, minSize: 10, maxSize: 26 });
+	});
+</script>
+
+<style>
+	/* Fix the profile block names getting truncated on small devices - this with fitty.js should break lines + fit text size */
+	div.font-bold.text-xl > a {
+		word-break: break-word;
+	}
+</style>
