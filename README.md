@@ -91,7 +91,7 @@ npm install
 
 ## Adding styles
 
-The raw css is stored in `/HacktoberfestProject.Web/styles/raw.css`.
+The raw css is stored in `/HacktoberfestProject.Web/wwwroot/css/raw.css`.
 
 The aim of using tailwind, is this:
 
@@ -110,4 +110,4 @@ cd /HacktoberfestProject.Web
 npm run tailwind
 ```
 
-Take a look at `package.json` to see what the `tailwind` task is doing. Essentially it takes the `styles/raw.css` file, processes it and moves the output to `wwwroot/css/output.css`.
+Take a look at `package.json` to see what the `tailwind` task is doing. Essentially it takes the `wwwroot/css/raw.css` file, processes it and moves the output to `wwwroot/css/output.css`.
