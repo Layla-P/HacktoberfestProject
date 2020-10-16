@@ -18397,11 +18397,13 @@ video {
 }
 
 .break-normal {
+  word-wrap: normal;
   overflow-wrap: normal;
   word-break: normal;
 }
 
 .break-words {
+  word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -21634,44 +21636,6 @@ video {
 .animate-bounce {
   -webkit-animation: bounce 1s infinite;
           animation: bounce 1s infinite;
-}
-
-.embed-responsive {
-  position: relative;
-  display: block;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.embed-responsive .embed-responsive-item,.embed-responsive>iframe,.embed-responsive>embed,.embed-responsive>object,.embed-responsive>video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  border: 0;
-}
-
-.aspect-ratio-none {
-  padding-bottom: 0;
-}
-
-.aspect-ratio-square {
-  padding-bottom: 100%;
-}
-
-.aspect-ratio-16\/9 {
-  padding-bottom: 56.25%;
-}
-
-.aspect-ratio-4\/3 {
-  padding-bottom: 75%;
-}
-
-.aspect-ratio-21\/9 {
-  padding-bottom: 42.857142857142854%;
 }
 
 /*Twitter Typeahead
@@ -39528,11 +39492,13 @@ video {
   }
 
   .sm\:break-normal {
+    word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
 
   .sm\:break-words {
+    word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
@@ -42699,26 +42665,6 @@ video {
   .sm\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
-  }
-
-  .sm\:aspect-ratio-none {
-    padding-bottom: 0;
-  }
-
-  .sm\:aspect-ratio-square {
-    padding-bottom: 100%;
-  }
-
-  .sm\:aspect-ratio-16\/9 {
-    padding-bottom: 56.25%;
-  }
-
-  .sm\:aspect-ratio-4\/3 {
-    padding-bottom: 75%;
-  }
-
-  .sm\:aspect-ratio-21\/9 {
-    padding-bottom: 42.857142857142854%;
   }
 }
 
@@ -60534,11 +60480,13 @@ video {
   }
 
   .md\:break-normal {
+    word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
 
   .md\:break-words {
+    word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
@@ -63705,26 +63653,6 @@ video {
   .md\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
-  }
-
-  .md\:aspect-ratio-none {
-    padding-bottom: 0;
-  }
-
-  .md\:aspect-ratio-square {
-    padding-bottom: 100%;
-  }
-
-  .md\:aspect-ratio-16\/9 {
-    padding-bottom: 56.25%;
-  }
-
-  .md\:aspect-ratio-4\/3 {
-    padding-bottom: 75%;
-  }
-
-  .md\:aspect-ratio-21\/9 {
-    padding-bottom: 42.857142857142854%;
   }
 }
 
@@ -81540,11 +81468,13 @@ video {
   }
 
   .lg\:break-normal {
+    word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
 
   .lg\:break-words {
+    word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
@@ -84711,26 +84641,6 @@ video {
   .lg\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
-  }
-
-  .lg\:aspect-ratio-none {
-    padding-bottom: 0;
-  }
-
-  .lg\:aspect-ratio-square {
-    padding-bottom: 100%;
-  }
-
-  .lg\:aspect-ratio-16\/9 {
-    padding-bottom: 56.25%;
-  }
-
-  .lg\:aspect-ratio-4\/3 {
-    padding-bottom: 75%;
-  }
-
-  .lg\:aspect-ratio-21\/9 {
-    padding-bottom: 42.857142857142854%;
   }
 }
 
@@ -102546,11 +102456,13 @@ video {
   }
 
   .xl\:break-normal {
+    word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
 
   .xl\:break-words {
+    word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
@@ -105717,25 +105629,5 @@ video {
   .xl\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
-  }
-
-  .xl\:aspect-ratio-none {
-    padding-bottom: 0;
-  }
-
-  .xl\:aspect-ratio-square {
-    padding-bottom: 100%;
-  }
-
-  .xl\:aspect-ratio-16\/9 {
-    padding-bottom: 56.25%;
-  }
-
-  .xl\:aspect-ratio-4\/3 {
-    padding-bottom: 75%;
-  }
-
-  .xl\:aspect-ratio-21\/9 {
-    padding-bottom: 42.857142857142854%;
   }
 }
