@@ -4,25 +4,31 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
 using Octokit;
 
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Tools;
-using System;
 using HacktoberfestProject.Web.Models.DTOs;
+using HacktoberfestProject.Web.Services.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HacktoberfestProject.Web.Services
 {
 	public class GithubService : IGithubService
 	{
 		private ILogger<GithubService> _logger;
-		private GitHubClient _client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
+		private GitHubClient _client;
+		private readonly GithubConfiguration _githubConfiguration;
 
-		public GithubService(ILogger<GithubService> logger)
+		public GithubService(ILogger<GithubService> logger, IOptions<GithubConfiguration> githubConfiguration, GitHubClient client)
 		{
 			NullChecker.IsNotNull(logger, nameof(logger));
 			_logger = logger;
+			_githubConfiguration = githubConfiguration.Value;
+			_client = client;
+			_client.Credentials = new Credentials(_githubConfiguration.ClientId, _githubConfiguration.ClientSecret);
 		}
 
 		public async Task<List<Models.DTOs.Repository>> GetRepos(string owner)

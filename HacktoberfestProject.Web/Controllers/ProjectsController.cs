@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using HacktoberfestProject.Web.Models.DTOs;
-using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Services;
 using HacktoberfestProject.Web.Tools;
+
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HacktoberfestProject.Web.Controllers

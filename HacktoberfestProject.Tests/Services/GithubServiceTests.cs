@@ -1,23 +1,51 @@
 ﻿using System.Linq;
+using System.Reflection;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Octokit;
+using Xunit;
 
 using HacktoberfestProject.Web.Models.Enums;
 using HacktoberfestProject.Web.Services;
-
-using Microsoft.Extensions.Logging;
-
-using Xunit;
+using HacktoberfestProject.Web.Services.Configuration;
 
 namespace HacktoberfestProject.Tests.Services
 {
 	public class GithubServiceTests
 	{
-		private readonly IGithubService _githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()));
+		private readonly IGithubService _githubService;
+
+		public GithubServiceTests()
+		{
+			var config = new ConfigurationBuilder()
+				.AddUserSecrets(Assembly.Load(new AssemblyName("HacktoberfestProject.Web")))
+				.AddEnvironmentVariables()
+				.Build();
+
+			var client = new GitHubClient(new ProductHeaderValue("HacktoberfestProject"));
+			var configuration = Options.Create( new GithubConfiguration { ClientId = config["GitHub:clientId"], ClientSecret = config["GitHub:clientSecret"]});
+			_githubService = new GithubService(new Logger<GithubService>(new LoggerFactory()), configuration, client);
+		}
+
+		/// <summary>
+		/// This checks that we are using authenticated calls to Github as it will fail API Limits if we are not.
+		/// </summary>
+		[Fact]
+		public async void GetRepos_GivenOwner_Loop60_ReturnRepositories()
+		{
+			for (int i = 0; i < 61; i++)
+			{
+				var repos = await _githubService.GetRepos(Constants.OWNER);
+				Assert.NotEmpty(repos);
+			}
+		}
 
 		[Fact]
 		public async void GetRepos_GivenOwner_Should_ReturnRepositories()
 		{
 			var repos = await _githubService.GetRepos(Constants.OWNER);
-
 			Assert.NotEmpty(repos);
 		}
 

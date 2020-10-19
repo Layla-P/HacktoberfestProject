@@ -1,6 +1,9 @@
 @model User
 @{
 	ViewData["Title"] = "Home Page";
+
+	int validPrs = 0;
+	int repoCount = 0;
 }
 
 @if (!User.Identity.IsAuthenticated)
@@ -80,9 +83,6 @@
 
 	</section>
 
-
-
-
 	<section class="mb-16 flex flex-col sm:flex-row justify-evenly mx-auto">
 
 		<div class="sm:flex-1 max-w-sm rounded overflow-hidden shadow-lg mx-auto sm:mx-4 my-4 sm:ml-0">
@@ -103,40 +103,116 @@
 			<p class="text-gray-700 text-base px-4 mb-8">Checkout this <a href="https://blog.jetbrains.com/dotnet/2020/09/30/hacktoberfest-2020-and-net-oss/?utm_source=twitter&utm_medium=referral&utm_campaign=resharper&utm_content=hacktober" class="underline text-pink-700">blog from the JetBrains</a> crew with some cool suggestions for open source .NET projects to work on.</p>
 		</div>
 	</section>
-
 }
 else
 {
-	@section Styles {
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	}
 
-	<h1>Welcome @User.Identity.Name</h1>
-	if (Model != null)
+	@if (Model != null)
 	{
-		<div>
-			<p>Below is a list of all the pull requests you have logged:</p>
+		repoCount = Model.RepositoryPrAddedTo.Count();
+		var gridRows = $" grid-rows-{repoCount}";
+
+		<div class="flex-1 text-gray-700 text-center px-4 py-12 m-2">
+			<p class="font-black text-2xl text-center">Below is a list of all the pull requests you have logged so far:</p>
+		</div>
+		<div class="grid @gridRows grid-flow-col gap-4">
 			@foreach (var repo in Model.RepositoryPrAddedTo)
 			{
-				<h5>@repo.Owner - @repo.Name</h5>
-				<ul>
-					@foreach (var pr in repo.Prs)
-					{
-						<li>
-							<a href="@pr.Url">Pull Request @pr.PrId</a>
-							<span title="@pr.Status?.GetDescription()"> @pr.Status </span>
-						</li>
-					}
-				</ul>
+				<div class="row-span-1 col-span-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+
+					<div class="p-6 ">
+						<div class="font-semibold text-xl leading-tight truncate">
+							@repo.Name
+						</div>
+						<h4 class="text-white text-xs uppercase font-semibold tracking-wide">Maintained by: @repo.Owner </h4>
+						<table class="table-auto">
+							<thead>
+								<tr>
+									<th class="px-4 py-2">Pull Request ID</th>
+									<th class="px-4 py-2">Status</th>
+									<th class="px-4 py-2">Status Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var pr in repo.Prs)
+								{
+									@if (pr.Status != null) if (pr.Status == PrStatus.Valid || pr.Status != PrStatus.Awaiting) { validPrs += 1; }
+
+									<tr>
+										<td class="border px-4 py-2">@pr.PrId</td>
+										<td class="border px-4 py-2">
+											@{
+												if (pr.Status == null)
+												{
+													@: N/A
+												}
+												else
+												{
+													@pr.Status
+												}
+											}
+										</td>
+										<td class="border px-4 py-2">
+											@{
+												if (pr.Status == null)
+												{
+													@: N/A
+												}
+												else
+												{
+													@pr.Status.GetDescription()
+												}
+											}
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
 			}
-			@* this will bring back a list of PRs, if there are some. *@
-			<a asp-action="Add" asp-controller="Home">Add a PR</a>
+			<div class="row-start-1 col-span-2">&nbsp;</div>
+			<div id="thermometer" class="row-start-1">
+				<div class="track">
+					<div class="goal">
+						<div class="amount"> 4 </div>
+					</div>
+					<div class="progress">
+						<div class="amount">1 </div>
+					</div>
+				</div>
+			</div>
 		</div>
+		@* this will bring back a list of PRs, if there are some. *@
+
 	}
 	else
 	{
 		<h4>Hey there, we see you haven't recorded any PR's yet. Please use the button below to add one!</h4>
-		<a asp-action="Add" asp-controller="Home">Add a PR</a>
 	}
+	<div class="my-3">
+		<div>
+			<a class="bg-purple-700 hover:bg-pink-700 text-white text-lg py-4 px-4 rounded-sm font-bold flex flex-row justify-center max-w-md mx-auto space-x-4 space-x-reverse" asp-action="Add" asp-controller="Home">
+				<svg class="h-6 mr-2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 384 512">
+					<path fill="currentColor" d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z" />
+				</svg>
+				Add a Pull Request
+			</a>
+		</div>
+	</div>
+}
+@section scripts {
+	<script src="~/js/thermometer.js"></script>
+	<script>
+		$(document).ready(function () {
+			//call without the parameters to have it read from the DOM
+			thermometer(4, @validPrs, true);
+			// or with parameters if you want to update it using JavaScript.
+			// you can update it live, and choose whether to show the animation
+			// (which you might not if the updates are relatively small)
+			//thermometer( 1000000, 425610, false );
+
+		});
+	</script>
 }
 

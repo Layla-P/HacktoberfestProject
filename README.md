@@ -2,13 +2,13 @@
 
 We welcome PRs small and large to any .NET open source project on GitHub.
 
-This project is intended to be used as a PR Tracker to help with Hacktoberfest.
+This project is intended to be used as a PR Tracker to help with [Hacktoberfest](https://hacktoberfest.digitalocean.com/).
 
-Be sure to check the wiki for more information too!
+Be sure to check the [Wiki](https://github.com/Layla-P/HacktoberfestProject/wiki) for more information too!
 
 ### Hacktoberfest Project Dev Setup
 
-This project currently uses Table storage for persisting data. To allow for development of this application we are using Cosmos DB Emulator with Table storage API.
+This project currently uses Table Storage for persisting data. To allow for development of this application we are using Cosmos DB Emulator with Table Storage API.
 
 ### New to .NET and C#?
 
@@ -18,17 +18,17 @@ This project currently uses Table storage for persisting data. To allow for deve
 - [Installing .NET on your machine](https://docs.microsoft.com/en-us/dotnet/core/install/)
 - [C# for absolute beginners video](https://www.youtube.com/watch?v=LWJ_HAzLJSQ&t=453s&ab_channel=LaylaCodesIt)
 
-Come hang out in the Doscord and we'll help you!
+Come hang out in the Discord and we'll help you!
 
 ##### [Emulator download and install instructions](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=cli%2Cssl-netstd21)
 
 ##### Emulator Configuration
 
-For this project we are using the Table Storage Emulation which is not enabled by default. To enable this, run the Cosmos Emulator with the command line switch `/EnableTableEndpoint` e.g.: `{{InstallLocation}}\Microsoft.Azure.Cosmos.Emulator.exe /EnableTableEndpoint`
+For this project we are using the Table Storage Endpoint which is not enabled by default. To enable this, run the Cosmos Emulator with the command line switch `/EnableTableEndpoint` e.g.: `{{InstallLocation}}\Microsoft.Azure.Cosmos.Emulator.exe /EnableTableEndpoint`
 
 Once the emulator is up and running the only thing left to do is to set the connection string and table name in the application. You can use appsettings.json or user secrets.
 
-The connection string should be as follows (the account key shown here is the default installed by the emulator):
+The connection string should be as follows (the account key shown here is the default one installed by the emulator):
 `DefaultEndpointsProtocol=http;AccountName=localhost;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;TableEndpoint=http://localhost:8902/;`
 
 The table name doesn't matter as it can be unique to your installation. We suggest you use: `HacktoberfestProject`.
@@ -91,7 +91,7 @@ npm install
 
 ## Adding styles
 
-The raw css is stored in `/HacktoberfestProject.Web/styles/raw.css`.
+The raw css is stored in `/HacktoberfestProject.Web/wwwroot/css/raw.css`.
 
 The aim of using tailwind, is this:
 
@@ -110,4 +110,4 @@ cd /HacktoberfestProject.Web
 npm run tailwind
 ```
 
-Take a look at `package.json` to see what the `tailwind` task is doing. Essentially it takes the `styles/raw.css` file, processes it and moves the output to `wwwroot/css/output.css`.
+Take a look at `package.json` to see what the `tailwind` task is doing. Essentially it takes the `wwwroot/css/raw.css` file, processes it and moves the output to `wwwroot/css/output.css`.

@@ -1,6 +1,4 @@
-﻿using HacktoberfestProject.Web.Models.Entities;
-
-namespace HacktoberfestProject.Tests
+﻿namespace HacktoberfestProject.Tests
 {
 	public static class Constants
 	{

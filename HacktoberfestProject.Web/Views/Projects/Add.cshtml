@@ -1,7 +1,4 @@
 ﻿@model Project
-@section Styles {
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-}
 @{
 	ViewData["Title"] = "Add";
 }
@@ -9,22 +6,22 @@
 <h1>Add a new Project</h1>
 
 <div class="container">
-	<form asp-controller="Projects" asp-action="Add" method="post">
+	<form asp-controller="Projects" asp-action="Add" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 		<div class="form-group">
-			<label asp-for="Url"></label>
-			<input asp-for="Url" class="form-control" />
+			<label asp-for="Url" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="Url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 		</div>
 		<div class="form-group">
-			<label asp-for="Owner"></label>
-			<input asp-for="Owner" class="form-control" />
+			<label asp-for="Owner" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="Owner" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 		</div>
 		<div class="form-group">
-			<label asp-for="RepoName"></label>
-			<input asp-for="RepoName" class="form-control" />
+			<label asp-for="RepoName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+			<input asp-for="RepoName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 		</div>
-		<button type="submit" class="btn btn-primary">Add</button>
+		<button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
 		<button type="button"
-				class="btn btn-secondary"
+				class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 				onclick="window.location.href='/'">
 			Cancel
 		</button>
