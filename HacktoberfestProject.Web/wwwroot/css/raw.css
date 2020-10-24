@@ -50,3 +50,8 @@
 .tt-suggestion p {
 	margin: 0;
 }
+
+/* Fix the profile block names getting truncated on small devices - this with fitty.js should break lines + fit text size */
+#contributors div.font-bold.text-xl > a {
+	word-break: break-word;
+}

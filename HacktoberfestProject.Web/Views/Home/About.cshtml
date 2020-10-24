@@ -3,7 +3,7 @@
 	ViewData["Title"] = "About the Pr Tracker Project";
 }
 
-<h1>About the Pr Tracker Project</h1>
+<h1 class="text-3xl text-purple-700 font-bold mb-4">About the Pr Tracker Project</h1>
 <p>
 	This project has been created as a safe space
 	for people to make their first commits to an open source project.
@@ -11,14 +11,14 @@
 </p>
 
 <h2>Contributors</h2>
-<div class="flex flex-wrap -mb-4">
+<div class="flex flex-wrap -mb-4" id="contributors">
 @foreach (var contributor in Model)
 {
 	<div class="w-1/4 mb-3">
 		<div class="max-w-sm rounded overflow-hidden shadow-lg">
 			<img class="w-full" src="@contributor.ImageUrl" alt="@contributor.Name">
 			<div class="px-6 py-4">
-				<div class="font-bold text-xl mb-2"><a href="@contributor.ProfileUrl" target="_blank">@contributor.Name</a></div>
+				<div class="font-bold text-xl mb-2 contributornamecontainer"><a href="@contributor.ProfileUrl" target="_blank">@contributor.Name</a></div>
 			</div>
 		</div>
 	</div>
@@ -26,14 +26,7 @@
 </div>
 
 <script>
-	$(document).ready(function () {
-		fitty('div.font-bold.text-xl > a', { multiLine: true, minSize: 10, maxSize: 26 });
+	window.addEventListener('load', function () {
+		fitty('#contributors div > a', { multiLine: true, minSize: 7, maxSize: 26 });
 	});
 </script>
-
-<style>
-	/* Fix the profile block names getting truncated on small devices - this with fitty.js should break lines + fit text size */
-	div.font-bold.text-xl > a {
-		word-break: break-word;
-	}
-</style>

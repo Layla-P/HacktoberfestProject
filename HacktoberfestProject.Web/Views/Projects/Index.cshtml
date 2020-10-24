@@ -3,14 +3,19 @@
 	ViewData["Title"] = "Projects";
 }
 
-<h1>A list of OSS projects</h1>
+<h1 class="text-3xl text-purple-700 font-bold mb-4">A list of OSS projects</h1>
 
 <div>
-	<ul>
+	<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
 		@foreach (var project in Model)
 		{
 			var url = $"https://github.com/{project.Owner}/{project.RepoName}";
-			<li><a href="@url">@project.RepoName</a> by @project.Owner</li>
+			<li class="rounded overflow-hidden shadow-lg">
+				<h3 class="font-bold text-lg text-purple-900 bg-purple-200 p-4">
+					<a href="@url">@project.RepoName</a>
+				</h3>
+				<p class="m-4 text-right"><span class="text-gray-600">by</span> @project.Owner</p>
+			</li>
 		}
 	</ul>
 	@if (User.Identity.IsAuthenticated)
@@ -19,6 +24,6 @@
 	}
 	else
 	{
-		<p>Log in to add a project!</p>
+		<p><a asp-controller="Auth" asp-action="Login">Log in</a> to add a project!</p>
 	}
 </div>
