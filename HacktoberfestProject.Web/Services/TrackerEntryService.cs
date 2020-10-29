@@ -78,7 +78,7 @@ namespace HacktoberfestProject.Web.Services
 					var prs = entities.Where(e => e.RowKey.StartsWith($"{owner}:{repoName}", StringComparison.OrdinalIgnoreCase));
 					foreach (var pr in prs)
 					{
-						var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
+						var id = int.Parse(pr.RowKey[(pr.RowKey.LastIndexOf(':') + 1)..]);
 						if (!repo.Prs.Any(pr => pr.PrId == id))
 						{
 							if (entity.Status is null)
