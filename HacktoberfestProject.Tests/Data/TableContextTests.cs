@@ -25,7 +25,7 @@ namespace HacktoberfestProject.Tests.Data
 
 		public void TestInsert()
 		{			
-			var insertedEntity = _context.InsertOrMergeEntityAsync(_trackerEntryEntity).Result;
+			_ = _context.InsertOrMergeEntityAsync(_trackerEntryEntity).Result;
 		}
 
 		public void TestRetrieve()
