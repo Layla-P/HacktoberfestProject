@@ -12,12 +12,14 @@ namespace HacktoberfestProject.Web.Controllers
 	public class ProjectsController : Controller
 	{
 		private readonly IProjectService _projectService;
+
 		public ProjectsController(
 			IProjectService projectService)
 		{
 			NullChecker.IsNotNull(projectService, nameof(projectService));
 			_projectService = projectService;
 		}
+
 		public async Task<IActionResult> Index()
 		{
 			var result = await _projectService.GetAllProjectsAsync();			
