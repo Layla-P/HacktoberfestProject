@@ -40,11 +40,9 @@ namespace HacktoberfestProject.Web.Controllers
 				return View("Add", project);
 			}
 
-			var result = await _projectService
-				.AddProjectAsync(project);
+			_ = await _projectService.AddProjectAsync(project);
 
 			return RedirectToAction("Index", "Projects");
 		}
-	
 	}
 }
