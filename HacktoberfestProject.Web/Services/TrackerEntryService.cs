@@ -66,16 +66,16 @@ namespace HacktoberfestProject.Web.Services
 					
 					bool addToList = false;
 
-					var info = GetInfo(entity.RowKey);
+					var (owner, repoName) = GetInfo(entity.RowKey);
 					Repository repo =  user.RepositoryPrAddedTo
-								   .FirstOrDefault(repo => repo.Owner.Equals(info.Owner, StringComparison.OrdinalIgnoreCase) &&
-														   repo.Name.Equals(info.RepoName, StringComparison.OrdinalIgnoreCase));
+								   .FirstOrDefault(repo => repo.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
+														   repo.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
 					if (repo == null)
 					{
-						repo = new Repository(info.Owner, info.RepoName, entity.Url, new List<PullRequest>());
+						repo = new Repository(owner, repoName, entity.Url, new List<PullRequest>());
 						addToList = true;
 					}
-					var prs = entities.Where(e => e.RowKey.StartsWith($"{info.Owner}:{info.RepoName}", StringComparison.OrdinalIgnoreCase));
+					var prs = entities.Where(e => e.RowKey.StartsWith($"{owner}:{repoName}", StringComparison.OrdinalIgnoreCase));
 					foreach (var pr in prs)
 					{
 						var id = int.Parse(pr.RowKey.Substring(pr.RowKey.LastIndexOf(':') + 1));
