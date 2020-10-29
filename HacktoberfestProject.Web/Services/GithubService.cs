@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
-
 using Octokit;
 
 using HacktoberfestProject.Web.Models.Enums;
@@ -18,8 +17,8 @@ namespace HacktoberfestProject.Web.Services
 {
 	public class GithubService : IGithubService
 	{
-		private ILogger<GithubService> _logger;
-		private GitHubClient _client;
+		private readonly ILogger<GithubService> _logger;
+		private readonly GitHubClient _client;
 		private readonly GithubConfiguration _githubConfiguration;
 
 		public GithubService(ILogger<GithubService> logger, IOptions<GithubConfiguration> githubConfiguration, GitHubClient client)
@@ -114,7 +113,6 @@ namespace HacktoberfestProject.Web.Services
 			bool mergeValid = false;
 			bool stateValid = false;
 
-
 			var serviceResponse = new ServiceResponse<PrStatus?> { ServiceResponseStatus = ServiceResponseStatus.BadRequest };
 
 			try
@@ -129,10 +127,8 @@ namespace HacktoberfestProject.Web.Services
 					dateValid = true;
 				}
 
-
 				if (!(pr.Merged || pr.Labels.Any(l => l.Name.ToLower() == "hacktoberfest-accepted") || await PrIsApproved(owner, repo, id)))
 				{
-
 					serviceResponse.Content = PrStatus.Awaiting;
 				}
 				else
@@ -147,21 +143,17 @@ namespace HacktoberfestProject.Web.Services
 				else
 				{
 					stateValid = true;
-
 				}
-
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Failed to aquire data");
-
 			}
 
 			if (dateValid && mergeValid && stateValid)
 			{
 				serviceResponse.Content = PrStatus.Valid;
 				serviceResponse.ServiceResponseStatus = ServiceResponseStatus.Ok;
-
 			}
 
 			CheckAPILimits();
@@ -173,18 +165,12 @@ namespace HacktoberfestProject.Web.Services
 			var commits = await _client.PullRequest.Commits(owner, repo, id);
 			var reviews = await _client.PullRequest.Review.GetAll(owner, repo, id);
 
-
 			var latestReview = reviews[0].SubmittedAt;
 			var latestCommit = commits[0].Commit.Author.Date;
 
 
-			if (latestReview > latestCommit)
-			{
-				return true;
-			}
-			return false;
+			return latestReview > latestCommit;
 		}
-
 
 		private void CheckAPILimits()
 		{
@@ -199,6 +185,5 @@ namespace HacktoberfestProject.Web.Services
 			_logger.LogInformation($"Api Requets left to use : {howManyRequestsDoIHaveLeft}");
 			_logger.LogInformation($"Api Resets in : {whenDoesTheLimitReset - DateTime.UtcNow}");
 		}
-
 	}
 }
