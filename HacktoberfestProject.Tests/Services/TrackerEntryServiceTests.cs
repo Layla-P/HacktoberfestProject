@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 using HacktoberfestProject.Web.Data;
 using HacktoberfestProject.Web.Models.DTOs;
-using HacktoberfestProject.Web.Models.Enums;
-using HacktoberfestProject.Web.Models.Helpers;
 using HacktoberfestProject.Web.Services;
 
 using Moq;
@@ -17,27 +15,27 @@ namespace HacktoberfestProject.Tests.Services
 	{
 		readonly Mock<ITableContext> _tableContext;
 		readonly Mock<IGithubService> _githubService;
-		readonly ITrackerEntryService _sut;
+		//readonly ITrackerEntryService _sut;
 
-		private readonly User _user;
+		//private readonly User _user;
 		private readonly PullRequest _pr;
-		private readonly ServiceResponse<IEnumerable<PullRequest>> _expectedResult;
+		//private readonly ServiceResponse<IEnumerable<PullRequest>> _expectedResult;
 
 		public TrackerEntryServiceTests()
 		{
 			_pr = new PullRequest(Constants.PR_ID, Constants.URL);
-			Repository repository = new Repository(Constants.OWNER, Constants.REPO_NAME, null, new List<PullRequest> { _pr });
-			_user = new User(Constants.USERNAME, new List<Repository> { repository });
-			_expectedResult = new ServiceResponse<IEnumerable<PullRequest>>
-			{
-				Content = new List<PullRequest> { _pr },
-				ServiceResponseStatus = ServiceResponseStatus.Ok,
-				Message = Constants.MESSAGE
-			};
+			_ = new Repository(Constants.OWNER, Constants.REPO_NAME, null, new List<PullRequest> { _pr });
+			//_user = new User(Constants.USERNAME, new List<Repository> { repository });
+			//_expectedResult = new ServiceResponse<IEnumerable<PullRequest>>
+			//{
+			//	Content = new List<PullRequest> { _pr },
+			//	ServiceResponseStatus = ServiceResponseStatus.Ok,
+			//	Message = Constants.MESSAGE
+			//};
 
 			_tableContext = new Mock<ITableContext>(MockBehavior.Strict);
 			_githubService = new Mock<IGithubService>(MockBehavior.Strict);
-			_sut = new TrackerEntryService(_tableContext.Object, _githubService.Object);
+			//_sut = new TrackerEntryService(_tableContext.Object, _githubService.Object);
 		}
 
 

@@ -10,8 +10,8 @@ namespace HacktoberfestProject.Tests.Tools
 	{
 		#region Fields
 
-		private static object _nullValue = null;
-		private static object _nonNullValue = new object();
+		private static readonly object _nullValue = null;
+		private static readonly object _nonNullValue = new object();
 
 		#endregion
 

@@ -15,12 +15,12 @@ namespace HacktoberfestProject.Tests.Services
 {
 	public class ProjectServiceTests
 	{
-		Project _project;
-		ProjectEntity _projectEntity;
-		IEnumerable<ProjectEntity> _projectEntities;
-		IEnumerable<Project> _projects;
-		readonly Mock<ITableContext> _tableContextMock;
-		readonly IProjectService _sut;
+		private readonly Project _project;
+		private readonly ProjectEntity _projectEntity;
+		private IEnumerable<ProjectEntity> _projectEntities;
+		private readonly IEnumerable<Project> _projects;
+		private readonly Mock<ITableContext> _tableContextMock;
+		private readonly IProjectService _sut;
 
 		public ProjectServiceTests()
 		{

@@ -7,9 +7,9 @@ namespace HacktoberfestProject.Tests.Data
 {
 	public class TableContextTests
 	{
-		private ITableContext _context;
+		private readonly ITableContext _context;
 		private TrackerEntryEntity _entityToRemove;
-		private TrackerEntryEntity _trackerEntryEntity;
+		private readonly TrackerEntryEntity _trackerEntryEntity;
 
 		public TableContextTests(ITableContext context)
 		{
@@ -25,7 +25,7 @@ namespace HacktoberfestProject.Tests.Data
 
 		public void TestInsert()
 		{			
-			var insertedEntity = _context.InsertOrMergeEntityAsync(_trackerEntryEntity).Result;
+			_ = _context.InsertOrMergeEntityAsync(_trackerEntryEntity).Result;
 		}
 
 		public void TestRetrieve()
